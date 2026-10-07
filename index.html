@@ -505,7 +505,7 @@
 <div class="page">
 <header>
   <div class="hbar">
-    <div class="brand"><b>릴렉싱 데스크</b><span>v99 · 10/7 만듦</span></div>
+    <div class="brand"><b>릴렉싱 데스크</b><span>v101 · 10/7 만듦</span></div>
     <div class="seg" id="who"></div>
     <div class="hright">
       <div class="srch"><i></i><input id="q" placeholder="회원 이름 검색" autocomplete="off"></div>
@@ -572,6 +572,11 @@ const fmtPhone=p=>{const d=String(p||"").replace(/\D/g,"");
 
 /* ===================== 저장 ===================== */
 const KEY="relax-desk-v1";
+/* 인터넷 주소(https)로 열면 서버 모드 — 아래 ‘서버 동기화’ 칸 참고 */
+const HOSTED=/^https?:$/.test(location.protocol);
+const SYNC={on:false,sb:null,me:null,admin:false,RC:{},BASE:{},pend:{},pushing:false,fail:0,retry:null,
+  open:null,openTimer:null,rebuildTimer:null,status:"",loaded:false,chan:null};
+
 const S={
   staff:[], members:[], regs:[],
   me:null, tab:"today", q:"", ro:false, box:null, unlocked:false,
@@ -620,6 +625,7 @@ function unpackAtt(members,names){
 }
 function storeSize(){ try{ return (localStorage.getItem(KEY)||"").length; }catch(e){ return 0; } }
 function save(){
+  if(HOSTED){ if(SYNC.on)syFlush(); return; }   /* 인터넷 주소: 서버에 저장 */
   if(S.ro)return;
   try{
     const pk=packAtt(S.members);
@@ -1026,7 +1032,7 @@ function addMemo(m,text,kind,byOverride,dateOverride){
   const t=String(text||"").trim(); if(!t)return false;
   m.notes=memos(m);
   m.notes.unshift({d:dateOverride||TODAY(),t,kind:kind||"",by:byOverride||(S.me?(byId(S.staff,S.me)||{}).name:"")});
-  if(m.notes.length>50)m.notes.length=50;
+  if(!HOSTED&&m.notes.length>50)m.notes.length=50;   /* 서버에서는 메모를 자르지 않는다 */
   return true;
 }
 /* 종류별 가장 최근 메모 한 개 */
@@ -2424,14 +2430,14 @@ function viewData(){
   {
     const n=DOCS.list.length, pg=DOCS.list.reduce((a,d)=>a+d.pages.length,0);
     const kb=DOCS.list.reduce((a,d)=>a+d.pages.reduce((b,p)=>b+((p.blob&&p.blob.size)||0),0),0)/1024;
-    const fo=typeof window.showDirectoryPicker==="function";
+    const fo=!HOSTED&&typeof window.showDirectoryPicker==="function";
     h+='<div class="card"><div class="chead"><b>회원 자료 (검사결과지·상담지)</b>'+
-      '<span>사진은 이 컴퓨터 브라우저 창고에, 원본 사본은 보관 폴더에 둡니다</span></div>'+
+      '<span>'+(HOSTED?'서버 비공개 저장소에 둡니다 · 로그인한 강사만 볼 수 있어요':'사진은 이 컴퓨터 브라우저 창고에, 원본 사본은 보관 폴더에 둡니다')+'</span></div>'+
       '<div class="srow2"><div class="sn2"><b>창고</b><span>'+(DOCS.failed?'이 브라우저에서는 쓸 수 없어요':n+'묶음 · '+pg+'장 · '+(kb>=1024?(kb/1024).toFixed(1)+'MB':Math.round(kb)+'KB'))+'</span></div></div>'+
-      '<div class="srow2"><div class="sn2"><b>보관 폴더</b><span>'+(!fo?'이 브라우저는 폴더 연결이 안 돼요 (크롬에서 여세요)':
+      (HOSTED?'':'<div class="srow2"><div class="sn2"><b>보관 폴더</b><span>'+(!fo?'이 브라우저는 폴더 연결이 안 돼요 (크롬에서 여세요)':
         DOCS.dir?esc(DOCS.dir.name)+' — 회원마다 "이름_전화끝4자리" 폴더에 쌓입니다':'연결 안 됨 — "회원자료" 폴더를 하나 만들고 고르세요')+'</span></div>'+
         (S.ro||!fo?'':'<button class="btn sm'+(DOCS.dir?' gh':' navy')+'" data-a="docdir">'+(DOCS.dir?'폴더 바꾸기':'보관 폴더 연결')+'</button>'+
-          (DOCS.dir?' <button class="btn sm gh" data-a="docrestore">폴더에서 되살리기</button>':''))+'</div>'+
+          (DOCS.dir?' <button class="btn sm gh" data-a="docrestore">폴더에서 되살리기</button>':''))+'</div>')+
       '</div>';
   }
   h+='<div class="card"><div class="chead"><b>저장 공간</b>'+
@@ -2460,7 +2466,8 @@ function viewData(){
     '<div class="card"><div class="chead"><b>전체 백업</b>'+
     '<span>지금 저장된 걸 파일 하나로 받아둡니다 · 프로그램을 고치기 전에 꼭 받으세요</span>'+
     '<span class="sp"></span><button class="btn sm" data-a="backup">백업 파일 받기</button>'+
-    (S.ro?'':'<button class="btn sm gh" data-a="restorepick">백업 파일 불러오기</button>')+'</div>'+
+    (HOSTED?'':'<button class="btn sm navy" data-a="migexport" title="서버로 옮길 때 한 번 씁니다 — 자료 사진까지 들어 있어요">서버 이전 파일 받기</button>')+
+    ((S.ro||HOSTED)?'':'<button class="btn sm gh" data-a="restorepick">백업 파일 불러오기</button>')+'</div>'+
     ((!S.ro&&hasUndoRestore())?(function(){
       const u=undoRestoreStat();
       return '<div class="note" style="background:var(--warnBg);border-radius:6px;margin:0 18px 10px;padding:9px 11px">'+
@@ -3607,6 +3614,24 @@ function exportCsv(filename,headers,rows){
 }
 /* 통째 백업 — 화면에 있는 값만이 아니라 저장소에 든 걸 전부 뜬다.
    나중에 구조를 바꿀 때 이 파일 하나로 되돌릴 수 있어야 한다. */
+/* 서버로 옮길 때 한 번 쓰는 파일 — 이 컴퓨터의 자료(사진·PDF)까지 담는다 */
+async function exportMigration(){
+  const raw=localStorage.getItem(KEY); if(!raw){ toast("이 컴퓨터에 저장된 자료가 없어요."); return; }
+  toast("이전 파일을 만드는 중…");
+  const b64=blob=>new Promise((ok,no)=>{ const r=new FileReader(); r.onload=()=>ok(String(r.result).split(",")[1]); r.onerror=()=>no(r.error); r.readAsDataURL(blob); });
+  const docs=[];
+  for(const d of (DOCS.list||[])){
+    const pages=[];
+    for(const p of (d.pages||[])){ if(!p.blob)continue; pages.push({w:p.w||null,h:p.h||null,pdf:!!(p.pdf||d.pdf),b64:await b64(p.blob)}); }
+    if(pages.length)docs.push({id:d.id,memberId:d.memberId,member:d.member,date:d.date,kind:d.kind,savedAt:d.savedAt,by:d.by||"",pdf:!!d.pdf,fname:d.fname||null,pages});
+  }
+  const out={kind:"relaxdesk-migration",v:1,at:new Date().toISOString(),box:S.box||"",data:JSON.parse(raw),docs};
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(out)],{type:"application/json"}));
+  a.download="릴렉싱데스크_서버이전_"+TODAY()+".json"; a.click();
+  logAct("서버 이전 파일","자료 "+docs.length+"건 포함");
+  toast("서버 이전 파일을 받았어요 · 자료 "+docs.length+"건 포함");
+}
 function backup(){
   const store={};
   for(let i=0;i<localStorage.length;i++){
@@ -3659,13 +3684,14 @@ let undoStack=[], redoStack=[];
 const UNDO_MAX=15;
 /* 되돌릴 필요 없는 동작 — 보기만 바꾸는 것들 */
 const NO_UNDO=["me","tab","settab","open","close","closepop","filter","filter2","more","stat",
-  "logclose","dnav","dpick","exportmembers","exportstaff","exportregs","backup","share",
+  "logclose","dnav","dpick","exportmembers","exportstaff","exportregs","backup","migexport","share",
   "restorepick","pick","canceledit","startedit","startnameedit","memoedit","savememoedit","nameedit","undo","redo","clearlog","fold","foldall","rpf","rpsort","rpg","critall"];
 function snapshot(){
   const pk=packAtt(S.members);
   return JSON.stringify({tnames:pk.tnames,members:pk.members,staff:S.staff,regs:S.regs,trials:S.trials});
 }
 function pushUndo(label){
+  if(HOSTED){ if(SYNC.on)syPushUndo(label); return; }
   try{
     undoStack.push({label:label||"",at:Date.now(),data:snapshot()});
     if(undoStack.length>UNDO_MAX)undoStack.shift();
@@ -3678,6 +3704,7 @@ function restoreSnap(data){
   S.staff=d.staff||[]; S.regs=d.regs||[]; if(Array.isArray(d.trials))S.trials=d.trials;
 }
 function doUndo(){
+  if(HOSTED){ if(SYNC.on)syDoUndo(); return; }
   const u=undoStack.pop();
   if(!u){ toast("되돌릴 게 없어요."); return; }
   try{
@@ -3690,6 +3717,7 @@ function doUndo(){
 }
 /* 되돌리기 취소 */
 function doRedo(){
+  if(HOSTED){ if(SYNC.on)syDoRedo(); return; }
   const u=redoStack.pop();
   if(!u){ toast("다시 할 게 없어요."); return; }
   try{
@@ -3960,6 +3988,8 @@ document.addEventListener("click",e=>{
     return;
   }
   if(a==="backup"){ backup(); return; }
+  if(a==="migexport"){ exportMigration(); return; }
+  if(a==="restorepick"&&HOSTED){ toast("서버 모드에서는 백업으로 덮어쓰지 않아요."); return; }
   if(a==="restorepick"){
     let inp=$("restorefile");
     if(!inp){
@@ -4244,12 +4274,13 @@ function docStoreOpen(){
 const docReq=q=>new Promise((ok,no)=>{ q.onsuccess=()=>ok(q.result); q.onerror=()=>no(q.error); });
 const docOS=(s,mode)=>DOCS.db.transaction(s,mode||"readonly").objectStore(s);
 const docStoreAll=()=>docReq(docOS("docs").getAll());
-const docStorePut=v=>docReq(docOS("docs","readwrite").put(v));
-const docStoreDel=id=>docReq(docOS("docs","readwrite").delete(id));
+const docStorePut=v=>HOSTED?syDocPut(v):docReq(docOS("docs","readwrite").put(v));
+const docStoreDel=id=>HOSTED?syDocDel(id):docReq(docOS("docs","readwrite").delete(id));
 const docMetaGet=k=>docReq(docOS("meta").get(k));
 const docMetaPut=(k,v)=>docReq(docOS("meta","readwrite").put(v,k));
 
 async function docsInit(){
+  if(HOSTED)return;          /* 인터넷 주소: 로그인 뒤 서버에서 불러온다 */
   try{
     DOCS.db=await docStoreOpen();
     DOCS.list=await docStoreAll();
@@ -4275,7 +4306,9 @@ function docReorder(m,id,to){
 }
 const docCount=m=>DOCS.ready?docsOf(m).length:0;
 function docURL(d,p){
-  const k=d.id+":"+p; if(!DURL.has(k))DURL.set(k,URL.createObjectURL(d.pages[p].blob));
+  const k=d.id+":"+p;
+  if(HOSTED&&!DURL.has(k)){ const b=syDocBlob(d,p); if(!b)return "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="; DURL.set(k,URL.createObjectURL(b)); }
+  if(!DURL.has(k))DURL.set(k,URL.createObjectURL(d.pages[p].blob));
   return DURL.get(k);
 }
 function docURLclear(){ DURL.forEach(u=>URL.revokeObjectURL(u)); DURL.clear(); DP.pages.forEach(p=>URL.revokeObjectURL(p.url)); }
@@ -4398,7 +4431,7 @@ async function docRestoreFromDir(){
         pages.push({blob:new Blob([await f.arrayBuffer()],{type:"image/jpeg"}),w:0,h:0}); files++;
       }
       const rec={id:uid("d"),memberId:m.id,member:m.name,date,kind,savedAt:new Date().toISOString(),pages};
-      await docStorePut(rec); DOCS.list.push(rec); have.add(m.id+"|"+date+"|"+kind); n++;
+      await docStorePut(rec); docListPut(rec); have.add(m.id+"|"+date+"|"+kind); n++;
     }
     const haveF=new Set(DOCS.list.filter(d=>d.pdf&&ownerOf(d.memberId)===m.id).map(d=>d.fname));
     for(const p of pdfs){
@@ -4406,7 +4439,7 @@ async function docRestoreFromDir(){
       const f=await p.fh.getFile(); files++;
       const rec={id:uid("d"),memberId:m.id,member:m.name,date:p.date,kind:p.kind,savedAt:new Date().toISOString(),pdf:true,fname:p.fn,
         pages:[{blob:new Blob([await f.arrayBuffer()],{type:"application/pdf"}),pdf:true}]};
-      await docStorePut(rec); DOCS.list.push(rec); haveF.add(p.fn); n++;
+      await docStorePut(rec); docListPut(rec); haveF.add(p.fn); n++;
     }
   }
   logAct("폴더에서 자료 되살림",n+"묶음 · "+files+"장"+(miss.length?" · 못 찾은 폴더 "+miss.length:""));
@@ -4415,6 +4448,8 @@ async function docRestoreFromDir(){
     (miss.length?"회원을 못 찾은 폴더만 있어요: "+miss.slice(0,3).join(", "):"되살릴 새 자료가 없어요."));
 }
 
+/* 같은 자료가 두 번 들어가지 않게 (서버 실시간 알림이 먼저 도착할 수 있다) */
+function docListPut(rec){ const i=DOCS.list.findIndex(x=>x.id===rec.id); if(i>=0)DOCS.list[i]=rec; else DOCS.list.push(rec); }
 /* ── 저장·지우기 ── */
 async function docSave(m){
   if(!DP.pages.length)return;
@@ -4430,7 +4465,7 @@ async function docSave(m){
   for(const rec of recs){
     if(rec.pdf)rec.fname=docPdfName(m,rec);
     try{ await docStorePut(rec); }catch(e){ toast("저장하지 못했어요: "+e.message); return; }
-    DOCS.list.push(rec);
+    docListPut(rec);
     if(folderOk){ try{ where=" · 폴더 "+(await docWriteFolder(m,rec)); }catch(e){ where=" · 폴더 사본 실패"; } }
   }
   DP.pages.forEach(p=>URL.revokeObjectURL(p.url)); DP.pages=[]; DV.add=false; DV.pane=true;
@@ -4530,7 +4565,7 @@ function docMove(step){
 /* 버튼 처리 — 기존 클릭 처리기에서 먼저 넘겨받는다. 처리했으면 true */
 function docAction(a,v,t){
   const m=S.openId?byId(S.members,S.openId):null;
-  if(a==="docdir"){ docPickDir(); return true; }
+  if(a==="docdir"){ if(HOSTED)return true; docPickDir(); return true; }
   if(a==="docrestore"){ docRestoreFromDir(); return true; }
   if(!m)return false;
   if(a==="docsel"){ DV.id=v; DV.page=0; paintDocs(); return true; }
@@ -4840,7 +4875,7 @@ async function trialSave(){
     try{
       const pg=await trialSignImage(t);
       const rec={id:uid("d"),memberId:t.id,member:t.name,date:t.date,kind:TRIAL_SIGN_KIND,savedAt:new Date().toISOString(),by:t.by,pages:[pg]};
-      await docStorePut(rec); DOCS.list.push(rec);
+      await docStorePut(rec); docListPut(rec);
       t.sign={at:new Date().toISOString(),text:TRIAL_TERMS,docId:rec.id};
       if(folderOk){ try{ await docWriteFolder(t,rec); msg="저장했어요. 동의서는 보관 폴더에도 남았어요."; }catch(e){ msg="저장했어요. 보관 폴더에는 못 남겼어요."; } }
       else if(!DOCS.dir)msg="저장했어요. 보관 폴더를 연결하면 동의서 사본도 남아요.";
@@ -5097,6 +5132,442 @@ function rpNum(v,label,tone){
   return '<div class="num '+tone+'"><div class="bar"></div><div class="in"><div><span class="v">'+v+'</span></div><div class="l">'+label+'</div></div></div>';
 }
 
+/* ===================== 서버 동기화 (인터넷 주소로 열었을 때만) =====================
+   화면 코드는 그대로 두고, 저장(save)·되돌리기·자료 창고만 서버로 갈아끼운다.
+   · 불러오기: 로그인하면 서버 표를 전부 받아 S를 다시 만든다
+   · 저장: 바뀐 줄만 골라 서버에 보낸다 (메모는 한 건씩 → 동시에 써도 안 겹침)
+   · 받기: 다른 기기에서 바뀐 줄이 실시간으로 들어오면 화면을 다시 그린다
+   · 되돌리기: 내가 바꾼 줄만 되돌린다 (그사이 남이 바꾼 줄은 건드리지 않음) */
+const SY_TABLES=["staff","members","attendance","notes","contacts","regs","trials","settings"];
+const SY_PUSH_ORDER=["staff","members","attendance","notes","contacts","regs","trials","settings"];
+const SY_SETTINGS=["limitRelax","limitRebuild","goneDays","lostDays","workDays","lastImport"];
+const syIsD=v=>/^\d{4}-\d{2}-\d{2}$/.test(String(v||""))?String(v):null;
+const syTs=v=>{ if(!v)return null; const d=new Date(v); return isNaN(d)?null:d.toISOString(); };
+/* 키 순서와 상관없이 같은 내용이면 같은 글자가 나오게 (서버 jsonb는 키 순서를 바꾼다) */
+function syCanon(v){
+  if(v===undefined)return "null";
+  if(v===null||typeof v!=="object")return JSON.stringify(v);
+  if(Array.isArray(v))return "["+v.map(syCanon).join(",")+"]";
+  return "{"+Object.keys(v).filter(k=>v[k]!==undefined).sort().map(k=>JSON.stringify(k)+":"+syCanon(v[k])).join(",")+"}";
+}
+const syClone=o=>o==null?o:JSON.parse(JSON.stringify(o));
+
+/* ── 표마다: 열쇠·서버 줄로 바꾸기·서버 줄 다듬기 ── */
+const SYC={
+  staff:{key:r=>r.id, cols:["id","name","sort","extra"],
+    rows(){ return (S.staff||[]).map((s,i)=>{ const {id,name,...rest}=s; return {id,name:name||"",sort:i,extra:rest}; }); }},
+  members:{key:r=>r.id, cols:["id","name","phone","birth","addr","birth_hand","addr_hand","staff_id","trashed","trash_at","trash_by","excel_memo","passes","doc_order","extra"],
+    rows(){ const st=new Set((S.staff||[]).map(s=>s.id).concat(Object.keys(SYNC.RC.staff||{})));
+      return (S.members||[]).map(m=>{
+        const {id,name,phone,birth,addr,birthHand,addrHand,staffId,trashed,trashAt,trashBy,memo,passes,docOrder,att,notes,acts,...rest}=m;
+        if(staffId&&!st.has(staffId))rest._staffId=staffId;
+        return {id,name:name||"",phone:phone||null,birth:birth||null,addr:addr||null,birth_hand:!!birthHand,addr_hand:!!addrHand,
+          staff_id:(staffId&&st.has(staffId))?staffId:null,trashed:!!trashed,trash_at:trashAt==null?null:String(trashAt),trash_by:trashBy==null?null:String(trashBy),
+          excel_memo:memo==null?null:String(memo),passes:passes||[],doc_order:docOrder||[],extra:rest}; }); }},
+  attendance:{key:r=>r.member_id+"|"+r.day+"|"+r.time+"|"+r.teacher, cols:["member_id","day","time","end_time","teacher"],
+    rows(){ const out=[]; (S.members||[]).forEach(m=>{ const seen={}; (m.att||[]).forEach(a=>{ const day=syIsD(a.date); if(!day)return;
+      const r={member_id:m.id,day,time:a.time||"",end_time:a.end||"",teacher:a.teacher||""}, k=SYC.attendance.key(r);
+      if(seen[k])return; seen[k]=1; out.push(r); }); }); return out; }},
+  notes:{key:r=>r.id, cols:["id","member_id","day","kind","body","by_name","created_at"],
+    rows(){ const out=[]; (S.members||[]).forEach(m=>{ const ns=m.notes||[]; ns.forEach((n,i)=>{
+      if(!n.id)n.id=(crypto.randomUUID?crypto.randomUUID():uid("n"));
+      if(!n.at)n.at=new Date(Date.now()-i).toISOString();
+      const day=syIsD(n.d)||TODAY();
+      out.push({id:n.id,member_id:m.id,day,kind:n.kind||"",body:String(n.t||""),by_name:n.by||null,created_at:syTs(n.at)}); }); }); return out; }},
+  contacts:{key:r=>r.member_id+"|"+r.kind, cols:["member_id","kind","day","rem","by_name"],
+    rows(){ const out=[]; (S.members||[]).forEach(m=>{ const a=m.acts||{}; Object.keys(a).forEach(k=>{ const x=a[k]||{}; const day=syIsD(x.d); if(!day)return;
+      out.push({member_id:m.id,kind:k,day,rem:(x.rem==null||isNaN(+x.rem))?null:Math.round(+x.rem),by_name:x.by||null}); }); }); return out; }},
+  regs:{key:r=>r.id, cols:["id","member_id","name","day","ym","kind","plan","amount","staff_id","by_name","extra"],
+    rows(){ const ms=new Set((S.members||[]).map(m=>m.id)), st=new Set(Object.keys(SYNC.RC.staff||{}).concat((S.staff||[]).map(s=>s.id)));
+      return (S.regs||[]).map(r=>{ const {id,...rest}=r;
+        return {id,member_id:ms.has(r.memberId)?r.memberId:null,name:r.name||null,day:syIsD(r.date),ym:r.ym||null,kind:r.kind||null,plan:r.plan||null,
+          amount:Math.round(+r.amount)||0,staff_id:st.has(r.staffId)?r.staffId:null,by_name:r.by||null,extra:rest}; }); }},
+  trials:{key:r=>r.id, cols:["id","name","phone","day","staff_id","member_id","data","sign"],
+    rows(){ const ms=new Set((S.members||[]).map(m=>m.id)), st=new Set(Object.keys(SYNC.RC.staff||{}).concat((S.staff||[]).map(s=>s.id)));
+      return (S.trials||[]).map(t=>{ const {id,sign,...rest}=t;
+        return {id,name:t.name||null,phone:t.phone||null,day:syIsD(t.date),staff_id:st.has(t.staffId)?t.staffId:null,member_id:ms.has(t.memberId)?t.memberId:null,
+          data:rest,sign:sign||null}; }); }},
+  settings:{key:r=>r.key, cols:["key","value"],
+    rows(){ return SY_SETTINGS.filter(k=>S[k]!==undefined&&S[k]!==null).map(k=>({key:k,value:S[k]})); }}
+};
+/* 서버에서 온 줄을 비교용 모양으로 다듬기 */
+function syNorm(t,r){
+  const o={}; SYC[t].cols.forEach(c=>{ let v=r[c]; if(v===undefined)v=null;
+    if(c==="created_at")v=syTs(v);
+    if(c==="day"&&v)v=String(v).slice(0,10);
+    o[c]=v; });
+  return o;
+}
+
+/* ── 지금 화면 상태(S) → 서버와 다른 줄 찾기 ── */
+function syFlush(){
+  if(!SYNC.on||!SYNC.loaded)return 0;
+  let n=0;
+  /* 비교 기준은 '내 화면을 마지막으로 만든 상태(BASE)'다. 서버 최신(RC)과 비교하면
+     다른 기기에서 막 들어온 줄을 내가 지운 것으로 착각한다 */
+  SY_TABLES.forEach(t=>{
+    if(t==="staff"&&!SYNC.admin)return;           /* 강사 목록은 관리자만 바꾼다 */
+    const base=(SYNC.BASE[t]=SYNC.BASE[t]||{}), rc=(SYNC.RC[t]=SYNC.RC[t]||{}), seen=new Set();
+    SYC[t].rows().forEach(r0=>{
+      const r=syNorm(t,r0), k=SYC[t].key(r), j=syCanon(r); seen.add(k);
+      const cur=base[k];
+      if(cur&&cur.j===j)return;
+      syRecord(t,k,rc[k]?rc[k].r:(cur?cur.r:null),r);
+      /* 이미 있는 줄은 바뀐 칸만 보낸다 → 같은 회원의 다른 칸을 다른 사람이 동시에 바꿔도 둘 다 남는다 */
+      const cols=(cur&&SY_PARTIAL[t])?SYC[t].cols.filter(c=>syCanon(cur.r[c])!==syCanon(r[c])):null;
+      base[k]={j,r};
+      if(cols&&rc[k]){ const m=Object.assign({},rc[k].r); cols.forEach(c=>m[c]=r[c]); rc[k]={j:syCanon(m),r:m}; } else rc[k]={j,r};
+      syQueue(t,k,{op:"up",row:r,cols}); n++;
+    });
+    if(t==="staff"||t==="settings")return;         /* 강사·설정 줄은 화면에 없다고 지우지 않는다 */
+    Object.keys(base).forEach(k=>{ if(seen.has(k))return;
+      const old=base[k].r; syRecord(t,k,rc[k]?rc[k].r:old,null); delete base[k]; delete rc[k]; syQueue(t,k,{op:"del",row:old}); n++; });
+  });
+  if(n)syPushSoon();
+  return n;
+}
+const SY_PARTIAL={staff:1,members:1,regs:1,trials:1};
+const SY_NEED={staff:["name"],members:["name"]};
+const SY_PK={staff:["id"],members:["id"],attendance:["member_id","day","time","teacher"],notes:["id"],contacts:["member_id","kind"],regs:["id"],trials:["id"],settings:["key"]};
+function syQueue(t,k,op){
+  const q=(SYNC.pend[t]=SYNC.pend[t]||new Map()), old=q.get(k);
+  if(old&&old.op==="up"&&op.op==="up"){
+    op.cols=(old.cols&&op.cols)?Array.from(new Set(old.cols.concat(op.cols))):null;
+  }
+  q.set(k,op);
+}
+function syPending(){ return SY_PUSH_ORDER.reduce((a,t)=>a+((SYNC.pend[t]&&SYNC.pend[t].size)||0),0); }
+/* 되돌리기용 기록 — pushUndo 직후 몇 초 동안 생긴 변화를 그 항목에 묶는다 */
+function syRecord(t,k,before,after){
+  const u=SYNC.open; if(!u)return;
+  const id=t+"\u0001"+k, c=u.rows.get(id);
+  if(c)c.a=after; else u.rows.set(id,{t,k,b:before,a:after});
+}
+
+/* ── 서버로 보내기 ── */
+function syPushSoon(){ clearTimeout(SYNC.retry); SYNC.retry=setTimeout(syPush,250); syPaint(); }
+async function syPush(){
+  if(SYNC.pushing){ SYNC.again=true; return; }
+  SYNC.pushing=true; SYNC.again=false; syPaint();
+  try{
+    for(const t of SY_PUSH_ORDER){
+      const q=SYNC.pend[t]; if(!q||!q.size)continue;
+      const items=Array.from(q.entries());
+      const ups=items.filter(([,o])=>o.op==="up"), dels=items.filter(([,o])=>o.op==="del");
+      const conflict=SY_PK[t].join(",");
+      const groups={};
+      ups.forEach(it=>{ const o=it[1], sig=o.cols?(SY_NEED[t]||[]).concat(o.cols).filter((c,i,a)=>a.indexOf(c)===i).sort().join(","):"*"; (groups[sig]=groups[sig]||[]).push(it); });
+      for(const sig of Object.keys(groups)){
+        const g=groups[sig];
+        for(let i=0;i<g.length;i+=400){
+          const part=g.slice(i,i+400);
+          /* 바뀐 칸만 보낼 때도 '비우면 안 되는 칸'(이름)은 같이 보낸다 — 서버는 넣기 전에 빈칸부터 검사한다 */
+          const body=part.map(([,o])=>{ if(!o.cols)return o.row; const x={}; SY_PK[t].concat(SY_NEED[t]||[],o.cols).forEach(c=>x[c]=o.row[c]); return x; });
+          const {error}=await SYNC.sb.from(t).upsert(body,{onConflict:conflict});
+          if(error)throw error;
+          part.forEach(([k,o])=>{ if(q.get(k)===o)q.delete(k); });
+        }
+      }
+      for(let i=0;i<dels.length;i+=100){
+        const part=dels.slice(i,i+100);
+        let res;
+        if(t==="attendance")res=await SYNC.sb.from(t).delete().in("k",part.map(([k])=>k));
+        else if(t==="contacts"){ for(const [k,o] of part){ res=await SYNC.sb.from(t).delete().eq("member_id",o.row.member_id).eq("kind",o.row.kind); if(res.error)break; } }
+        else res=await SYNC.sb.from(t).delete().in(t==="settings"?"key":"id",part.map(([k])=>k));
+        if(res&&res.error)throw res.error;
+        part.forEach(([k,o])=>{ if(q.get(k)===o)q.delete(k); });
+      }
+    }
+    SYNC.fail=0; SYNC.status="";
+  }catch(e){
+    SYNC.fail++; SYNC.status="저장 안 됨 — "+(e.message||e);
+    clearTimeout(SYNC.retry); SYNC.retry=setTimeout(syPush,Math.min(30000,3000*SYNC.fail));
+    if(SYNC.fail===1)toast("서버에 저장하지 못했어요. 잠시 뒤 다시 보냅니다.");
+  }finally{ SYNC.pushing=false; syPaint(); if((SYNC.again||syPending())&&!SYNC.fail)syPushSoon(); }
+}
+/* 머리글 저장 상태 */
+function syPaint(){
+  let el=document.getElementById("syncChip");
+  if(!el){ const c=document.getElementById("authChip"); if(!c)return; el=document.createElement("span"); el.id="syncChip"; el.style.cssText="font-size:12px;white-space:nowrap"; c.insertBefore(el,c.firstChild); }
+  const n=syPending();
+  el.innerHTML=SYNC.status?'<span style="color:var(--red);font-weight:700" title="'+esc(SYNC.status)+'">● 저장 안 됨 '+n+'</span>':
+    (n||SYNC.pushing)?'<span style="color:var(--orange)">● 저장 중</span>':'<span style="color:var(--green)">● 저장됨</span>';
+}
+window.addEventListener("beforeunload",e=>{ if(SYNC.on&&syPending()){ e.preventDefault(); e.returnValue=""; } });
+
+/* ── 서버 줄(RC) → 화면 상태(S) ── */
+function syRebuild(){
+  const R=t=>Object.values(SYNC.RC[t]||{}).map(x=>x.r);
+  const ms={};
+  S.staff=R("staff").sort((a,b)=>(a.sort??999)-(b.sort??999)||String(a.name).localeCompare(String(b.name)))
+    .map(r=>Object.assign({},syClone(r.extra)||{},{id:r.id,name:r.name}));
+  S.members=R("members").map(r=>{
+    const x=syClone(r.extra)||{}, sid=r.staff_id||x._staffId||null; delete x._staffId;
+    const m=Object.assign(x,{id:r.id,name:r.name,phone:r.phone||"",staffId:sid,trashed:!!r.trashed,passes:syClone(r.passes)||[],att:[],notes:[],acts:{}});
+    if(r.birth!=null)m.birth=r.birth; if(r.addr!=null)m.addr=r.addr;
+    if(r.birth_hand)m.birthHand=true; if(r.addr_hand)m.addrHand=true;
+    if(r.trash_at!=null)m.trashAt=r.trash_at; if(r.trash_by!=null)m.trashBy=r.trash_by;
+    if(r.excel_memo!=null)m.memo=r.excel_memo;
+    if(r.doc_order&&r.doc_order.length)m.docOrder=syClone(r.doc_order);
+    ms[m.id]=m; return m;
+  }).sort((a,b)=>String(a.name).localeCompare(String(b.name),"ko")||String(a.id).localeCompare(String(b.id)));   /* 서버는 줄 순서를 보장하지 않으니 모든 기기에서 같은 순서로 */
+  R("attendance").forEach(r=>{ const m=ms[r.member_id]; if(m)m.att.push({date:r.day,time:r.time,teacher:r.teacher,end:r.end_time}); });
+  R("notes").forEach(r=>{ const m=ms[r.member_id]; if(!m)return; const n={id:r.id,d:r.day,t:r.body,by:r.by_name||"",at:r.created_at}; if(r.kind)n.kind=r.kind; m.notes.push(n); });
+  R("contacts").forEach(r=>{ const m=ms[r.member_id]; if(m)m.acts[r.kind]={d:r.day,rem:r.rem,by:r.by_name||""}; });
+  S.members.forEach(m=>{
+    m.att.sort((a,b)=>a.date<b.date?1:a.date>b.date?-1:toMin(a.time)-toMin(b.time));
+    m.notes.sort((a,b)=>a.at<b.at?1:a.at>b.at?-1:(a.d<b.d?1:a.d>b.d?-1:0));   /* 이 컴퓨터에서처럼 '쓴 순서' 그대로 */
+  });
+  S.regs=R("regs").map(r=>Object.assign({},syClone(r.extra)||{},{id:r.id})).sort((a,b)=>String(b.date||"").localeCompare(String(a.date||""))||String(b.id).localeCompare(String(a.id)));
+  S.trials=R("trials").map(r=>{ const t=Object.assign({},syClone(r.data)||{},{id:r.id}); if(r.sign)t.sign=syClone(r.sign); return t; });
+  R("settings").forEach(r=>{ if(SY_SETTINGS.indexOf(r.key)>=0&&r.value!=null)S[r.key]=syClone(r.value); });
+  SY_TABLES.forEach(t=>{ SYNC.BASE[t]=Object.assign({},SYNC.RC[t]||{}); });
+  clearCache();
+}
+/* 다른 기기 변경을 받은 뒤 화면 다시 그리기 — 글을 쓰는 중이면 기다린다 */
+function syRebuildSoon(){
+  clearTimeout(SYNC.rebuildTimer);
+  SYNC.rebuildTimer=setTimeout(()=>{
+    /* 화면 안에서 글을 쓰는 중이면(메모 칸 등) 다 쓸 때까지 기다린다 — 다 쓰고 칸을 벗어나면 바로 반영 */
+    const a=document.activeElement;
+    const typing=a&&a.closest&&a.closest("#main,#drawer,#docpane,#pop")&&(a.tagName==="TEXTAREA"||(a.tagName==="INPUT"&&/^(text|search|tel|number|)$/.test(a.type||"")))&&String(a.value||"").length>0;
+    if(typing||S.editMemo||(typeof TD!=="undefined"&&TD)){ SYNC.waitRebuild=true; return; }
+    SYNC.waitRebuild=false;
+    syFlush(); syRebuild(); render();
+  },400);
+}
+
+document.addEventListener("focusout",()=>{ if(SYNC.waitRebuild)setTimeout(syRebuildSoon,50); });
+setInterval(()=>{ if(SYNC.waitRebuild)syRebuildSoon(); },3000);
+
+/* ── 불러오기 ── */
+async function syFetchAll(t){
+  const out=[]; let from=0;
+  for(;;){
+    const {data,error}=await SYNC.sb.from(t).select(SYC[t]?SYC[t].cols.join(","):"*").range(from,from+999);
+    if(error)throw error;
+    out.push(...data); if(data.length<1000)break; from+=1000;
+  }
+  return out;
+}
+async function syLoad(){
+  for(const t of SY_TABLES){
+    const rows=await syFetchAll(t), rc={};
+    rows.forEach(r0=>{ const r=syNorm(t,r0); rc[SYC[t].key(r)]={j:syCanon(r),r}; });
+    SYNC.RC[t]=rc;
+  }
+  syRebuild();
+  SYNC.loaded=true;
+  /* 화면에서 만든 모양(메모 id 등)과 서버 모양이 다르면 여기서 한 번 맞춘다 */
+  syFlush();
+}
+function sySubscribe(){
+  const ch=SYNC.sb.channel("relaxdesk");
+  SY_TABLES.concat(["docs"]).forEach(t=>{
+    ch.on("postgres_changes",{event:"*",schema:"public",table:t},p=>syRemote(t,p));
+  });
+  ch.subscribe(st=>{ if(st==="CHANNEL_ERROR"||st==="TIMED_OUT")SYNC.status="실시간 연결 끊김 — 새로고침하면 다시 연결돼요"; syPaint(); });
+  SYNC.chan=ch;
+}
+function syRemote(t,p){
+  if(t==="docs"){ syDocRemote(p); return; }
+  const ev=p.eventType, src=ev==="DELETE"?p.old:p.new; if(!src)return;
+  const pk=SYC[t].key(syNorm(t,Object.assign({},src)));
+  const rc=SYNC.RC[t], mine=SYNC.pend[t]&&SYNC.pend[t].get(pk);
+  if(ev==="DELETE"){ if(mine)return; if(!rc[pk])return; delete rc[pk]; }
+  else{
+    /* 큰 칸(수강권 목록 등)이 안 바뀌었으면 서버 알림에서 빠질 수 있다 → 빠진 칸은 갖고 있던 값을 쓴다 */
+    const prev=rc[pk]?rc[pk].r:null;
+    let r=syNorm(t,prev?Object.assign({},prev,src):src);
+    if(mine){                                            /* 내가 보내는 중인 칸은 내 값을 남기고, 나머지 칸은 서버 값으로 */
+      if(mine.op==="del"||!mine.cols)return;
+      r=Object.assign({},r); mine.cols.forEach(c=>r[c]=mine.row[c]);
+    }
+    const j=syCanon(r); if(rc[pk]&&rc[pk].j===j)return; rc[pk]={j,r};
+  }
+  syRebuildSoon();
+}
+
+/* ── 되돌리기 (내가 바꾼 줄만) ── */
+function syPushUndo(label){
+  if(SYNC.open)SYNC.open.live=false;
+  const u={label:label||"",at:Date.now(),rows:new Map(),live:true};
+  undoStack.push(u); if(undoStack.length>UNDO_MAX)undoStack.shift();
+  redoStack=[];
+  SYNC.open=u; clearTimeout(SYNC.openTimer);
+  SYNC.openTimer=setTimeout(()=>{ if(SYNC.open===u){ syFlush(); SYNC.open=null; } },4000);
+}
+function syApplyBack(u,dir){
+  syFlush();
+  if(SYNC.open){ SYNC.open=null; }
+  let done=0, skip=0; const back={label:u.label,at:u.at,rows:new Map()};
+  u.rows.forEach(c=>{
+    const want=dir==="undo"?c.b:c.a, was=dir==="undo"?c.a:c.b;
+    const rc=SYNC.RC[c.t], cur=rc[c.k]?rc[c.k].r:null;
+    /* 회원·등록처럼 칸이 많은 줄은 '내가 바꾼 칸'만 본다 — 같은 회원의 다른 칸을 남이 바꿨어도 내 것은 되돌린다 */
+    if(want&&was&&cur&&SY_PARTIAL[c.t]){
+      const cols=SYC[c.t].cols.filter(k=>syCanon(want[k])!==syCanon(was[k]));
+      if(cols.some(k=>syCanon(cur[k])!==syCanon(was[k]))){ skip++; return; }
+      const nr=Object.assign({},cur); cols.forEach(k=>nr[k]=want[k]);
+      rc[c.k]={j:syCanon(nr),r:nr}; if(cols.length)syQueue(c.t,c.k,{op:"up",row:nr,cols});
+      back.rows.set(c.t+"\u0001"+c.k,c); done++; return;
+    }
+    if(syCanon(cur)!==syCanon(was)){ skip++; return; }      /* 그사이 다른 사람이 바꿈 → 건드리지 않음 */
+    if(want){ rc[c.k]={j:syCanon(want),r:want}; syQueue(c.t,c.k,{op:"up",row:want}); }
+    else{ delete rc[c.k]; syQueue(c.t,c.k,{op:"del",row:cur}); }
+    back.rows.set(c.t+"\u0001"+c.k,c); done++;
+  });
+  syRebuild(); render(); syPushSoon();
+  return {done,skip,back};
+}
+function syDoUndo(){
+  const u=undoStack.pop(); if(!u){ toast("되돌릴 게 없어요."); return; }
+  if(!u.rows){ toast("되돌릴 수 없는 항목이에요."); return; }
+  const r=syApplyBack(u,"undo"); redoStack.push(r.back);
+  toast((u.label?u.label+" — ":"")+"되돌렸어요"+(r.skip?" · 그사이 다른 사람이 바꾼 "+r.skip+"건은 그대로 뒀어요":""));
+}
+function syDoRedo(){
+  const u=redoStack.pop(); if(!u){ toast("다시 할 게 없어요."); return; }
+  const r=syApplyBack(u,"redo"); undoStack.push(r.back);
+  toast((u.label?u.label+" — ":"")+"다시 했어요"+(r.skip?" · "+r.skip+"건은 그사이 바뀌어 그대로 뒀어요":""));
+}
+
+/* ── 자료(사진·PDF) — 서버 비공개 저장소 ── */
+const SYD={blobs:new Map(),loading:new Set()};
+const syDocRow=d=>({id:d.id,member_id:d.memberId,day:syIsD(d.date),kind:d.kind||null,is_pdf:!!d.pdf,
+  files:(d.pages||[]).map(p=>({path:p.path,w:p.w||null,h:p.h||null})),fname:d.fname||null,by_name:d.by||null,created_at:syTs(d.savedAt)||new Date().toISOString()});
+function syDocFromRow(r){
+  const mm=(S.members||[]).find(m=>m.id===r.member_id)||(S.trials||[]).find(t=>t.id===r.member_id);
+  return {id:r.id,memberId:r.member_id,member:mm?mm.name:"",date:r.day,kind:r.kind,savedAt:r.created_at,by:r.by_name||"",pdf:!!r.is_pdf,fname:r.fname||undefined,
+    pages:(r.files||[]).map(f=>({path:f.path,w:f.w,h:f.h,pdf:!!r.is_pdf,blob:SYD.blobs.get(f.path)}))};
+}
+async function syDocsLoad(){
+  const {data,error}=await SYNC.sb.from("docs").select("*");
+  if(error)throw error;
+  DOCS.db={hosted:true}; DOCS.dir=null;
+  DOCS.list=(data||[]).map(syDocFromRow);
+  DOCS.ready=true; DOCS.failed=false;
+}
+async function syDocPut(rec){
+  const ext=rec.pdf?"pdf":"jpg";
+  for(let i=0;i<rec.pages.length;i++){
+    const p=rec.pages[i];
+    if(!p.path){
+      const path=rec.memberId+"/"+rec.id+"/"+(i+1)+"."+ext;
+      const {error}=await SYNC.sb.storage.from("docs").upload(path,p.blob,{upsert:true,contentType:rec.pdf?"application/pdf":"image/jpeg"});
+      if(error)throw new Error("파일을 올리지 못했어요: "+error.message);
+      p.path=path; SYD.blobs.set(path,p.blob);
+    }
+  }
+  const {error}=await SYNC.sb.from("docs").upsert(syDocRow(rec),{onConflict:"id"});
+  if(error)throw new Error(error.message);
+}
+async function syDocDel(id){
+  const d=DOCS.list.find(x=>x.id===id);
+  const {error}=await SYNC.sb.from("docs").delete().eq("id",id);
+  if(error)throw new Error(error.message);
+  if(d){ const paths=d.pages.map(p=>p.path).filter(Boolean); if(paths.length)await SYNC.sb.storage.from("docs").remove(paths); }
+}
+/* 화면에 보일 때 그 쪽 파일만 받아온다 */
+function syDocBlob(d,p){
+  const pg=d.pages[p]; if(!pg)return null;
+  if(pg.blob)return pg.blob;
+  const path=pg.path; if(!path)return null;
+  if(SYD.blobs.has(path)){ pg.blob=SYD.blobs.get(path); return pg.blob; }
+  if(!SYD.loading.has(path)){
+    SYD.loading.add(path);
+    SYNC.sb.storage.from("docs").download(path).then(({data,error})=>{
+      SYD.loading.delete(path);
+      if(error||!data){ toast("자료를 불러오지 못했어요."); return; }
+      SYD.blobs.set(path,data); pg.blob=data; paintDocs(); paintDocFull();
+    });
+  }
+  return null;
+}
+function syDocRemote(p){
+  const ev=p.eventType;
+  if(ev==="DELETE"){ const id=p.old&&p.old.id; if(!id)return; DOCS.list=DOCS.list.filter(x=>x.id!==id); }
+  else{ const r=p.new; if(!r)return; const d=syDocFromRow(r), i=DOCS.list.findIndex(x=>x.id===r.id);
+    if(i>=0){ d.pages.forEach((pg,k)=>{ const old=DOCS.list[i].pages[k]; if(old&&old.blob&&old.path===pg.path)pg.blob=old.blob; }); DOCS.list[i]=d; } else DOCS.list.push(d); }
+  syRebuildSoon();
+}
+
+/* ── 시작: 로그인 뒤 auth 모듈이 부른다 ── */
+window.SYNC_START=async function(sb,staffRow){
+  SYNC.sb=sb; SYNC.me=staffRow; SYNC.admin=!!staffRow.is_admin; SYNC.on=true;
+  S.ro=false; document.body.classList.remove("ro");
+  const m=document.getElementById("main"); if(m)m.innerHTML='<div class="card"><div class="empty">서버에서 불러오는 중…</div></div>';
+  try{
+    await syLoad(); await syDocsLoad();
+  }catch(e){
+    if(m)m.innerHTML='<div class="card"><div class="empty">서버에서 불러오지 못했어요.<br>'+esc(e.message||String(e))+'<br><br>새로고침해보세요.</div></div>';
+    SYNC.status="불러오기 실패"; syPaint(); return;
+  }
+  /* 강사 본인 계정이면 자기 화면으로, 관리자는 전체 화면으로 */
+  if(!SYNC.admin&&byId(S.staff,staffRow.id))S.me=staffRow.id;
+  sySubscribe(); syPaint(); render();
+  if(SYNC.admin&&!Object.keys(SYNC.RC.members).length)syOfferImport();
+};
+
+/* ── 처음 한 번: 이전 파일로 서버 채우기 (관리자, 서버가 비어 있을 때만) ── */
+function syOfferImport(){
+  $("pop").innerHTML='<div class="popbox"><div class="poph"><div class="t">서버가 비어 있어요</div>'+
+    '<div class="s">회사 컴퓨터에서 받은 <b>서버 이전 파일</b>(또는 백업 파일)을 넣으면 회원·수업·메모·등록·체험·자료가 서버로 들어갑니다. 한 번만 하면 돼요.</div></div>'+
+    '<div style="padding:12px 20px 18px;display:flex;flex-direction:column;gap:8px">'+
+    '<button class="btn navy" style="height:40px" id="syImpBtn">이전 파일 고르기</button>'+
+    '<button class="btn" data-a="closepop">나중에</button>'+
+    '<div class="note" id="syImpMsg"></div></div></div>';
+  $("pop").classList.add("on");
+  document.getElementById("syImpBtn").onclick=()=>{
+    const i=document.createElement("input"); i.type="file"; i.accept=".json,application/json";
+    i.onchange=()=>{ if(i.files[0])syImport(i.files[0]); }; i.click();
+  };
+}
+async function syImport(file){
+  const msg=t=>{ const e=document.getElementById("syImpMsg"); if(e)e.innerHTML=t; };
+  try{
+    if(Object.keys(SYNC.RC.members).length)throw new Error("서버에 이미 회원이 있어요. 두 번 넣지 않게 막았어요.");
+    msg("파일을 읽는 중…");
+    const j=JSON.parse(await file.text());
+    let d=null;
+    if(j&&j.kind==="relaxdesk-migration")d=j.data;
+    else if(j&&j._localStorage&&j._localStorage[KEY])d=JSON.parse(j._localStorage[KEY]);
+    else if(j&&Array.isArray(j.members))d=j;
+    if(!d||!Array.isArray(d.members))throw new Error("릴렉싱데스크 백업·이전 파일이 아니에요.");
+    /* 0) 열 때 보낸 정리 내용이 다 올라갈 때까지 기다린다 (강사 id를 바꾸는 중에 옛 id로 다시 써지지 않게) */
+    syFlush(); for(let w=0;(syPending()||SYNC.pushing)&&w<50;w++){ if(!SYNC.pushing&&syPending())syPush(); await new Promise(r=>setTimeout(r,200)); }
+    /* 1) 강사: 서버 계정과 이름이 같으면 프로그램의 강사 id로 맞춘다 */
+    const staff=d.staff||[];
+    for(const s of staff){
+      const hit=Object.values(SYNC.RC.staff).map(x=>x.r).find(r=>normName(r.name)===normName(s.name)&&r.id!==s.id);
+      if(hit){ const {error}=await SYNC.sb.from("staff").update({id:s.id}).eq("id",hit.id); if(error)throw error;
+        const x=SYNC.RC.staff[hit.id]; delete SYNC.RC.staff[hit.id]; delete (SYNC.BASE.staff||{})[hit.id]; if(SYNC.pend.staff)SYNC.pend.staff.delete(hit.id); x.r=Object.assign({},x.r,{id:s.id}); x.j=syCanon(x.r); SYNC.RC.staff[s.id]=x;
+        if(SYNC.me&&SYNC.me.id===hit.id)SYNC.me.id=s.id; }
+    }
+    /* 2) 프로그램 상태로 바꾼 뒤 통째로 올린다 */
+    S.staff=staff; S.members=unpackAtt(d.members||[],d.tnames||[]); S.regs=d.regs||[]; S.trials=Array.isArray(d.trials)?d.trials:[];
+    SY_SETTINGS.forEach(k=>{ if(d[k]!=null)S[k]=d[k]; });
+    SYNC.open=null;
+    const n=syFlush();
+    msg("회원·수업·메모를 올리는 중… ("+n+"줄)");
+    while(syPending()||SYNC.pushing){ if(SYNC.fail>2)throw new Error(SYNC.status); await new Promise(r=>setTimeout(r,400)); if(!SYNC.pushing&&syPending())syPush(); }
+    /* 3) 자료 */
+    const docs=(j.kind==="relaxdesk-migration"&&Array.isArray(j.docs))?j.docs:[];
+    let k=0;
+    for(const x of docs){
+      k++; msg("자료 올리는 중… "+k+" / "+docs.length);
+      const pages=x.pages.map(p=>{ const bin=atob(p.b64), u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
+        return {w:p.w,h:p.h,pdf:!!p.pdf,blob:new Blob([u],{type:p.pdf?"application/pdf":"image/jpeg"})}; });
+      const rec={id:x.id,memberId:x.memberId,member:x.member,date:x.date,kind:x.kind,savedAt:x.savedAt,by:x.by,pdf:!!x.pdf,fname:x.fname,pages};
+      await syDocPut(rec); docListPut(rec);
+    }
+    syRebuild(); render();
+    msg("끝났어요. 회원 "+S.members.length+"명 · 자료 "+docs.length+"건"+(docs.length?"":" (자료는 이전 파일에만 들어 있어요)"));
+    toast("서버로 옮겼어요.");
+  }catch(e){ msg('<span style="color:var(--red)">'+esc(e.message||String(e))+'</span>'); }
+}
+
+
 /* ===================== 시작 ===================== */
 /* 이 컴퓨터가 어디인지 한 번만 묻는다.
    '회사컴'만 쓰기 가능. 집에서는 보기 전용으로 열려서, 확인하다 실수로 자료를 건드리는 일을 막는다. */
@@ -5129,9 +5600,9 @@ function boot(){
     const b=$("ro"); b.style.display="block";
     b.textContent="보기 전용 · "+String(d.at||"").slice(0,16).replace("T"," ")+" 기준";
   }else{
-    if(!load())S.staff=[];
-    /* 인터넷 주소로 열면 로그인이 컴퓨터 구분을 대신한다 */
-    if(/^https?:$/.test(location.protocol)&&!S.box)S.box="웹";
+    /* 인터넷 주소로 열면 이 컴퓨터 저장소는 쓰지 않는다 — 로그인 뒤 서버에서 불러온다 */
+    if(HOSTED){ S.staff=[]; S.members=[]; S.box="웹"; }
+    else if(!load())S.staff=[];
     applyBoxMode();
     if(!S.box){ render(); askBox(); return; }
   }
@@ -5226,9 +5697,11 @@ docsInit();
       if(a!==b){ err.textContent="두 칸이 서로 달라요."; return; }
       const {error}=await AUTH.sb.auth.updateUser({password:a,data:{must_change:false}});
       if(error){ err.textContent="바꾸지 못했어요: "+error.message; return; }
-      gate.classList.remove("on"); if(window.toast)toast("비밀번호를 바꿨어요.");
+      gate.classList.remove("on"); if(window.toast)toast("비밀번호를 바꿨어요."); startSync();
     };
   }
+  let started=false;
+  function startSync(){ if(started||!window.SYNC_START)return; started=true; window.SYNC_START(AUTH.sb,AUTH.staff); }
   async function afterLogin(){
     const {data:{user}}=await AUTH.sb.auth.getUser();
     if(!user){ showLogin(); return; }
@@ -5239,7 +5712,7 @@ docsInit();
     AUTH.staff=data;
     paintChip();
     if(user.user_metadata&&user.user_metadata.must_change){ showChangePw(true); return; }
-    gate.classList.remove("on");
+    gate.classList.remove("on"); if(document.activeElement)document.activeElement.blur(); startSync();
   }
   /* 머리글: 이름 · 계정 관리 · 비밀번호 · 로그아웃 */
   function paintChip(){
@@ -5249,7 +5722,9 @@ docsInit();
       (AUTH.staff.is_admin?'<button class="btn sm gh" id="acctBtn">계정 관리</button>':'')+
       '<button class="btn sm gh" id="pwBtn">비밀번호</button><button class="btn sm gh" id="outBtn">로그아웃</button>';
     c.classList.add("on");
-    document.getElementById("outBtn").onclick=async()=>{ await AUTH.sb.auth.signOut(); AUTH.staff=null; c.classList.remove("on"); showLogin("로그아웃했어요."); };
+    document.getElementById("outBtn").onclick=async()=>{
+      if(window.syPending&&syPending()&&!confirm("아직 서버에 못 보낸 변경이 있어요. 그래도 로그아웃할까요?"))return;
+      await AUTH.sb.auth.signOut(); location.reload(); };
     document.getElementById("pwBtn").onclick=()=>showChangePw(false);
     const a=document.getElementById("acctBtn"); if(a)a.onclick=openAccounts;
   }
@@ -5272,12 +5747,13 @@ docsInit();
     const me=AUTH.staff.phone;
     let t='<div class="popbox" style="max-width:640px"><div class="poph"><div class="t">계정 관리</div><div class="s">아이디는 휴대폰 번호예요. 임시 비밀번호로 처음 들어오면 본인이 새 비밀번호로 바꿉니다.</div></div>'+
       '<div class="acct" style="padding:6px 20px 18px"><table><thead><tr><th>이름</th><th>아이디(번호)</th><th>마지막 로그인</th><th></th></tr></thead><tbody>'+
-      list.map(s=>'<tr class="'+(s.active?"":"off")+'"><td>'+h(s.name)+(s.is_admin?' <span class="tag n">관리자</span>':'')+(s.active?'':' <span class="tag r">정지</span>')+'</td>'+
+      list.filter(s=>s.auth_user).map(s=>'<tr class="'+(s.active?"":"off")+'"><td>'+h(s.name)+(s.is_admin?' <span class="tag n">관리자</span>':'')+(s.active?'':' <span class="tag r">정지</span>')+'</td>'+
         '<td>'+h(fmt(s.phone))+'</td><td>'+(s.last_sign_in_at?h(new Date(s.last_sign_in_at).toLocaleString("ko-KR",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"})):'<span style="color:var(--fnt)">없음</span>')+'</td>'+
         '<td style="text-align:right;white-space:nowrap">'+(s.phone===me?'<span style="color:var(--fnt);font-size:12px">나</span>':
           '<button class="btn sm gh" data-acct="reset" data-p="'+h(s.phone)+'">임시 비번</button> '+
           (s.active?'<button class="btn sm gh" data-acct="disable" data-p="'+h(s.phone)+'">정지</button>':'<button class="btn sm gh" data-acct="enable" data-p="'+h(s.phone)+'">다시 쓰기</button>'))+'</td></tr>').join("")+
       '</tbody></table>'+
+      (()=>{ const no=list.filter(s=>!s.auth_user); return no.length?'<div class="note" style="margin-top:10px">계정 없는 강사: <b>'+no.map(s=>h(s.name)).join(', ')+'</b> — 아래에서 <b>똑같은 이름</b>으로 추가하면 그 강사 줄에 연결돼서 책임 회원·메모 기록이 이어져요.</div>':''; })()+
       '<form id="acctAdd"><input name="name" placeholder="이름 (예: 강다은)"><input name="phone" inputmode="numeric" placeholder="휴대폰 번호"><input name="pw" placeholder="임시 비밀번호 (8자+)"><button class="btn navy" type="submit">계정 추가</button></form>'+
       '<div class="err" id="acctErr" style="color:var(--red);font-size:12.5px;min-height:16px;margin-top:8px"></div>'+
       '<div style="text-align:right"><button class="btn" data-a="closepop">닫기</button></div></div></div>';
@@ -5290,7 +5766,7 @@ docsInit();
       if(pw.length<8){ err.textContent="임시 비밀번호는 8자 이상이에요."; return; }
       if(list.some(s=>s.phone===phone)){ err.textContent="이미 있는 번호예요."; return; }
       err.textContent="만드는 중…";
-      try{ await callAdmin({action:"create",name,phone,password:pw}); if(window.toast)toast(name+" 계정을 만들었어요 · 아이디 "+fmt(phone)); openAccounts(); }
+      try{ const r=await callAdmin({action:"create",name,phone,password:pw}); if(window.toast)toast(name+" 계정을 만들었어요 · 아이디 "+fmt(phone)+(r&&r.linked?" · 기존 강사 기록과 연결":"")); openAccounts(); }
       catch(x){ err.textContent=x.message; }
     };
     pop().querySelectorAll("[data-acct]").forEach(b=>b.onclick=async()=>{
@@ -5316,7 +5792,7 @@ docsInit();
   s.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js";
   s.onload=async()=>{
     AUTH.sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true}});
-    AUTH.sb.auth.onAuthStateChange(ev=>{ if(ev==="SIGNED_OUT"&&AUTH.staff){ AUTH.staff=null; showLogin("다시 로그인해주세요."); } });
+    AUTH.sb.auth.onAuthStateChange(ev=>{ if(ev==="SIGNED_OUT"&&AUTH.staff){ location.reload(); } });
     const {data:{session}}=await AUTH.sb.auth.getSession();
     if(session)await afterLogin(); else showLogin();
   };
