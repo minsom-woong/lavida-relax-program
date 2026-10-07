@@ -122,8 +122,11 @@
   .num .l{margin-top:6px;font-size:12px;font-weight:600;color:var(--mut2)}
 
   /* 강사별 5열 (파트장 오늘 화면) */
-  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+  /* 선생님이 1~2명이어도 3칸 너비로(폰처럼 좁게) · 4명 이상이면 그 수만큼 */
+  .cols{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr))}
+  @media(max-width:1100px){.cols{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}}
   .col{border-left:1px solid var(--line2);min-width:0}
+  .col:last-child{border-right:1px solid var(--line2)}
   .col:first-child{border-left:0}
   .colh{display:flex;align-items:center;justify-content:space-between;gap:6px;
     padding:9px 11px;background:var(--soft);border-bottom:1px solid var(--line2)}
@@ -176,7 +179,10 @@
   .prev span{font-weight:700;color:var(--fnt);margin-right:5px}
   .prev i{font-style:normal;color:var(--fnt)}
   .prev.none{color:var(--fnt);background:transparent;padding:0 2px}
-  .prev.mine{background:#eef5ee;display:flex;align-items:flex-start;gap:4px}
+  .prev.mine{display:flex;align-items:flex-start;gap:4px}
+  .prev.mine.new{background:#eef5ee}
+  .prev .tx{font-weight:400;color:var(--mut2);margin:0}
+  .prev em.dt{font-style:normal;font-weight:700;color:var(--fnt);margin-right:5px}
   .prev.mine .tx{flex:1;min-width:0}
   .prev .ed{flex:none;border:0;background:none;color:var(--fnt);cursor:pointer;font-size:11.5px;padding:0 3px;line-height:1.55}
   .prev .ed:hover{color:var(--navy)}
@@ -505,7 +511,7 @@
 <div class="page">
 <header>
   <div class="hbar">
-    <div class="brand"><b>릴렉싱 데스크</b><span>v103 · 10/7 만듦</span></div>
+    <div class="brand"><b>릴렉싱 데스크</b><span>v104 · 10/7 만듦</span></div>
     <div class="seg" id="who"></div>
     <div class="hright">
       <div class="srch"><i></i><input id="q" placeholder="회원 이름 검색" autocomplete="off"></div>
@@ -1046,28 +1052,32 @@ function saveMemoEdit(m,i,val){
   if(v!==z.t){ pushUndo("메모 수정 · "+m.name); z.t=v; m.notes=ns; logAct("메모 수정",m.name); save(); toast("메모를 고쳤어요."); }
   S.editMemo=null; render();
 }
-function memoMineLine(m,z,i){
-  const kindB=z.kind==="build"?'<b style="color:var(--navy)">빌드업</b> ':z.kind==="body"?'<b style="color:var(--mut)">몸</b> ':'';
+function memoMineLine(m,z,i,showDate){
+  const dt=showDate&&z.d?'<em class="dt">'+esc(String(z.d).slice(5))+'</em>':'';
+  const kindB=dt+(z.kind==="build"?'<b style="color:var(--navy)">빌드업</b> ':z.kind==="body"?'<b style="color:var(--mut)">몸</b> ':'');
   if(S.editMemo&&S.editMemo.m===m.id&&S.editMemo.i===i)
     return '<div class="prev editing">'+kindB+
       '<textarea rows="1" class="grow" data-a="memoedit" data-v="'+m.id+'" data-i="'+i+'" title="엔터: 저장 · Esc: 취소">'+esc(z.t)+'</textarea>'+
       '<button class="ed" data-a="savememoedit" data-v="'+m.id+'" data-i="'+i+'" title="저장">저장</button>'+
       '<button class="ed" data-a="canceledit" title="취소">취소</button></div>';
-  return '<div class="prev mine"><span class="tx">'+kindB+esc(z.t)+(z.by?' <i>· '+esc(z.by)+'</i>':'')+'</span>'+
+  const isNew=z.d===(S.viewDay||TODAY());   /* 오늘(보고 있는 날) 쓴 메모는 초록 */
+  return '<div class="prev mine'+(isNew?" new":"")+'"><span class="tx">'+kindB+esc(z.t)+(z.by?' <i>· '+esc(z.by)+'</i>':'')+'</span>'+
     (S.ro?'':'<button class="ed" data-a="startedit" data-v="'+m.id+'" data-i="'+i+'" title="고치기">✎</button>'+
              '<button class="ed" data-a="delmemo" data-v="'+m.id+'" data-i="'+i+'" title="지우기">✕</button>')+'</div>';
 }
 /* 카드의 메모 칸: 그날 이전의 지난 메모(종류별 최근 1개) + 그날 쓴 메모(바로 고치기) */
 function prevMemoHtml(m,day){
   day=day||TODAY();
+  return latestMemoLines(m,day);
+}
+/* 몸상태·빌드업 각각 가장 최근 1줄만 (그날까지 쓴 것 중). 새로 쓰면 그 줄이 새 메모로 바뀐다.
+   지난 메모든 오늘 메모든 그 줄에서 바로 고치고 지운다. 나머지는 회원 상세의 메모 기록에 있다. */
+function latestMemoLines(m,day){
   const ns=memos(m);
-  const b=ns.find(n=>n.kind==="body"&&n.d<day), u=ns.find(n=>n.kind==="build"&&n.d<day);
-  const line=n=>'<div class="prev"><span>'+esc(n.d.slice(5))+'</span>'+
-    (n.kind==="build"?'<b style="color:var(--navy)">빌드업</b> ':'<b style="color:var(--mut)">몸</b> ')+
-    esc(n.t)+(n.by?' <i>· '+esc(n.by)+'</i>':'')+'</div>';
-  const mine=ns.map((z,i)=>({z,i})).filter(o=>o.z.d===day).reverse().map(o=>memoMineLine(m,o.z,o.i)).join("");
-  if(!b&&!u&&!mine)return '<div class="prev none">지난 메모 없음</div>';
-  return (b?line(b):'')+(u?line(u):'')+mine;
+  const pick=f=>{ const i=ns.findIndex(n=>f(n)&&String(n.d||"")<=day); return i<0?null:{z:ns[i],i}; };
+  const b=pick(n=>n.kind==="body"), u=pick(n=>n.kind!=="body");
+  if(!b&&!u)return '<div class="prev none">지난 메모 없음</div>';
+  return (b?memoMineLine(m,b.z,b.i,true):'')+(u?memoMineLine(m,u.z,u.i,true):'');
 }
 /* 강사별 빌드업 메모 횟수·날짜 — 회원상세용, 횟수 많은 순 */
 function buildLog(m){
@@ -1718,7 +1728,7 @@ function viewTeam(){
 
 
   const allKeys=dayList(today).map(cardKey);
-  const foldedN=allKeys.filter(k=>S.folded&&S.folded[k]).length;
+  const foldedN=dayList(today).filter(x=>isFolded(x,today)).length;
   h+='<div class="card"><div class="chead"><b>오늘 수업 '+T.today+'명</b><span>강사별 · 시간순</span>'+
      '<span class="sp"></span>'+
      '<button class="btn sm gh" data-a="foldall" data-v="'+(foldedN>=allKeys.length&&allKeys.length?"open":"close")+'">'+
@@ -1730,7 +1740,7 @@ function viewTeam(){
     const cols=rows.concat(extra).filter(r=>r.cards.length);
     if(!cols.length)h+='<div class="empty">오늘 잡힌 수업이 없어요.</div>';
     else{
-    h+='<div class="cols">';
+    h+='<div class="cols" style="--n:'+Math.max(3,cols.length)+'">';
     cols.forEach(r=>{
       const sc=staffColor(r.s.name);
       const st=sc?' style="border-left:3px solid '+sc.b+';background:'+sc.bg+'"':'';
@@ -1804,7 +1814,7 @@ function viewHistory(day){
   const nf=list.filter(x=>isFolded(x,day)).length, allF=nf>=list.length;
   let h='<div class="card"><div class="chead"><b>'+day+' 수업</b><span>'+list.length+'명 · 강사별</span><span class="sp"></span>'+
     '<button class="btn sm gh" data-a="foldall" data-v="'+(allF?"open":"close")+'">'+(allF?"모두 펼치기":"모두 접기")+
-      (nf&&!allF?' ('+nf+'개 접힘)':'')+'</button></div><div class="cols">';
+      (nf&&!allF?' ('+nf+'개 접힘)':'')+'</button></div><div class="cols" style="--n:'+Math.max(3,Object.keys(groups).length)+'">';
   Object.values(groups).forEach(g=>{
     const sc=staffColor(g.name);
     const st=sc?' style="border-left:3px solid '+sc.b+';background:'+sc.bg+'"':'';
@@ -1894,6 +1904,7 @@ function histPassLines(m,day){
 }
 /* 그날까지 적힌 메모만 보여준다 */
 function histMemo(m,day){
+  return latestMemoLines(m,day);
   const ns=memos(m);
   const pick=k=>ns.filter(z=>(z.kind||"build")===k&&z.d<day)[0];
   const line=(n,lab,cls)=>n?'<div class="prev '+cls+'"><u>'+lab+'</u><span>'+esc(n.d.slice(5))+'</span>'+
@@ -1944,8 +1955,7 @@ function timeRange(x){
 const cardKey=x=>x.m.id+"@"+(x.time||"");
 /* 지난 날은 기본이 접힘 — 펼친 것만 적어둔다 (저장하지 않아 새로 열면 다시 접힌다) */
 const isFolded=(x,day)=>{ day=day||TODAY();
-  if(day===TODAY())return !!(S.folded&&S.folded[cardKey(x)]);
-  return !(S.unfold&&S.unfold[day+"|"+cardKey(x)]); };
+  return !(S.unfold&&S.unfold[day+"|"+cardKey(x)]); };   /* 수업메모 카드는 기본이 접힘 — 펼친 것만 기억 */
 function classCard(x,up){
   const m=x.m, hit=up&&up[m.id], o={slots:x.slots,usedUp:!!hit,usedDone:!!(hit&&hit.done),hideStaff:true};
   const owner=staffName(m);
@@ -2145,7 +2155,7 @@ function viewBuildList(){
     const ia=staffOrder.indexOf(a), ib=staffOrder.indexOf(b);
     return (ia<0?99:ia)-(ib<0?99:ib);
   });
-  h+='<div class="cols">';
+  h+='<div class="cols" style="--n:'+Math.max(3,order.length)+'">';
   order.forEach(k=>{
     const g=groups[k], sc=staffColor(g.name);
     const st=sc?' style="border-left:3px solid '+sc.b+';background:'+sc.bg+'"':'';
@@ -3920,20 +3930,13 @@ document.addEventListener("click",e=>{
   if(a==="untrash"&&m){ untrashMember(m); logAct("휴지통에서 꺼냄",m.name); save(); render(); toast("보드로 되돌렸어요."); return; }
   if(a==="fold"){
     const day=t.dataset.day;
-    if(day&&day!==TODAY()){ S.unfold=S.unfold||{}; const k=day+"|"+v; if(S.unfold[k])delete S.unfold[k]; else S.unfold[k]=1; render(); return; }
-    S.folded=S.folded||{};
-    if(S.folded[v])delete S.folded[v]; else S.folded[v]=1;
-    save(); render(); return;
+    { const d=day||S.viewDay||TODAY(); S.unfold=S.unfold||{}; const k=d+"|"+v; if(S.unfold[k])delete S.unfold[k]; else S.unfold[k]=1; render(); return; }
   }
   if(a==="foldall"){
     const day=S.viewDay||TODAY();
     const keys=dayList(day).map(cardKey);
-    if(day!==TODAY()){ S.unfold=S.unfold||{};
-      keys.forEach(k=>{ if(v==="open")S.unfold[day+"|"+k]=1; else delete S.unfold[day+"|"+k]; }); render(); return; }
-    S.folded=S.folded||{};
-    if(v==="open")keys.forEach(k=>delete S.folded[k]);
-    else keys.forEach(k=>S.folded[k]=1);
-    save(); render(); return;
+    S.unfold=S.unfold||{};
+    keys.forEach(k=>{ if(v==="open")S.unfold[day+"|"+k]=1; else delete S.unfold[day+"|"+k]; }); render(); return;
   }
   if(a==="mdayback"||a==="mdayfwd"||a==="mdaynow"){
     const t=TODAY();
