@@ -590,7 +590,7 @@
 <div class="page">
 <header>
   <div class="hbar">
-    <div class="brand"><b>릴렉싱 데스크</b><span>v112 · 10/13 만듦</span></div>
+    <div class="brand"><b>릴렉싱 데스크</b><span>v113 · 10/13 만듦</span></div>
     <div class="seg" id="who"></div>
     <div class="hright">
       <div class="srch"><i></i><input id="q" placeholder="회원 이름 검색" autocomplete="off"></div>
@@ -1757,6 +1757,7 @@ const TABS=[
   {k:"suggest", label:"책임자 추천", main:true, tab:"members", filter:"suggest"},
   {k:"board",   label:"예측",      main:true},
   {k:"gone",    label:"잊혀진 회원", main:true, tab:"members", filter:"gone"},
+  {k:"slot",    label:"오는 시간", main:true},
   {k:"members", label:"회원"},
   {k:"trial",   label:"체험"},
   {k:"stats",   label:"현황"},
@@ -1837,6 +1838,8 @@ function render(){
   else if(S.tab==="settings")m.innerHTML=L+viewSettings();
   else if(S.tab==="trial")m.innerHTML=L+viewTrial();
   else if(S.tab==="renew")m.innerHTML=L+viewRenew();
+  else if(S.tab==="slot")m.innerHTML=L+'<div class="stack"><div class="card"><div class="chead"><b>오는 시간</b>'+
+    '<span>최근 '+SLOT_WEEKS+'주 방문 기록 · 칸을 누르면 그 시간에 온 회원, 회원을 누르면 그 회원이 오는 시간</span></div>'+viewSlot()+'</div></div>';
   else m.innerHTML=L+viewStats();
   if(S.openId)paintDrawer();
   paintDocs(); paintDocFull();
@@ -2377,7 +2380,7 @@ function viewMine(){
 }
 
 /* ── 회원 ── */
-const FILTERS=[["all","전체"],["suggest","책임자 추천"],["slot","오는 시간"],["build","빌드업 목록"],
+const FILTERS=[["all","전체"],["suggest","책임자 추천"],["build","빌드업 목록"],
   ["nostaff","책임자 없음"],["talk","재등록"],["gone","잊혀진 회원"],["trash","휴지통"]];
 /* ── 빈 타임 채우기 ──
    갑자기 빈 칸이 생겼을 때, 그 요일·시간대에 올 만한 회원을 줄 세운다.
@@ -2640,7 +2643,7 @@ function viewMembers(){
     (S.me?"":'<button class="btn sm hide-ro" data-a="autostaff">책임자 자동 지정</button>'+
       '<button class="btn sm hide-ro" data-a="addstaff">강사 추가</button>')+'</div>';
   if(S.mFilter==="suggest")return h+viewSuggest()+'</div></div>';
-  if(S.mFilter==="slot")return h+viewSlot()+'</div></div>';
+  if(S.mFilter==="slot"){ S.mFilter="all"; return viewMembers(); }   /* 오는 시간은 대표 탭으로 옮겼다 */
   if(S.mFilter==="build")return h+viewBuildList()+'</div></div>';
   const l=memberList();
   if(!l.length)return h+'<div class="empty">해당하는 회원이 없어요.</div></div></div>';
@@ -4459,7 +4462,7 @@ document.addEventListener("click",e=>{
   /* 이름으로 찾기 · 상세에서 넘어오기 — 그 회원이 가장 많이 온 칸을 같이 고른다 */
   if(a==="slotpick"||a==="slotgo"){ const mm=byId(S.members,v); if(!mm)return;
     S.slotM=v; S.slotQ=""; const ms=memberSlots(mm); if(ms.top){ const p=ms.top.split("|"); S.slotW=+p[0]; S.slotH=+p[1]; }
-    if(a==="slotgo"){ closeDrawer(); S.tab="members"; S.mFilter="slot"; }
+    if(a==="slotgo"){ closeDrawer(); S.tab="slot"; }
     render(); window.scrollTo(0,0); return; }
   if(a==="filter"){ S.mFilter=v; render(); return; }
   if(a==="filter2"){ S.mFilter=v; S.tab="members"; render(); return; }
