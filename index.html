@@ -139,6 +139,20 @@
   .bmiss.wait{border-color:var(--line);color:var(--mut2);font-weight:600}
   .bbad{color:var(--red)!important;font-weight:800} .bok{color:var(--green)!important;font-weight:800}
   .bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0}
+  /* 날짜 줄 — 날짜 이동 · 영업일수 · 빌드업 점검 한 줄을 한 카드에 */
+  .topbar{padding:0}
+  .tbr{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:9px 14px}
+  .tbw{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--mut2)}
+  .tbw input{width:56px;height:28px;padding:0 8px;border:1px solid var(--line);border-radius:6px;font-size:13px}
+  .tbw i{font-style:normal;font-size:11.5px;color:var(--fnt)}
+  .bcrow{display:flex;align-items:center;gap:6px 12px;flex-wrap:wrap;padding:8px 14px;border-top:1px solid var(--line2);font-size:12.5px}
+  .bcrow>b{font-size:13px;font-weight:800}
+  .bcn{color:var(--mut2)}
+  .bcg{color:var(--mut);padding:1px 8px;border-radius:9px;background:var(--fill)}
+  .bcm{color:var(--red);display:inline-flex;align-items:center;gap:4px;flex-wrap:wrap}
+  .bcm button{font-size:12px;font-weight:700;color:var(--red);padding:1px 7px;border-radius:9px;background:#fdecea}
+  .bcm button:hover{text-decoration:underline}
+  .bcw{color:var(--fnt)}
 .ico{flex:none;width:26px;height:26px;border-radius:6px;border:1px solid var(--edge);
     background:var(--sf);color:var(--fnt);font-size:15px;line-height:1}
   .ico:hover{border-color:var(--red);color:var(--red)}
@@ -590,7 +604,7 @@
 <div class="page">
 <header>
   <div class="hbar">
-    <div class="brand"><b>릴렉싱 데스크</b><span>v113 · 10/13 만듦</span></div>
+    <div class="brand"><b>릴렉싱 데스크</b><span>v114 · 10/14 만듦</span></div>
     <div class="seg" id="who"></div>
     <div class="hright">
       <div class="srch"><i></i><input id="q" placeholder="회원 이름 검색" autocomplete="off"></div>
@@ -1957,15 +1971,7 @@ function viewTeam(){
 
   if(!S.members.length)return firstRun();
 
-  let h='<div class="stack">'+dateNav(today);
-
-  h+='<div class="card" style="padding:9px 14px"><div style="display:flex;align-items:center;gap:8px">'+
-    '<span style="font-size:12.5px;color:var(--mut2)">이번 달 영업일수</span>'+
-    '<input id="workdays" type="number" min="1" max="31" value="'+(S.workDays||"")+'" placeholder="예: 20" '+(S.ro?'disabled ':'')+
-    'style="width:64px;height:28px;padding:0 8px;border:1px solid var(--line);border-radius:6px;font-size:13px">'+
-    (S.workDays?'<span style="font-size:11.5px;color:var(--fnt)">직접 넣은 값을 씁니다</span>'
-      :'<span style="font-size:11.5px;color:var(--fnt)">비워두면 수업 기록에서 자동으로 셉니다 — 지금 '+openDaysAuto(ymOf(new Date()))+'일</span>')+
-    '</div></div>';
+  let h='<div class="stack">'+dateNav(today,{work:true});
 
   /* 책임자 안내는 회원 탭에서 봅니다 */
   h+=buildCheckHtml(today);
@@ -2024,16 +2030,23 @@ function viewTeam(){
   return h+'</div>';
 }
 /* 날짜 이동 바 — 오늘이 아니면 '오늘로' 버튼과 안내를 더 보여준다 */
-function dateNav(day){
+function dateNav(day,opt){
+  opt=opt||{};
   const isToday=day===TODAY();
-  return '<div class="card" style="padding:9px 14px"><div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">'+
+  let h='<div class="card topbar"><div class="tbr">'+
     '<button class="btn sm gh" data-a="dnav" data-v="prev">◀ 전날</button>'+
     '<input type="date" class="sel" style="width:auto" value="'+day+'" data-a="dpick" max="'+maxDay()+'">'+
     '<button class="btn sm gh" data-a="dnav" data-v="next"'+(day>=maxDay()?' disabled':'')+'>다음날 ▶</button>'+
     (isToday?'':'<button class="btn sm navy" data-a="dnav" data-v="today">오늘로</button>')+
     (isToday?'':(day>TODAY()?'<span class="tag o">미리보기 · 예정된 수업이에요(메모는 그날부터 적어요)</span>'
-      :'<span class="tag o">지난 기록 · 시간표만 보여요</span>'))+
-    '</div></div>';
+      :'<span class="tag o">지난 기록 · 시간표만 보여요</span>'));
+  /* 영업일수 — 파트장 화면의 오늘에만. 날짜 줄 오른쪽에 붙여 칸 하나를 줄였다 */
+  if(opt.work)h+='<span class="tbw"><span>이번 달 영업일수</span>'+
+    '<input id="workdays" type="number" min="1" max="31" value="'+(S.workDays||"")+'" placeholder="'+openDaysAuto(ymOf(new Date()))+'" '+(S.ro?'disabled ':'')+'>'+
+    '<i>'+(S.workDays?'직접 넣은 값':'비우면 자동 '+openDaysAuto(ymOf(new Date()))+'일')+'</i></span>';
+  h+='</div>';
+  if(day<=TODAY()&&S.members.length)h+=bcSummary(day);
+  return h+'</div>';
 }
 /* 오늘이 아닌 날짜의 시간표 — 상태 태그 없이 그날 수업만 간단히 */
 function viewHistory(day){
@@ -2228,17 +2241,33 @@ function checkCard(it,tName,day){
   if(!S.ro)h+='<textarea class="memo" rows="1" data-a="memo" data-v="'+m.id+'" data-kind="build" data-teacher="'+esc(tName||"")+'" data-day="'+day+'" placeholder="빌드업 (엔터)"></textarea>';
   return h+'</div>';
 }
-function buildCheckHtml(day){
-  if(day>TODAY()||!S.members.length)return "";
+/* 접힌 상태의 한 줄 — 강사별 적은 수, 아직 안 적은 회원 이름(누르면 회원 상세) */
+function bcSummary(day){
   const bc=buildCheck(day), me=S.me?byId(S.staff,S.me):null;
   const list=me?bc.list.filter(g=>g.id===me.id):bc.list;
   const total=list.reduce((a,g)=>a+g.items.length,0), done=list.reduce((a,g)=>a+g.done,0);
   const dl=day===TODAY()?"오늘":fmtMD(day);
-  let h='<div class="card bchk"><div class="chead"><b>빌드업 점검</b>'+
-    '<span>'+dl+' 수업한 재등록대상자 '+total+'명 · 빌드업 <b class="'+(done<total?"bbad":"bok")+'">'+done+'명</b> 적음</span>'+
-    (total?'<span class="sp"></span><button class="btn sm gh" data-a="bcfold">'+(S.bcFold?"펼치기":"접기")+'</button>':'')+'</div>';
-  if(!total)return h+'<div class="empty" style="padding:14px">'+dl+'은 재등록대상자 수업이 없어요.</div></div>';
-  if(S.bcFold)return h+'</div>';
+  if(!total)return '<div class="bcrow"><b>빌드업 점검</b><span class="bcn">'+dl+'은 재등록대상자 수업이 없어요</span></div>';
+  const now=new Date(), nowMin=now.getHours()*60+now.getMinutes(), isToday=day===TODAY();
+  const miss=[]; let wait=0;
+  list.forEach(g=>g.items.forEach(it=>{ if(it.today.length)return;
+    if(isToday&&bcEndMin(it.x)>nowMin)wait++; else miss.push(it.x.m); }));
+  return '<div class="bcrow"><b>빌드업 점검</b>'+
+    '<span class="bcn">'+dl+' 재등록대상자 '+total+'명 중 <b class="'+(done<total?"bbad":"bok")+'">'+done+'명</b> 적음</span>'+
+    (me?'':list.map(g=>'<span class="bcg">'+esc(g.name)+' <b class="'+(g.done<g.items.length?"bbad":"bok")+'">'+g.done+'/'+g.items.length+'</b></span>').join(''))+
+    (miss.length?'<span class="bcm">안 적음 '+miss.slice(0,8).map(m=>'<button data-a="open" data-v="'+m.id+'">'+esc(m.name)+'</button>').join('')+
+      (miss.length>8?' 외 '+(miss.length-8)+'명':'')+'</span>':'')+
+    (wait?'<span class="bcw">수업 전 '+wait+'명</span>':'')+
+    '<span class="sp" style="flex:1"></span><button class="btn sm gh" data-a="bcfold">'+(S.bcOpen?"접기":"펼쳐서 보기")+'</button></div>';
+}
+/* 펼쳤을 때만 카드로 — 기본은 접힘 */
+function buildCheckHtml(day){
+  if(!S.bcOpen||day>TODAY()||!S.members.length)return "";
+  const bc=buildCheck(day), me=S.me?byId(S.staff,S.me):null;
+  const list=me?bc.list.filter(g=>g.id===me.id):bc.list;
+  const total=list.reduce((a,g)=>a+g.items.length,0);
+  if(!total)return "";
+  let h='<div class="card bchk">';
   if(me){
     h+='<div class="bgrid">';
     list.forEach(g=>g.items.forEach(it=>{ h+=checkCard(it,g.name,day); }));
@@ -4469,7 +4498,7 @@ document.addEventListener("click",e=>{
   if(a==="more"){ if(v==="search"){ S.moreSearch=true; render(); return; } if(v==="call")S.moreCall=true; else S.moreTalk=true; render(); return; }
   if(a==="open"){ openDrawer(v); return; }
   if(a==="ctdown"){ const n=contactExport(v); toast(ymLabel(v)+" 컨택 대상 "+n+"명 엑셀을 받았어요."); return; }
-  if(a==="bcfold"){ S.bcFold=!S.bcFold; render(); return; }
+  if(a==="bcfold"){ S.bcOpen=!S.bcOpen; render(); return; }
   if(a==="close"){ closeDrawer(); return; }
   if(a==="closepop"){ closePop(); return; }
 
