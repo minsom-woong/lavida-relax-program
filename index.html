@@ -91,6 +91,16 @@
   .tag.g{background:var(--greenBg);color:var(--green)}
   .tag.r{background:var(--redBg);color:var(--red)}
   .tag.o{background:var(--orangeBg);color:var(--orange)}
+  /* 수업 메모 자동 펼침 — 다음/지금/방금 끝남 */
+  .tag.nx{background:var(--navy);color:#fff} .tag.nx i{font-style:normal}
+  .tag.nw{background:var(--green);color:#fff}
+  .tag.af{background:var(--orangeBg);color:var(--orange)}
+  .row.auto,.mini.auto{box-shadow:inset 3px 0 0 var(--navy)}
+  .row.auto.now,.mini.auto.now{box-shadow:inset 3px 0 0 var(--green)}
+  .row.auto.after,.mini.auto.after{box-shadow:inset 3px 0 0 var(--orange)}
+  .nowline{display:flex;align-items:center;gap:8px;padding:3px 18px;font-size:11px;font-weight:800;color:var(--red)}
+  .nowline::after{content:"";flex:1;border-top:1.5px solid var(--red);opacity:.55}
+  .col .nowline{padding:3px 11px}
   .tag.n{background:var(--fill2);color:var(--mut2);font-weight:600}
 .dpick{width:26px;height:24px;padding:0;border:1px solid var(--edge);border-radius:5px;
     background:var(--sf);font-size:13px;line-height:22px;text-align:center;cursor:pointer;position:relative;display:inline-block}
@@ -153,6 +163,39 @@
   .bcm button{font-size:12px;font-weight:700;color:var(--red);padding:1px 7px;border-radius:9px;background:#fdecea}
   .bcm button:hover{text-decoration:underline}
   .bcw{color:var(--fnt)}
+  /* 기간 만료 */
+  .xsec{border-top:1px solid var(--line2)}
+  .xsec:first-of-type{border-top:0}
+  .xh{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px;padding:14px 18px 10px}
+  .xh b{font-size:14.5px;font-weight:800}
+  .xh span{font-size:12px;color:var(--fnt)}
+  .xleg{margin-left:auto;display:inline-flex;align-items:center;gap:6px}
+  .xleg i{display:inline-block;width:14px;height:6px;border-radius:3px}
+  .xleg i.u,.xbar i.u{background:#b9c7da} .xleg i.l,.xbar i.l{background:var(--red)}
+  .xr{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:14px;align-items:center;padding:11px 18px;border-top:1px solid var(--line3)}
+  .xd{display:flex;flex-direction:column;gap:1px}
+  .xd b{font-size:17px;font-weight:800;color:var(--mut);font-variant-numeric:tabular-nums}
+  .xd i{font-style:normal;font-size:11px;color:var(--fnt)}
+  .xd.hot b{color:var(--red)} .xd.past b{color:var(--fnt)}
+  .xb{min-width:0;display:flex;flex-direction:column;gap:5px}
+  .x1{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .xn{font-size:14px;font-weight:700}
+  .xp{font-size:12.5px;color:var(--mut)}
+  .xbar{display:flex;height:6px;border-radius:3px;overflow:hidden;max-width:360px;background:var(--line2)}
+  .xbar i{display:block;height:100%}
+  .xm{font-size:12px;color:var(--mut2)}
+  .xl{color:var(--red);font-weight:800}
+  .xc{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--mut2);white-space:nowrap}
+  /* 만료·소진위험 · 잊혀진 회원 줄 */
+  .xr.click{cursor:pointer} .xr.click:hover{background:var(--soft)}
+  .xr.done{opacity:.6}
+  .xp b{color:var(--ink)}
+  .xsub{padding:7px 18px;font-size:12px;font-weight:800;color:var(--mut);background:var(--soft);border-top:1px solid var(--line3)}
+  .x4{font-size:12px;color:var(--mut2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .x4 b{color:var(--mut);font-weight:700} .x4 em{font-style:normal;font-weight:700;color:var(--navy)} .x4 i{font-style:normal;color:var(--fnt)}
+  .x4.none{color:var(--fnt)}
+  .fbadge{font-size:11px;font-weight:700;opacity:.75}
+  @media(max-width:900px){.xr{grid-template-columns:80px minmax(0,1fr)}.xc{grid-column:2}}
 .ico{flex:none;width:26px;height:26px;border-radius:6px;border:1px solid var(--edge);
     background:var(--sf);color:var(--fnt);font-size:15px;line-height:1}
   .ico:hover{border-color:var(--red);color:var(--red)}
@@ -604,7 +647,7 @@
 <div class="page">
 <header>
   <div class="hbar">
-    <div class="brand"><b>릴렉싱 데스크</b><span>v114 · 10/14 만듦</span></div>
+    <div class="brand"><b>릴렉싱 데스크</b><span>v117 · 10/21 만듦</span></div>
     <div class="seg" id="who"></div>
     <div class="hright">
       <div class="srch"><i></i><input id="q" placeholder="회원 이름 검색" autocomplete="off"></div>
@@ -995,8 +1038,14 @@ function needTalk(m){
   return isRegTarget(m);
 }
 /* 잊혀진 회원 — 오래 안 왔는데 아무도 연락하지 않은 사람.
-   연락했다고 표시하면 목록에서 빠진다. 다시 안 오고 날이 더 지나도 그대로다. */
-function isForgotten(m){ return isGone(m)&&!doneMark(m,"call"); }
+   연락함을 누르면 14일(RETRY) 동안 빠지고, 그래도 안 오면 다시 올라온다.
+   1회 체험권만 있는 회원, 앞으로 예약이 잡힌 회원은 뺀다. */
+const GONE_FAR=60;   /* 이 날수부터는 '60일 넘게 안 온 회원'으로 접어 둔다 */
+const bookedAhead=m=>{ const t=TODAY(); return (m.att||[]).some(a=>a.date>=t); };
+const oneShotOnly=m=>{ const a=alive(m); return a.length>0&&a.every(p=>(+p.total||0)<=1); };
+function isForgotten(m){ return isGone(m)&&!doneMark(m,"call")&&!oneShotOnly(m)&&!bookedAhead(m); }
+/* 연락할 회원 — 잊혀진 회원 중 60일이 안 된 사람. 메뉴 배지·강사별 숫자는 이것만 센다 */
+const forgotNear=m=>isForgotten(m)&&gapDays(m)<GONE_FAR;
 function isGone(m){
   if(m.trashed)return false;
   const g=gapDays(m); return g!==null&&g>=S.goneDays;
@@ -1802,7 +1851,7 @@ function counts(){
   const l=mine(live());
   return {
     talk:l.filter(m=>needTalk(m)&&!doneMark(m,"talk")).length,
-    call:l.filter(m=>isGone(m)&&!doneMark(m,"call")).length,
+    call:l.filter(forgotNear).length,
     noStaff:S.me?0:live().filter(m=>!m.staffId).length
   };
 }
@@ -1841,6 +1890,7 @@ function paintHead(){
   if(q)q.placeholder="회원 이름 검색 ("+live().length+"명)";
 }
 function render(){
+  if(S.tab==="expire"){ S.tab="members"; S.mFilter="expire"; }   /* v117 — 기간 만료는 회원 안 필터로 옮겼다 */
   paintUndo();
   clearCache(); paintHead();
   const m=$("main");
@@ -1859,7 +1909,58 @@ function render(){
   paintDocs(); paintDocFull();
   if(S.tab==="trial"&&!S.q.trim())trialPadInit();
   growAll($("main")); growAll($("drawer"));
+  autoJumpCheck();
 }
+
+/* ── 수업 메모 — 시간 따라 다시 그리기 ──
+   수업 메모를 열면(탭·강사·오늘로 바꿀 때) 자동으로 펼친 카드가 보이게 한 번 내려간다.
+   그 뒤로는 1분 단위로 단계(다음/지금/끝남)를 보고, 바뀌었을 때만 다시 그린다.
+   메모를 쓰는 중이거나 회원 상세가 열려 있으면 기다린다. 다시 그려도 보던 카드 위치는 그대로 둔다. */
+function autoJumpCheck(){
+  const ctx=S.tab+"|"+(S.me||"")+"|"+(S.viewDay||"")+"|"+(S.q.trim()?"q":"");
+  if(ctx!==S._jumpCtx){ S._jumpCtx=ctx; S._jumpPend=(S.tab==="today"&&!S.viewDay&&!S.q.trim()); }
+  if(!S._jumpPend||!S.members.length)return;      /* 자료가 아직이면 다음 그리기 때 */
+  /* 페이지를 막 여는 중이면 다 열린 뒤에 — 새로고침 때 브라우저가 옛 위치로 되돌리는 것도 막는다 */
+  if(document.readyState!=="complete"){ if(!S._jumpWait){ S._jumpWait=1; window.addEventListener("load",()=>{ S._jumpWait=0; setTimeout(autoJumpCheck,60); },{once:true}); } return; }
+  const els=[...document.querySelectorAll("#main [data-auto]")];
+  const rs=els.map(e=>e.getBoundingClientRect());
+  if(els.length&&rs.every(r=>!r.height))return;   /* 아직 화면에 안 보임(로그인 화면 등) — 다음 그리기 때 */
+  S._jumpPend=false; if(!els.length)return;
+  const hd=(document.querySelector("header")||{}).offsetHeight||0;
+  const top=Math.min(...rs.map(r=>r.top)), bot=Math.max(...rs.map(r=>r.bottom));
+  if(top>=hd&&bot<=innerHeight)return;            /* 이미 다 보이면 그대로 */
+  window.scrollTo(0,Math.max(0,top+scrollY-hd-12));
+}
+function autoBusy(){
+  const a=document.activeElement;
+  if(a&&/^(TEXTAREA|INPUT|SELECT)$/.test(a.tagName)&&a.closest&&a.closest("#main,#drawer,#docpane,#pop"))return true;
+  if(S.openId||S.editMemo||$("pop").classList.contains("on"))return true;
+  return [...document.querySelectorAll("#main textarea")].some(t=>String(t.value||"").trim());
+}
+function renderKeep(){
+  const hd=(document.querySelector("header")||{}).offsetHeight||0;
+  let anc=null, off=0, best=Infinity;
+  document.querySelectorAll("#main [data-ck]").forEach(el=>{ const r=el.getBoundingClientRect();
+    if(r.bottom>hd&&r.top<innerHeight&&Math.abs(r.top-hd)<best){ best=Math.abs(r.top-hd); anc=el.dataset.ck; off=r.top; } });
+  render();
+  if(!anc)return;
+  const el=[...document.querySelectorAll("#main [data-ck]")].find(e=>e.dataset.ck===anc); if(!el)return;
+  const d=el.getBoundingClientRect().top-off; if(Math.abs(d)>1)window.scrollBy(0,d);
+}
+function paintClock(){
+  const n=nowMin();
+  document.querySelectorAll("#main [data-cd]").forEach(el=>{ el.textContent=untilText(+el.dataset.cd-n); });
+  document.querySelectorAll("#main [data-now]").forEach(el=>{ el.textContent="지금 "+minTo(n); });
+}
+function autoTick(){
+  if(document.hidden||!S.members.length||S.tab!=="today"||S.viewDay||S.q.trim())return;
+  if(apSig(TODAY())!==S._apSig){ if(autoBusy())return; renderKeep(); return; }
+  paintClock();
+}
+if("scrollRestoration" in history)history.scrollRestoration="manual";
+setInterval(autoTick,20000);
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden)autoTick(); });
+document.addEventListener("focusout",()=>setTimeout(autoTick,120));
 
 /* ── 공통 조각 ── */
 function numCard(v,label,tone,go){
@@ -1918,12 +2019,16 @@ function rowHtml(m,o){
   o=o||{};
   const done=o.mark?doneMark(m,o.mark):false;
   const fx=o.foldX, fday=o.foldDay, fold=fx?isFolded(fx,fday):false; o.fold=fold;
-  let h='<div class="row '+(done?"done":toneOf(m,o))+(fold?" fold":"")+'">'+
+  const ap=fx?autoPhases(fday)[cardKey(fx)]:null;
+  let h='<div class="row '+(done?"done":toneOf(m,o))+(fold?" fold":"")+(ap?" auto "+ap.ph:"")+'"'+
+      (fx?' data-ck="'+esc(fday+"|"+cardKey(fx))+'"':'')+(ap?' data-auto="'+ap.ph+'"':'')+'>'+
     '<div class="tm">'+(o.time?'<b>'+esc(o.time)+'</b><i>'+blockMinOf({m,time:o.time,end:o.end,slots:o.slots})+'분</i>'
       :(o.badge||'<b style="color:var(--fnt)">–</b>'))+'</div>'+
     '<div class="mid">'+
-      '<div class="nm"><button data-a="open" data-v="'+m.id+'">'+esc(m.name)+'</button>'+tagsOf(m,o)+
+      '<div class="nm"><button data-a="open" data-v="'+m.id+'">'+esc(m.name)+'</button>'+autoBadge(ap)+tagsOf(m,o)+
+        (fx?buildTag(fx,fday):"")+
         (fold&&o.memoN?'<span class="tag g">메모 '+o.memoN+'</span>':"")+
+        (fx?memoMissTag(fx,fday,fold,o.memoN):"")+
         (fx?'<button class="rfold" data-a="fold" data-v="'+esc(cardKey(fx))+'" data-day="'+fday+'" title="'+(fold?"펼치기":"접기")+'">'+(fold?"▾":"▴")+'</button>':"")+'</div>';
   if(!fold)h+='<div class="fa">'+factLine(m)+'</div>'+
       (o.showPasses?passLines(m,o.endingPass):'')+
@@ -1956,7 +2061,7 @@ function viewTeam(){
   const rows=S.staff.filter(staffRowVisible).map(s=>{
     const l=live().filter(m=>m.staffId===s.id);
     const talk=l.filter(m=>needTalk(m)&&!doneMark(m,"talk"));
-    const call=l.filter(m=>isGone(m)&&!doneMark(m,"call"));
+    const call=l.filter(forgotNear);
     const todo=talk.concat(call);
     const bg=buildCheck(today).list.find(g=>g.id===s.id)||{done:0,items:[]};
     return {s,n:l.length,cards:(dayg[s.id]||[]),talk:talk.length,call:call.length,
@@ -2001,13 +2106,16 @@ function viewTeam(){
                :'<button>'+esc(r.s.name)+'<span class="tag o" style="margin-left:5px">목록 없음</span></button>')+
         '<span>'+r.cards.length+'명'+(r.n!==null?' · 책임 '+r.n:'')+'</span>'+
         '<span style="display:block;margin-top:2px">오늘 '+tc+'회'+(avg!==null?' · 하루평균 '+avg+'회':'')+'</span></div>';
-      r.cards.forEach(x=>{h+=classCard(x,up);});
+      { const n=nowMin(); let lined=false;
+        r.cards.forEach(x=>{ if(!lined&&x.time&&toMin(x.time)>n){ h+=nowLine(); lined=true; } h+=classCard(x,up); });
+        if(!lined&&r.cards.some(x=>x.time))h+=nowLine(); }
       h+='</div>';
     });
     h+='</div>';
     }
   }
   h+='</div>';
+  S._apSig=apSig(today);
 
   h+='<div class="card"><div class="chead"><b>강사별 관리 상태</b>'+
      '<span>빌드업 = 오늘 수업한 재등록대상자 중 빌드업을 적은 수</span></div>'+
@@ -2298,7 +2406,7 @@ function histCard(x,teacherName,day){
       (owner?'<em class="own'+(same?" me":"")+'">책임 '+esc(owner)+'</em>':'<em class="own no">책임자 없음</em>')+
       '<button class="fold" data-a="fold" data-v="'+esc(cardKey(x))+'" data-day="'+day+'">'+(fold?"▾":"▴")+'</button></div>'+
     '<div class="n"><button data-a="open" data-v="'+m.id+'">'+esc(m.name)+'</button>'+histTags(m,day,true)+
-      (fold&&memoN?'<span class="tag g">메모 '+memoN+'</span>':"")+'</div>'+
+      (fold&&memoN?'<span class="tag g">메모 '+memoN+'</span>':"")+memoMissTag(x,day,fold,memoN)+'</div>'+
     (fold?"":histPassLines(m,day)+histMemo(m,day)+
     ((S.ro||day>TODAY())?"":'<textarea class="memo" rows="1" data-a="memo" data-v="'+m.id+'" data-kind="body" data-teacher="'+esc(teacherName||"")+'" data-day="'+day+'" placeholder="몸상태"></textarea>'+
              '<textarea class="memo" rows="1" data-a="memo" data-v="'+m.id+'" data-kind="build" data-teacher="'+esc(teacherName||"")+'" data-day="'+day+'" placeholder="빌드업" style="margin-top:4px"></textarea>'))+
@@ -2310,7 +2418,7 @@ function histRow(x,day){
   const memoN=memos(m).filter(z=>z.d===day).length;
   return '<div class="row'+(target?" r":"")+(fold?" fold":"")+'"><div class="tm"><b>'+esc(x.time||"–")+'</b><i>'+blockMinOf(x)+'분</i></div>'+
     '<div class="mid"><div class="nm"><button data-a="open" data-v="'+m.id+'">'+esc(m.name)+'</button>'+histTags(m,day,true)+
-      (fold&&memoN?'<span class="tag g">메모 '+memoN+'</span>':"")+
+      (fold&&memoN?'<span class="tag g">메모 '+memoN+'</span>':"")+memoMissTag(x,day,fold,memoN)+
       '<button class="rfold" data-a="fold" data-v="'+esc(cardKey(x))+'" data-day="'+day+'" title="'+(fold?"펼치기":"접기")+'">'+(fold?"▾":"▴")+'</button></div>'+
     (fold?"":histPassLines(m,day)+histMemo(m,day)+
     ((S.ro||day>TODAY())?"":'<textarea class="memo" rows="1" data-a="memo" data-v="'+m.id+'" data-kind="body" data-day="'+day+'" placeholder="몸상태"></textarea>'+
@@ -2325,23 +2433,87 @@ function timeRange(x){
 /* 접힌 카드 기억 — 기본은 펼침, 접은 것만 적어둔다 */
 const cardKey=x=>x.m.id+"@"+(x.time||"");
 /* 지난 날은 기본이 접힘 — 펼친 것만 적어둔다 (저장하지 않아 새로 열면 다시 접힌다) */
-const isFolded=(x,day)=>{ day=day||TODAY();
-  return !(S.unfold&&S.unfold[day+"|"+cardKey(x)]); };   /* 수업메모 카드는 기본이 접힘 — 펼친 것만 기억 */
+/* 수업메모 카드는 기본이 접힘 — 펼친 것만 기억.
+   오늘은 시간에 맞춰 자동으로 펼친다(아래 autoPhases). 손으로 접으면 그 단계 동안만 접혀 있고,
+   단계가 바뀌면(다음 → 지금 → 끝남) 다시 펼친다. */
+const isFolded=(x,day)=>{ day=day||TODAY(); const k=day+"|"+cardKey(x);
+  if(S.unfold&&S.unfold[k])return false;
+  const a=autoPhases(day)[cardKey(x)];
+  if(a)return !!(S.fold&&S.fold[k]===a.ph);
+  return true; };
+
+/* ── 수업 메모 자동 펼침 ──
+   오늘 화면에서만, 강사마다 따로 본다.
+   다음 수업(가장 가까운 1개) · 지금 하는 수업 · 끝나고 15분 안 된 수업(메모 적을 시간).
+   시간이 없는 수업은 건드리지 않는다. */
+const AUTO_AFTER=15;
+const nowMin=()=>{ const d=new Date(); return d.getHours()*60+d.getMinutes(); };
+function autoPhases(day){
+  if(day!==TODAY())return {};
+  return cache("ap",day+"|"+nowMin(),()=>{
+    const n=nowMin(), out={}, by={};
+    dayList(day).forEach(x=>{ if(!x.time)return; const k=normName(x.teacher||""); (by[k]=by[k]||[]).push(x); });
+    Object.keys(by).forEach(t=>{
+      const l=by[t]; let nextAt=null;
+      l.forEach(x=>{ const s=toMin(x.time), e=bcEndMin(x), k=cardKey(x);
+        if(s<=n&&n<e)out[k]={ph:"now",s,e};
+        else if(e<=n&&n<e+AUTO_AFTER)out[k]={ph:"after",s,e};
+        else if(s>n&&(nextAt===null||s<nextAt))nextAt=s; });
+      if(nextAt!==null)l.forEach(x=>{ const k=cardKey(x); if(toMin(x.time)===nextAt&&!out[k])out[k]={ph:"next",s:nextAt,e:bcEndMin(x)}; });
+    });
+    return out;
+  });
+}
+/* 단계 묶음 — 이게 바뀌면 화면을 다시 그린다 */
+function apSig(day){ const a=autoPhases(day); return day+"|"+Object.keys(a).sort().map(k=>k+":"+a[k].ph).join(","); }
+function untilText(d){
+  if(d<=0)return "곧 시작";
+  if(d<60)return d+"분 뒤";
+  const h=Math.floor(d/60), r=d%60; return h+"시간"+(r?" "+r+"분":"")+" 뒤";
+}
+/* 카드에 붙는 단계 표시 */
+function autoBadge(a){
+  if(!a)return "";
+  if(a.ph==="next")return '<span class="tag nx">다음 · <i data-cd="'+a.s+'">'+untilText(a.s-nowMin())+'</i></span>';
+  if(a.ph==="now")return '<span class="tag nw">지금 수업</span>';
+  return '<span class="tag af">방금 끝남</span>';
+}
+/* 지금 선 — 시작한 수업과 아직 시작 안 한 수업 사이 */
+function nowLine(){ return '<div class="nowline"><span data-now="1">지금 '+minTo(nowMin())+'</span></div>'; }
+/* 오늘 끝난 수업에 메모가 하나도 없으면 */
+function memoMissTag(x,day,fold,memoN){
+  if(!fold||memoN)return "";
+  if(day===TODAY()){ if(!x.time||bcEndMin(x)>nowMin())return ""; }
+  else if(day>TODAY()||!dayMemoUsed(day))return "";
+  return '<span class="tag r">메모 없음</span>';
+}
+/* 그날 누구라도 메모를 썼나 — 프로그램을 쓰기 전 날짜에 '메모 없음'을 잔뜩 띄우지 않기 위해 */
+function dayMemoUsed(day){ return cache("dmu",day,()=>S.members.some(m=>memos(m).some(z=>z.d===day))); }
+/* 오늘 빌드업 점검 대상이면 상태 태그 — 수업 전/적음/끝났는데 없음 */
+function buildTag(x,day){
+  if(day!==TODAY())return "";
+  const it=buildCheck(day).list.reduce((f,g)=>f||g.items.find(o=>o.x.m===x.m),null);
+  if(!it)return "";
+  if(it.today.length)return '<span class="tag g">빌드업 ✓</span>';
+  if(bcEndMin(it.x)>nowMin())return '<span class="tag o">빌드업 대상</span>';
+  return '<span class="tag r">빌드업 없음</span>';
+}
 function classCard(x,up){
   const m=x.m, hit=up&&up[m.id], o={slots:x.slots,usedUp:!!hit,usedDone:!!(hit&&hit.done),hideStaff:true};
   const owner=staffName(m);
   const sameAsTeacher=owner&&normName(owner)===normName(x.teacher||"");
-  const fold=isFolded(x); o.fold=fold;
-  const memoN=memos(m).filter(z=>z.d===(S.viewDay||TODAY())).length;
-  return '<div class="mini '+toneOf(m,o)+(fold?" fold":"")+'">'+
-    '<div class="t"><b>'+timeRange(x)+'</b>'+
+  const day=TODAY(), fold=isFolded(x,day); o.fold=fold;
+  const ap=autoPhases(day)[cardKey(x)];
+  const memoN=memos(m).filter(z=>z.d===day).length;
+  return '<div class="mini '+toneOf(m,o)+(fold?" fold":"")+(ap?" auto "+ap.ph:"")+'" data-ck="'+esc(day+"|"+cardKey(x))+'"'+(ap?' data-auto="'+ap.ph+'"':'')+'>'+
+    '<div class="t"><b>'+timeRange(x)+'</b>'+autoBadge(ap)+
       (owner?'<em class="own'+(sameAsTeacher?" me":"")+'">책임 '+esc(owner)+'</em>'
             :'<em class="own no">책임자 없음</em>')+
-      '<button class="fold" data-a="fold" data-v="'+esc(cardKey(x))+'" title="'+(fold?"펼치기":"접기")+'">'+(fold?"▾":"▴")+'</button>'+
+      '<button class="fold" data-a="fold" data-v="'+esc(cardKey(x))+'" data-day="'+day+'" title="'+(fold?"펼치기":"접기")+'">'+(fold?"▾":"▴")+'</button>'+
     '</div>'+
-    '<div class="n"><button data-a="open" data-v="'+m.id+'">'+esc(m.name)+'</button>'+tagsOf(m,o)+
+    '<div class="n"><button data-a="open" data-v="'+m.id+'">'+esc(m.name)+'</button>'+tagsOf(m,o)+buildTag(x,day)+
       (x.clash?'<span class="tag r" title="같은 선생님 같은 시간에 다른 회원이 있어요 — 수업목록을 다시 올려보세요">시간 겹침</span>':'')+
-      (fold&&memoN?'<span class="tag g">메모 '+memoN+'</span>':"")+'</div>'+
+      (fold&&memoN?'<span class="tag g">메모 '+memoN+'</span>':"")+memoMissTag(x,day,fold,memoN)+'</div>'+
     (fold?"":
       passLines(m,hit?hit.pass:null)+
       prevMemoHtml(m,S.viewDay||TODAY())+
@@ -2370,7 +2542,6 @@ function viewMine(){
   const up={}; usedUp(today).forEach(x=>up[x.m.id]=x);
   const l=mine(live());
   const talk=l.filter(m=>needTalk(m)&&!doneMark(m,"talk"));
-  const call=l.filter(m=>isGone(m)&&!doneMark(m,"call"));
   const inDay={}; list.forEach(x=>inDay[x.m.id]=1);
 
   let h='<div class="stack">'+dateNav(today);
@@ -2383,9 +2554,16 @@ function viewMine(){
        (nfM&&!allM?' ('+nfM+'개 접힘)':'')+'</button>':'')+'</div>';
   if(!anyBooking())h+='<div class="empty">수업목록을 <b>앞날까지</b> 뽑아서 올리면 여기에 오늘 명단이 나옵니다.<br>내보내기 종료일을 한 달 뒤로 잡아주세요.</div>';
   else if(!list.length)h+='<div class="empty">오늘은 잡힌 수업이 없어요.</div>';
-  else list.forEach(x=>{ const hit=up[x.m.id]; h+=rowHtml(x.m,{time:x.time,end:x.end,slots:x.slots,usedUp:!!hit,usedDone:!!(hit&&hit.done),
-    foldX:x,foldDay:today,memoN:memos(x.m).filter(z=>z.d===today).length,
-    mark:needTalk(x.m)?"talk":null,hideStaff:true,showPasses:true,endingPass:hit?hit.pass:null}); });
+  else{
+    const n=nowMin(); let lined=false;
+    list.forEach(x=>{ const hit=up[x.m.id];
+      if(!lined&&x.time&&toMin(x.time)>n){ h+=nowLine(); lined=true; }
+      h+=rowHtml(x.m,{time:x.time,end:x.end,slots:x.slots,usedUp:!!hit,usedDone:!!(hit&&hit.done),
+      foldX:x,foldDay:today,memoN:memos(x.m).filter(z=>z.d===today).length,
+      mark:needTalk(x.m)?"talk":null,hideStaff:true,showPasses:true,endingPass:hit?hit.pass:null}); });
+    if(!lined&&list.some(x=>x.time))h+=nowLine();
+  }
+  S._apSig=apSig(today);
   h+='</div></div><div class="mineSide">';
 
   const rest=talk.filter(m=>!inDay[m.id]).sort((a,b)=>(etaDays(a)??9999)-(etaDays(b)??9999));
@@ -2396,21 +2574,14 @@ function viewMine(){
     if(rest.length>cut)h+='<div class="note" style="text-align:center"><button class="btn sm gh" data-a="more" data-v="talk">'+(rest.length-cut)+'명 더 보기</button></div>';
     h+='</div>';
   }
-  if(call.length){
-    call.sort((a,b)=>(gapDays(b)||0)-(gapDays(a)||0));
-    const cut=S.moreCall?call.length:6;
-    h+='<div class="card"><div class="chead"><b>잊혀진 회원</b><span>'+call.length+'명 · 오래된 순</span></div>';
-    call.slice(0,cut).forEach(m=>{ h+=rowHtml(m,{mark:"call",badge:'<b style="color:var(--red)">'+gapDays(m)+'일</b>',hideStaff:true}); });
-    if(call.length>cut)h+='<div class="note" style="text-align:center"><button class="btn sm gh" data-a="more" data-v="call">'+(call.length-cut)+'명 더 보기</button></div>';
-    h+='</div>';
-  }
+  /* 잊혀진 회원은 수업 메모에 띄우지 않는다 — 잊혀진 회원 페이지에서만 본다 */
   h+='</div></div>';
   return h+'</div>';
 }
 
 /* ── 회원 ── */
 const FILTERS=[["all","전체"],["suggest","책임자 추천"],["build","빌드업 목록"],
-  ["nostaff","책임자 없음"],["talk","재등록"],["gone","잊혀진 회원"],["trash","휴지통"]];
+  ["nostaff","책임자 없음"],["talk","재등록"],["gone","잊혀진 회원"],["expire","만료·소진위험"],["trash","휴지통"]];
 /* ── 빈 타임 채우기 ──
    갑자기 빈 칸이 생겼을 때, 그 요일·시간대에 올 만한 회원을 줄 세운다.
    최근 12주만 본다. 옛날 습관은 지금과 다르다. */
@@ -2469,7 +2640,9 @@ function filterBar(){
     if(k==="all")n=mine(live()).length;
     else if(k==="nostaff")n=mine(live()).filter(m=>!m.staffId).length;
     else if(k==="talk")n=mine(live()).filter(needTalk).length;
-    else if(k==="gone")n=mine(live()).filter(isForgotten).length;
+    else if(k==="gone")n=mine(live()).filter(forgotNear).length;
+    else if(k==="expire"){ const d=riskData();
+      return '<button class="btn sm'+(S.mFilter===k?" navy":"")+'" data-a="filter" data-v="'+k+'">'+lab+' <span class="fbadge">A '+d.nA+' · B '+d.nB+'</span></button>'; }
     else if(k==="suggest")n=suggestList().length;
     else if(k==="slot")return '<button class="btn sm'+(S.mFilter===k?" navy":"")+'" data-a="filter" data-v="'+k+'">'+lab+'</button>';
     else if(k==="build")n=buildList().length;
@@ -2674,6 +2847,8 @@ function viewMembers(){
   if(S.mFilter==="suggest")return h+viewSuggest()+'</div></div>';
   if(S.mFilter==="slot"){ S.mFilter="all"; return viewMembers(); }   /* 오는 시간은 대표 탭으로 옮겼다 */
   if(S.mFilter==="build")return h+viewBuildList()+'</div></div>';
+  if(S.mFilter==="gone")return h+viewGone()+'</div></div>';
+  if(S.mFilter==="expire")return h+viewRisk()+'</div></div>';
   const l=memberList();
   if(!l.length)return h+'<div class="empty">해당하는 회원이 없어요.</div></div></div>';
   const cut=S.moreMem?l.length:60;
@@ -2881,6 +3056,160 @@ function viewPast(){
   });
   return h+'</div></div></div>';
 }
+/* ===================== 만료·소진위험 (회원 > 필터) =====================
+   수강권 단위로 본다. 보기만 하는 화면 — 연장할지 끊을지는 사람이 판단한다.
+   A. 기간이 끝났는데 잔여가 남은 수강권 — 종료일 < 오늘, 잔여 1회 이상. 기간 제한 없이, 휴지통 회원도 넣는다.
+   B. 기간 안에 다 못 쓸 수강권 — 최근 28일 실제 수업으로 주당 빈도를 내고,
+      만료일까지 쓸 회차(남은 일수 ÷ 7 × 빈도)를 빼도 1회 이상 남는 것.
+      처음 온 지 28일이 안 됐으면 그날부터 나눈다(갓 시작한 회원이 부풀지 않게).
+      수강권이 여러 개면 먼저 끝나는 것부터 쓴다고 보고 차례로 나눈다(같은 빈도를 두 번 쓰지 않게).
+      28일 동안 방문이 없으면 계산할 수 없으므로 '빈도 없음'으로 따로 묶는다.
+   1회권(체험)은 둘 다 뺀다. 예약된 앞날 수업은 세지 않는다(실제 온 기록만). */
+const RISK_DAYS=28, RISK_NEAR=90;
+/* 처음 본 날 — 가장 이른 수업 기록과 가장 이른 수강권 시작일 중 앞선 것 */
+function firstSeen(m){
+  let f=null;
+  (m.att||[]).forEach(a=>{ if(a.date&&(!f||a.date<f))f=a.date; });
+  (m.passes||[]).forEach(p=>{ if(p.start&&parseD(p.start)&&(!f||p.start<f))f=p.start; });
+  return f?parseD(f):null;
+}
+function riskPace(m){
+  return cache("rp",m.id,()=>{
+    const now=new Date(), t=TODAY(), from=D(new Date(now.getTime()-RISK_DAYS*86400000));
+    const n=(m.att||[]).filter(a=>a.date>=from&&a.date<t).length;
+    if(!n)return 0;
+    const fs=firstSeen(m);
+    const span=fs?Math.min(RISK_DAYS,Math.max(0,daysBetween(now,fs))):RISK_DAYS;
+    return n/Math.max(1,span/7);
+  });
+}
+function riskData(){
+  return cache("rk",S.me||"all",()=>{
+    const now=new Date(), t=TODAY(), A=[], B=[], Z=[];
+    mine(S.members).forEach(m=>{
+      const ps=(m.passes||[]).filter(p=>(+p.remaining||0)>0&&(+p.total||0)>1&&parseD(p.expiry));
+      if(!ps.length)return;
+      /* A — 이미 끝난 것 */
+      ps.filter(p=>p.expiry<t).forEach(p=>A.push({m,p,ago:daysBetween(now,parseD(p.expiry)),rem:+p.remaining,
+        newer:(m.passes||[]).some(q=>q!==p&&!isDead(q))}));
+      /* B — 앞으로 끝날 것 */
+      if(m.trashed)return;
+      const cur=ps.filter(p=>p.expiry>=t).sort((a,b)=>String(a.expiry).localeCompare(String(b.expiry))||String(a.start||"").localeCompare(String(b.start||"")));
+      if(!cur.length)return;
+      const w=riskPace(m);
+      if(!w){ cur.forEach(p=>Z.push({m,p,days:Math.max(0,daysBetween(parseD(p.expiry),now)),rem:+p.remaining})); return; }
+      let usedBefore=0;
+      cur.forEach(p=>{
+        const days=Math.max(0,daysBetween(parseD(p.expiry),now)), rem=+p.remaining;
+        const use=Math.min(rem,Math.max(0,Math.round(w*days/7-usedBefore)));
+        usedBefore+=use;
+        const left=rem-use;
+        if(left>=1)B.push({m,p,days,rem,use,left,w,multi:cur.length>1});
+      });
+    });
+    A.sort((a,b)=>a.ago-b.ago||a.m.name.localeCompare(b.m.name));
+    B.sort((a,b)=>b.left-a.left||a.days-b.days);
+    Z.sort((a,b)=>a.days-b.days||b.rem-a.rem);
+    const ppl=l=>new Set(l.map(x=>x.m.id)).size;
+    return {A,B,Z,nA:ppl(A),nB:ppl(B),nZ:ppl(Z)};
+  });
+}
+/* 최근 메모 한 줄 — 샘들이 적은 몸상태/빌드업 중 가장 최근 것.
+   센터 엑셀에서 가져온 상담 메모는 빼고, 그것밖에 없으면 그걸 보여준다 */
+function lastMemoLine(m){
+  const ns=memos(m).filter(z=>z.kind==="body"||z.kind==="build");
+  const n=ns.find(z=>z.by!=="엑셀 가져오기")||ns[0];
+  if(!n)return '<div class="x4 none">메모 없음</div>';
+  return '<div class="x4"><b>'+esc(fmtMD(n.d))+'</b> <em>'+(n.kind==="build"?"빌드업":n.kind==="body"?"몸":"메모")+'</em> '+esc(n.t)+
+    (n.by?'<i> · '+esc(n.by)+'</i>':'')+'</div>';
+}
+function riskRow(x,kind){
+  const m=x.m, p=x.p, st=staffName(m), col=staffColor(st), lv=lastVisit(m), gd=gapDays(m);
+  let badge, line;
+  if(kind==="A"){
+    badge='<div class="xd past"><b>'+x.ago+'일</b><i>만료 후 지남</i></div>';
+    line='<div class="xm"><b class="xl">'+x.rem+'회</b>를 남기고 '+esc(fmtMD(p.expiry))+'에 기간이 끝났어요</div>';
+  }else if(kind==="B"){
+    const pu=Math.round(x.use/x.rem*100);
+    badge='<div class="xd'+(x.days<=30?" hot":"")+'"><b>D-'+x.days+'</b><i>'+esc(fmtMD(p.expiry))+' 만료</i></div>';
+    line='<div class="xbar" title="만료까지 예상 소진 '+x.use+'회 · 부족 '+x.left+'회"><i class="u" style="width:'+pu+'%"></i><i class="l" style="width:'+(100-pu)+'%"></i></div>'+
+      '<div class="xm">최근 4주 주 '+(Math.round(x.w*10)/10)+'회 → 만료까지 예상 소진 '+x.use+'회 · <b class="xl">부족 '+x.left+'회</b></div>';
+  }else{
+    badge='<div class="xd'+(x.days<=30?" hot":"")+'"><b>D-'+x.days+'</b><i>'+esc(fmtMD(p.expiry))+' 만료</i></div>';
+    line='<div class="xm">최근 4주 방문 없음 · 잔여 <b class="xl">'+x.rem+'회</b> 그대로</div>';
+  }
+  return '<div class="xr click" data-a="open" data-v="'+m.id+'">'+badge+
+    '<div class="xb"><div class="x1"><b class="xn">'+esc(m.name)+'</b>'+
+      (st?'<span class="srs"'+(col?' style="color:'+col.b+';background:'+col.bg+'"':'')+'>'+esc(st)+'</span>':'<span class="srs no">책임자 없음</span>')+
+      (x.newer?'<span class="tag g">새 수강권 보유</span>':'')+
+      (m.trashed?'<span class="tag n">휴지통</span>':'')+
+      (!m.trashed&&isForgotten(m)?'<span class="tag r">잊혀진 회원</span>':'')+'</div>'+
+      '<div class="xp">'+esc(KINDLABEL[passKind(p)])+' '+(+p.total||0)+'회 · '+esc(shortD(p.start)||"?")+' ~ '+esc(shortD(p.expiry))+' · 잔여 <b>'+x.rem+'</b></div>'+
+      line+lastMemoLine(m)+'</div>'+
+    '<div class="xc"><span>마지막 방문 '+(lv?esc(fmtMD(D(lv)))+(gd!==null?' ('+(gd===0?'오늘':gd+'일 전')+')':''):'없음')+'</span></div></div>';
+}
+function viewRisk(){
+  const d=riskData();
+  const near=d.B.filter(x=>x.days<=RISK_NEAR), far=d.B.filter(x=>x.days>RISK_NEAR);
+  const sum=(l,k)=>l.reduce((a,x)=>a+x[k],0);
+  let h='<div class="card"><div class="chead"><b>만료·소진위험</b>'+
+    '<span>수강권 단위 · 보기만 하는 화면이에요 — 연장할지 끊을지는 직접 판단 · 1회권 제외 · 줄을 누르면 회원 상세</span></div>';
+  h+='<div class="xsec"><div class="xh"><b>A · 기간이 끝났는데 잔여가 남은 수강권</b><span>'+d.A.length+'건 · '+d.nA+'명 · 남은 회차 합계 '+sum(d.A,"rem")+'회 · 최근에 끝난 순</span></div>';
+  h+=d.A.length?d.A.map(x=>riskRow(x,"A")).join(""):'<div class="empty">잔여를 남기고 끝난 수강권이 없어요.</div>';
+  h+='</div><div class="xsec"><div class="xh"><b>B · 기간 안에 다 못 쓸 수강권</b><span>'+d.B.length+'건 · '+d.nB+'명 · 부족 합계 '+sum(d.B,"left")+'회 · 90일 안에 끝나는 것 먼저, 부족분 큰 순</span>'+
+    '<span class="xleg"><i class="u"></i>만료까지 예상 소진 <i class="l"></i>부족</span></div>';
+  if(!d.B.length)h+='<div class="empty">지금 속도로 다 못 쓸 수강권이 없어요.</div>';
+  else{
+    h+='<div class="xsub">90일 안에 끝남 · '+near.length+'건</div>'+(near.length?near.map(x=>riskRow(x,"B")).join(""):'<div class="empty" style="padding:12px">없어요.</div>');
+    if(far.length)h+='<div class="xsub">90일 넘게 남음 · '+far.length+'건</div>'+far.map(x=>riskRow(x,"B")).join("");
+  }
+  h+='</div><div class="xsec"><div class="xh"><b>빈도 없음</b><span>'+d.Z.length+'건 · '+d.nZ+'명 · 최근 4주 방문이 없어 계산할 수 없는 수강권 · 만료 가까운 순</span></div>';
+  h+=d.Z.length?d.Z.map(x=>riskRow(x,"Z")).join(""):'<div class="empty">없어요.</div>';
+  h+='</div><div class="note">B의 빈도는 최근 4주(28일) 실제 수업 회차로 셉니다. 처음 온 지 4주가 안 됐으면 그날부터 나누고, 수강권이 여러 개면 먼저 끝나는 것부터 쓴다고 보고 나눕니다. 센터에서 기간을 연장하면 다음 엑셀을 올릴 때 바뀐 종료일로 다시 계산돼요.</div>';
+  return h+'</div>';
+}
+
+/* ── 잊혀진 회원 (회원 > 필터) ──
+   위: 연락할 회원(21~59일) — 재등록대상자 먼저, 그다음 최근에 끊긴 순.
+   아래: 60일 넘게 안 온 회원 — 접어 둔다. 맨 아래: 14일 안에 연락함을 누른 회원(다시 누르면 취소).
+   버튼은 '연락함' 하나뿐. 누르면 14일 동안 빠지고, 그래도 안 오면 다시 올라온다. */
+function goneRow(m,done){
+  const g=gapDays(m), st=staffName(m), col=staffColor(st), r=remain(m), lv=lastVisit(m), mk=markedAt(m,"call");
+  const ps=alive(m).filter(p=>p.expiry).sort((a,b)=>String(a.expiry).localeCompare(String(b.expiry)));
+  return '<div class="xr gr click'+(done?" done":"")+'" data-a="open" data-v="'+m.id+'">'+
+    '<div class="xd'+(g>=GONE_FAR?" past":" hot")+'"><b>'+(g===null?"–":g+"일")+'</b><i>'+(neverCame(m)?"산 뒤 안 옴":"마지막 "+esc(fmtMD(D(lv))))+'</i></div>'+
+    '<div class="xb"><div class="x1"><b class="xn">'+esc(m.name)+'</b>'+
+      (st?'<span class="srs"'+(col?' style="color:'+col.b+';background:'+col.bg+'"':'')+'>'+esc(st)+'</span>':'<span class="srs no">책임자 없음</span>')+
+      (isRegTarget(m)?'<span class="tag o">재등록대상자</span>':'')+'</div>'+
+      '<div class="xp">잔여 <b>'+(r===null?"–":r)+'</b>'+(ps.length?' · '+esc(shortD(ps[0].expiry))+' 만료':'')+(m.phone?' · '+esc(fmtPhone(m.phone)):'')+'</div>'+
+      lastMemoLine(m)+'</div>'+
+    '<div class="xc hide-ro"><button class="abtn'+(done?" on":"")+'" data-a="mark" data-v="'+m.id+'" data-k="call">'+
+      (done?'✓ 연락함 '+esc(fmtMD(mk.d))+(mk.by?' · '+esc(mk.by):''):'연락함')+'</button></div></div>';
+}
+function viewGone(){
+  const l=mine(live()).filter(isForgotten);
+  const pri=m=>isRegTarget(m)?0:1;
+  const ord=(a,b)=>pri(a)-pri(b)||(gapDays(a)||0)-(gapDays(b)||0)||a.name.localeCompare(b.name);
+  const near=l.filter(m=>gapDays(m)<GONE_FAR).sort(ord), far=l.filter(m=>gapDays(m)>=GONE_FAR).sort(ord);
+  const done=mine(live()).filter(m=>isGone(m)&&doneMark(m,"call"))
+    .sort((a,b)=>String(markedAt(b,"call").d).localeCompare(String(markedAt(a,"call").d)));
+  let h='<div class="card"><div class="chead"><b>잊혀진 회원</b>'+
+    '<span>마지막 수업에서 '+S.goneDays+'일이 지났고 아직 연락하지 않은 회원 · 연락함을 누르면 '+RETRY+'일 동안 빠지고, 그래도 안 오면 다시 올라와요</span></div>';
+  h+='<div class="xsec"><div class="xh"><b>연락할 회원</b><span>'+S.goneDays+'~'+(GONE_FAR-1)+'일 · '+near.length+'명 · 재등록대상자 먼저, 그다음 최근에 끊긴 순</span></div>';
+  h+=near.length?near.map(m=>goneRow(m,false)).join(""):'<div class="empty">지금 연락할 회원이 없어요.</div>';
+  h+='</div><div class="xsec"><div class="xh"><b>'+GONE_FAR+'일 넘게 안 온 회원</b><span>'+far.length+'명</span><span class="sp" style="flex:1"></span>'+
+    (far.length?'<button class="btn sm gh" data-a="gonefar">'+(S.goneFar?"접기":"펼쳐서 보기")+'</button>':'')+'</div>';
+  if(S.goneFar)h+=far.map(m=>goneRow(m,false)).join("");
+  h+='</div>';
+  if(done.length){
+    h+='<div class="xsec"><div class="xh"><b>최근 연락함</b><span>'+done.length+'명 · '+RETRY+'일 안에 연락함을 누른 회원 · 잘못 눌렀으면 다시 누르면 취소</span><span class="sp" style="flex:1"></span>'+
+      '<button class="btn sm gh" data-a="gonedone">'+(S.goneDone?"접기":"펼쳐서 보기")+'</button></div>';
+    if(S.goneDone)h+=done.map(m=>goneRow(m,true)).join("");
+    h+='</div>';
+  }
+  return h+'</div>';
+}
+
 /* ===================== 월별 재등록 컨택 대상 (엑셀) =====================
    그 달에 재등록대상자(릴렉싱 12회·리빌딩 6회 이하)가 되는 회원.
    이미 대상인 회원은 이번 달에 넣는다(이번 달에 새로 된 회원과 따로 표시).
@@ -3273,7 +3602,7 @@ function viewStats(){
     S.staff.filter(staffRowVisible).map(st=>{
       const l=live().filter(m=>m.staffId===st.id);
       const talk=l.filter(m=>needTalk(m)&&!doneMark(m,"talk"));
-      const call=l.filter(m=>isGone(m)&&!doneMark(m,"call"));
+      const call=l.filter(forgotNear);
       const todo=talk.concat(call);
       const r=rows.find(x=>x.id===st.id)||{nw:0,rn:0};
       return {st,own:l.length,todo:todo.length,
@@ -3404,7 +3733,9 @@ function teacherMonthCount(name){
 /* ── 기준 ── 계산 없이 텍스트만 보여주는 가벼운 페이지. 기준이 늘면 이 배열에 한 줄만 추가 */
 function CRITERIA_(){
   return [
-    {t:"잊혀진 회원",d:"마지막 수업에서 "+S.goneDays+"일이 지났고, 아직 ‘연락함’ 표시를 안 한 회원. 연락했다고 표시하면 목록에서 빠집니다."},
+    {t:"잊혀진 회원",d:"마지막 수업에서 "+S.goneDays+"일이 지났고, 아직 ‘연락함’을 안 누른 회원. 1회 체험권만 있는 회원과 앞으로 예약이 잡힌 회원은 뺍니다. "+S.goneDays+"~"+(GONE_FAR-1)+"일은 ‘연락할 회원’, "+GONE_FAR+"일부터는 ‘"+GONE_FAR+"일 넘게 안 온 회원’으로 접어 둡니다. 연락함을 누르면 "+RETRY+"일 동안 빠지고, 그래도 안 오면 다시 올라옵니다. 메뉴 배지와 강사별 숫자는 연락할 회원만 셉니다."},
+    {t:"만료·소진위험 A",d:"기간(종료일)이 끝났는데 잔여가 1회 이상 남은 수강권. 끝난 지 얼마나 됐는지 상관없이 보여주고, 휴지통 회원도 넣습니다. 1회권 제외. 다른 살아 있는 수강권이 있으면 ‘새 수강권 보유’. 최근에 끝난 순."},
+    {t:"만료·소진위험 B",d:"살아 있는 수강권 중, 최근 28일 실제 수업으로 낸 주당 빈도로 만료일까지 쓸 회차(남은 일수 ÷ 7 × 빈도)를 빼도 1회 이상 남는 것. 처음 온 지 28일이 안 됐으면 그날부터 나누고, 수강권이 여러 개면 먼저 끝나는 것부터 쓴다고 보고 나눕니다. 90일 안에 끝나는 것을 위에, 그 안에서 부족분 큰 순. 28일 동안 방문이 없으면 ‘빈도 없음’으로 맨 아래에 따로 묶습니다."},
     {t:"확인이 필요한 재등록",d:"예측 보드에서 손으로 ‘재등록’을 눌렀는데 "+PENDING_DAYS+"일이 지나도록 엑셀에 새 수강권이 안 들어온 건입니다. 결제가 안 됐거나 엑셀을 아직 안 올린 경우예요. 현황 화면에서 확인하거나 기록을 지울 수 있습니다."},
     {t:"지난 날 보기",d:"날짜를 뒤로 넘기면 그날 상태로 보여줍니다. 잔여회차는 그 뒤에 쓴 회차를 도로 더해 역산하고, 그날 이후 끊은 수강권은 빼둡니다. 그 사이 만료·취소된 수강권은 기록이 남지 않아 되살릴 수 없습니다."},
     {t:"오래 안 온 회원",d:"마지막 수업에서 "+S.goneDays+"일 이상 지난 회원 (연락 여부와 상관없이). 재등록 목록과 예측에서는 이 기준으로 빼둡니다."},
@@ -3422,7 +3753,7 @@ function CRITERIA_(){
     {t:"체험 → 회원 연결",d:"전화번호와 이름이 둘 다 같은 회원이 생기면 자동으로 연결합니다. 번호만 같거나 번호 없이 이름만 같으면 체험 탭에서 ‘같은 사람?’을 물어봅니다. 연결되면 회원 상세에 체험 상담과 동의서가 붙고, 회원의 책임자·생년월일·주소가 비어 있으면 체험 담당 샘과 체험 때 적은 값으로 채웁니다(안 다니는 샘은 넣지 않음). 잘못 붙었으면 상세에서 ‘연결 끊기’"},
     {t:"생년월일",d:"19650312 · 650312 · 1965.3.12 어떻게 적어도 됩니다. 6자리는 앞 두 자리가 올해 뒷자리보다 크면 1900년대로 봅니다"},
     {t:"생년월일·주소 자동 입력",d:"회원목록 엑셀의 ‘생년월일’, ‘주소’+‘상세주소’를 상세에 채웁니다. 엑셀 칸이 비어 있으면 지우지 않고, 샘이 상세에서 직접 고친 칸(또는 체험 때 적은 값)은 엑셀이 덮어쓰지 않습니다. 주민등록번호가 들어오면 생년월일만 만들고 나머지 번호는 저장하지 않습니다"},
-    {t:"수업 메모 접기",d:"오늘은 펼친 게 기본이고 접은 카드를 기억합니다. 지난 날은 열 때마다 모두 접힌 상태로 시작합니다. 접힌 카드에는 이름·태그·그날 메모 수만 보입니다"},
+    {t:"수업 메모 접기",d:"카드는 접힌 게 기본입니다. 오늘은 시간에 맞춰 강사마다 다음 수업 1개 · 지금 하는 수업 · 끝나고 15분 안 된 수업을 펼칩니다(1분마다 확인, 메모를 쓰는 중이면 기다림). 손으로 접으면 그 단계 동안만 접혀 있고, 다음 → 지금 → 끝남으로 넘어가면 다시 펼칩니다. 지난 날은 모두 접힌 채로 시작합니다. 접힌 카드에는 이름·태그·그날 메모 수만 보이고, 끝난 수업에 메모가 하나도 없으면 ‘메모 없음’이 붙습니다"},
     {t:"앞날 미리보기",d:"수업 메모에서 오늘로부터 7일 뒤까지 넘겨볼 수 있습니다. 그날 잡힌 수업(엑셀의 예약)과 회원의 지난 메모를 보여주고, 잔여 회차는 그날 전까지 잡힌 수업만큼 줄어든 값으로 계산합니다. 미리보기에서는 메모를 적을 수 없고 그날부터 적습니다. 지난 날 카드의 ‘N일 만에’는 그날 이전의 마지막 방문 기준입니다"},
     {t:"잠수 회원",d:"마지막 방문(한 번도 안 왔으면 수강권 시작일)부터 "+DIVE_DAYS+"일이 넘었고 오늘 이후 잡힌 예약도 없는 회원. 회차가 남아 있어도 재등록 가능성의 숫자·달별·강사별 계산에서 빼고 별도 목록으로 보여줍니다. 예약이 다시 잡히면 자동으로 돌아옵니다"},
     {t:"재등록 가능성",d:"끝난 수강권들로 재등록 이력·수강권 크기·끝날 때 남는 회차·나이별 실제 재등록률을 세어 점수로 더합니다. 펼치면 자세한 기준과 지금 점수표가 보입니다.",html:()=>rpCriteriaHtml()},
@@ -4499,10 +4830,14 @@ document.addEventListener("click",e=>{
   if(a==="open"){ openDrawer(v); return; }
   if(a==="ctdown"){ const n=contactExport(v); toast(ymLabel(v)+" 컨택 대상 "+n+"명 엑셀을 받았어요."); return; }
   if(a==="bcfold"){ S.bcOpen=!S.bcOpen; render(); return; }
+  if(a==="gonefar"){ S.goneFar=!S.goneFar; render(); return; }
+  if(a==="gonedone"){ S.goneDone=!S.goneDone; render(); return; }
   if(a==="close"){ closeDrawer(); return; }
   if(a==="closepop"){ closePop(); return; }
 
-  if(a==="mark"&&m){ mark(m,t.dataset.k,!doneMark(m,t.dataset.k)); save(); render(); return; }
+  if(a==="mark"&&m){ const on=!doneMark(m,t.dataset.k); mark(m,t.dataset.k,on); save(); render();
+    if(t.dataset.k==="call")toast(on?"연락함 — "+RETRY+"일 뒤에도 안 오면 다시 올라와요.":"연락함을 취소했어요.");
+    return; }
   if(a==="setstaff"){ return; }
   if(a==="pick"){ $("file").click(); return; }
   if(a==="logclose"){ S.log=null; render(); return; }
@@ -4622,13 +4957,21 @@ document.addEventListener("click",e=>{
   if(a==="untrash"&&m){ untrashMember(m); logAct("휴지통에서 꺼냄",m.name); save(); render(); toast("보드로 되돌렸어요."); return; }
   if(a==="fold"){
     const day=t.dataset.day;
-    { const d=day||S.viewDay||TODAY(); S.unfold=S.unfold||{}; const k=d+"|"+v; if(S.unfold[k])delete S.unfold[k]; else S.unfold[k]=1; render(); return; }
+    { const d=day||S.viewDay||TODAY(); S.unfold=S.unfold||{}; S.fold=S.fold||{}; const k=d+"|"+v;
+      const ap=autoPhases(d)[v];
+      const folded=S.unfold[k]?false:(ap?S.fold[k]===ap.ph:true);
+      if(folded){ S.unfold[k]=1; delete S.fold[k]; }
+      else{ delete S.unfold[k]; if(ap)S.fold[k]=ap.ph; }   /* 자동으로 펼친 카드 — 이 단계 동안만 접어둔다 */
+      render(); return; }
   }
   if(a==="foldall"){
     const day=S.viewDay||TODAY();
-    const keys=dayList(day).map(cardKey);
-    S.unfold=S.unfold||{};
-    keys.forEach(k=>{ if(v==="open")S.unfold[day+"|"+k]=1; else delete S.unfold[day+"|"+k]; }); render(); return;
+    const keys=dayList(day).map(cardKey), ap=autoPhases(day);
+    S.unfold=S.unfold||{}; S.fold=S.fold||{};
+    keys.forEach(k=>{ const kk=day+"|"+k;
+      if(v==="open"){ S.unfold[kk]=1; delete S.fold[kk]; }
+      else{ delete S.unfold[kk]; if(ap[k])S.fold[kk]=ap[k].ph; } });
+    render(); return;
   }
   if(a==="mdayback"||a==="mdayfwd"||a==="mdaynow"){
     const t=TODAY();
