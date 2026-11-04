@@ -567,6 +567,8 @@
   .trpr .tx{font-size:13px;color:var(--mut)}
   .trpr input.trrn{font-weight:700;color:var(--ink)}
   .bf2 .bfdot{stroke-width:3} .bf2 .bfpin circle{stroke-width:4}
+  .bf2lr{font-family:inherit;font-size:34px;font-weight:700;fill:#8a919c;pointer-events:none}
+  .tcfig .bf2lr{display:none}
   .trchip .trcn{border:0;background:none;color:inherit;font:inherit;padding:0;cursor:text}
   .trchip .trcn:hover{text-decoration:underline dotted}
   .trchip.ed{background:#fff;padding:1px}
@@ -621,6 +623,58 @@
   .sgbtn:disabled{opacity:.5}
   .sgwarn{padding:10px 14px;border-radius:10px;background:var(--redBg);color:var(--red);font-size:14px;font-weight:700}
   .sgdone{padding:14px 16px;border-radius:10px;background:var(--greenBg);color:var(--green);font-size:16px;font-weight:800}
+  /* v125 상담 화면 — 픽셀 대신 화면 크기에 비례 (글자 = 화면 짧은 변의 2.3%), 세로 한 줄 · 가로 두 칸 */
+  body.consult .page,body.consult #ro,body.consult #scrim,body.consult #drawer,body.consult #docpane,body.consult #docfull,body.consult #pop,body.consult #drop{display:none!important}
+  body.consult{overflow:hidden;background:#fff}
+  .signv{font-size:clamp(14px,2.3vmin,22px)}
+  .signv .sgwrap{max-width:none}
+  .signv .sghead{padding:.9em 4vw .8em;gap:.8em}
+  .signv .sghead h1{font-size:1.3em}
+  .signv .sgwho{font-size:1em}
+  .signv .sghead .btn{height:2.4em;padding:0 1.1em;font-size:.95em}
+  .signv .sgbody{padding:1.2em 4vw 3em;display:grid;grid-template-columns:minmax(0,1fr);gap:1.6em}
+  .signv .sgcol{display:flex;flex-direction:column;gap:1.6em;min-width:0}
+  .signv .sgbody section{gap:.6em}
+  .signv .sgbody h2{font-size:1.15em;display:flex;align-items:baseline;flex-wrap:wrap;gap:.2em .5em}
+  .signv .sgbody h2 em{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:1.45em;height:1.45em;border-radius:50%;background:var(--ink);color:#fff;font-size:.8em;align-self:center}
+  .signv .sgbody h2 span{font-size:.72em;margin-left:0}
+  .signv .trfig.big{gap:.6em}
+  .signv .trseg button{font-size:.95em;height:2.3em;min-width:4.6em}
+  .signv .trfig.big .trbox{flex-direction:column;align-items:stretch;gap:.6em;padding:.9em}
+  .signv .trfig.big .trtray{flex-direction:row;justify-content:center;align-items:center;gap:.9em;padding:0}
+  .signv .trfig.big .trtray i{font-size:.75em}
+  .signv .trfig.big .trtok{width:2.6em;height:2.6em;font-size:1.1em}
+  .signv .trfig.big .trfigs{max-width:none;width:100%;gap:4%}
+  .signv .trf .lr{font-size:.75em} .signv .trf .lr b{font-size:1.1em}
+  .signv .trfig.big .trchips{gap:.4em}
+  .signv .trfig.big .trchip{font-size:.85em;padding:.3em .8em}
+  .signv .trfig.big .trchip button{font-size:1.1em}
+  .signv .sgpr{gap:.45em} .signv .sgpr .pr{gap:.8em;padding:.75em .9em}
+  .signv .sgpr .n{width:1.9em;height:1.9em}
+  .signv .sgpr .t{font-size:1em}
+  .signv .sgnone{font-size:.9em;padding:.8em .9em}
+  .signv .sgmemo{font-size:1em;padding:.9em 1em}
+  .signv .sgchk{font-size:.95em;gap:.8em;padding:.75em .9em}
+  .signv .sgchk input{width:1.5em;height:1.5em}
+  .signv .sgterms{font-size:.88em;white-space:pre-line}
+  .signv #sgpad{height:24vh}
+  .signv .sgpadbar{font-size:.8em;padding:.4em .8em}
+  .signv .sgpadbar .btn{font-size:1em;height:2.2em}
+  .signv .sgbtn{height:3em;font-size:1.2em}
+  .signv .sgwarn{font-size:.9em} .signv .sgdone{font-size:1em}
+  .signv .sgp{font-size:.95em}
+  .signv .sglist{padding:1.2em 4vw 3em;display:flex;flex-direction:column;gap:.7em;max-width:60em;margin:0 auto;width:100%}
+  .signv .sgpick{font-size:1em;padding:1em 1.2em;gap:.8em}
+  .signv .sgpick b{font-size:1.2em}
+  .signv .sgfoot{display:flex;align-items:center;justify-content:space-between;margin-top:1.5em;font-size:.8em;color:var(--fnt)}
+  .signv .sgthanks{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1em;padding:3em 6vw;text-align:center}
+  .signv .sgthanks b{font-size:1.8em} .signv .sgthanks span{color:var(--mut);font-size:1.05em} .signv .sgthanks .sgbtn{padding:0 2.5em}
+  @media (orientation:landscape){
+    .signv .sgbody{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:start}
+    .signv .sgcolA{position:sticky;top:4.4em}
+    .signv .trfig.big .trfigs{max-width:calc((100vh - 21em) * 1.15);margin:0 auto}
+    .signv #sgpad{height:28vh}
+  }
   /* 회원 상세 — 해결하고 싶은 것 */
   .dsub{font-weight:500;font-size:11px;color:var(--fnt);margin-left:4px}
   .mprio{display:flex;flex-direction:column;gap:5px}
@@ -781,7 +835,7 @@
 <div class="page">
 <header>
   <div class="hbar">
-    <div class="brand"><b>릴렉싱 데스크</b><span>v124 · 11/2 만듦</span></div>
+    <div class="brand"><b>릴렉싱 데스크</b><span>v127 · 11/5 만듦</span></div>
     <div class="seg" id="who"></div>
     <div class="hright">
       <div class="srch"><i></i><input id="q" placeholder="회원 이름 검색" autocomplete="off"></div>
@@ -850,6 +904,11 @@ const fmtPhone=p=>{const d=String(p||"").replace(/\D/g,"");
 const KEY="relax-desk-v1";
 /* 인터넷 주소(https)로 열면 서버 모드 — 아래 ‘서버 동기화’ 칸 참고 */
 const HOSTED=/^https?:$/.test(location.protocol);
+/* 상담 모드(v125) — 주소 끝에 #상담 을 붙여 열면 회원용 화면만 (태블릿) */
+const consultHash=()=>{ try{ return /^#(상담|consult)$/i.test(decodeURIComponent(location.hash||"").trim()); }catch(e){ return false; } };
+const CONSULT=consultHash();
+if(CONSULT)document.body.classList.add("consult");
+window.addEventListener("hashchange",()=>{ if(consultHash()!==CONSULT)location.reload(); });
 const SYNC={on:false,sb:null,me:null,admin:false,RC:{},BASE:{},pend:{},pushing:false,fail:0,retry:null,
   open:null,openTimer:null,rebuildTimer:null,status:"",loaded:false,chan:null};
 
@@ -3924,7 +3983,9 @@ function CRITERIA_(){
     {t:"자료 순서",d:"자료가 있는 회원은 상세를 열면 옆에 자료가 같이 뜨고, 맨 앞 자료가 크게 보입니다. 썸네일을 끌거나 ‘맨 앞으로’로 순서를 바꿉니다. 순서를 정해둔 회원은 새 자료가 첫 번째 바로 뒤에 들어갑니다"},
     {t:"체험 기록",d:"엑셀에 없는 체험자를 체험 탭에 적습니다. 적는 대로 저장되고(저장 버튼 없음), 서버 버전이면 다른 기기에 1~2초 뒤 보입니다. 아무것도 안 적고 닫으면 남기지 않습니다. 예전 양식의 운동·수면·식사는 옛 기록에서만 보입니다"},
     {t:"신체 그림·순위",d:"여성/남성 앞·뒤 근육 칸 그림(v124). 불편한 곳을 누르면 누른 자리 그대로 점이 찍히고(다시 누르면 지움), 그 자리 칸의 쉬운 부위 이름(약 120개, 오른쪽·왼쪽 자동)이 예상으로 붙습니다. 선 위나 테두리 바로 밖을 눌러도 점은 그 자리, 이름은 가장 가까운 칸. 부위 이름은 컴퓨터 입력 화면에서 고칠 수 있고(순위 칸의 이름 · 점 이름 누르기, 비우면 예상 이름으로), 서명 화면에서는 못 고칩니다. 번호를 다른 자리로 옮기면 새 자리 이름으로 다시 붙습니다. 성별을 바꾸면 점이 몸 폭 비율로 옮겨가고 고친 이름은 그대로입니다. v124 전에 점을 찍은 기록은 예전 그림으로 보입니다. 1~5번 버튼을 그림에 끌어다 놓으면 그 번호가 해결하고 싶은 순위가 되고, 그림 밖으로 끌어내면 빠집니다. 순위별 설명은 컴퓨터에서 적습니다. 앞모습은 그림 왼쪽이 회원의 오른쪽입니다"},
-    {t:"서명 받기",d:"태블릿에서 체험 → 서명 받기 → 최근 3일 안에 서명 안 한 체험을 고르면 동의서 화면이 가득 뜹니다(메뉴·회원 목록은 가림). 상담 메모는 회원에게 그대로 보이고, 건강 정보 수집·이용 동의와 상담 내용 확인에 체크하고 서명합니다. 서명하는 중에 내용이 바뀌면 서명을 지우고 다시 받습니다. 인터넷이 끊기면 서명 버튼이 잠깁니다. 그림·순위·메모·문구·서명이 한 장의 동의서 그림으로 남습니다"},
+    {t:"체험 기록 이름 (v127)",d:"등록된 회원(‘회원’ 표시)은 이름을 누르면 회원 상세가 열립니다 — 상세의 ‘체험 상담’ 칸에 그림·순위·상담 메모·추가 메모가 있고, ‘상담 열기’로 상담 입력 화면으로 갑니다. 상담 입력 화면 위 ‘회원 상세’로 반대로도 갑니다. 미등록 체험(연결 후보 포함)은 이름을 누르면 상담 입력 화면. 몸 그림은 앞·뒤 모두 그림 위 양쪽에 왼쪽/오른쪽이 적혀 있습니다(앞은 그림 왼쪽이 회원 오른쪽)."},
+    {t:"상담 화면 (#상담, 태블릿)",d:"v125. 태블릿은 인터넷 주소 끝에 #상담 을 붙여 엽니다(홈 화면 아이콘 권장). 로그인 뒤 ‘오늘 상담’ — 오늘 만든 체험 중 서명 안 한 이름과 만든 시각만 나오고, 이름을 누르면 회원용 화면: ① 불편한 곳(그림·1~5 순위) ② 해결하고 싶은 것 ③ 상담 메모 ④ 서명(동의 체크 2개·문구·서명 칸)만 보입니다. 메뉴·체험 기록·전화번호·강사 이름·지우기 버튼은 안 보이고, 전체 프로그램으로 나갈 수 없습니다(‘목록’은 오늘 상담 목록으로만). 화면 크기에 비례해 맞춰지고(글자 = 화면 짧은 변의 약 2.3%), 세로는 한 줄, 가로는 왼쪽 그림·오른쪽 나머지 두 칸입니다. 서명하면 ‘고맙습니다’가 뜨고 6초 뒤 목록으로 돌아갑니다. 순위 설명·상담 메모·부위 이름은 컴퓨터에서만 고칩니다"},
+    {t:"서명 받기",d:"컴퓨터에서는 체험 → 서명 받기(최근 3일) 또는 ‘이 컴퓨터에서 서명받기’로 같은 동의서 화면을 띄웁니다. 상담 메모는 회원에게 그대로 보이고, 건강 정보 수집·이용 동의와 상담 내용 확인에 체크하고 서명합니다. 서명하는 중에 내용이 바뀌면 서명을 지우고 다시 받습니다. 인터넷이 끊기면 서명 버튼이 잠깁니다. 그림·순위·메모·문구·서명이 한 장의 동의서 그림으로 남습니다"},
     {t:"해결하고 싶은 것 (회원 상세)",d:"서명한 체험의 순위로 시작합니다. 해결되면 ✓를 누르면 빗금이 쳐지고 흐려져 아래로 가며, ↺로 되돌립니다. 아래 칸에 적고 엔터로 더하고, ⋮⋮를 끌어서 순서를 바꿉니다"},
     {t:"체험 동의서",d:"동의서 화면에 상담 내용과 동의 문구를 보여주고 서명받습니다. 상담 내용·동의 문구·이름·생년월일·연락처·날짜·서명이 한 장의 동의서 그림으로 남고, 서명한 뒤에는 이름·생년월일·체험일·상담 내용을 고칠 수 없습니다. 뒤에 들은 내용은 날짜와 작성자가 붙는 ‘추가 메모’로만 남깁니다"},
     {t:"체험 → 회원 연결",d:"전화번호와 이름이 둘 다 같은 회원이 생기면 자동으로 연결합니다. 번호만 같거나 번호 없이 이름만 같으면 체험 탭에서 ‘같은 사람?’을 물어봅니다. 연결되면 회원 상세에 체험 상담과 동의서가 붙고, 회원의 책임자·생년월일·주소가 비어 있으면 체험 담당 샘과 체험 때 적은 값으로 채웁니다(안 다니는 샘은 넣지 않음). 잘못 붙었으면 상세에서 ‘연결 끊기’"},
@@ -5866,7 +5927,7 @@ const docNarrow=()=>window.matchMedia("(max-width:1100px)").matches;
    - 체험 기록은 회원과 따로 S.trials에 둔다 (회원 숫자·목록에 섞이지 않게)
    - 서명은 동의 문구와 함께 한 장의 그림(체험동의서)으로 자료 창고·보관 폴더에 남긴다
    - 같은 전화번호·같은 이름의 회원이 생기면 자동으로 연결한다. 애매하면 사람이 고른다 */
-const TRIAL_TERMS="릴렉싱 프로그램은 치료 목적이 아닌 신체의 기능을 개선하는데 도움을 주는 프로그램입니다. 상담 시에 말씀해주지 않는 내용으로 문제가 생길 시 일체 책임을 지지 않습니다.";
+const TRIAL_TERMS="라비다 스포츠메디컬에서 제공하는 WBM 프로그램을 효과적으로 이용하기 위해 회원님 사전 건강 정보 작성에 동의하며, 본 상담지에 명시되지 않은 병력 및 기타 원인으로 발생되는 문제에 대해서는 당사는 일체의 책임이 없음을 안내 드립니다.\n릴렉싱 프로그램은 치료 목적이 아닌 신체의 기능을 개선하는데 도움을 주는 프로그램입니다. 상담 시에 말씀해주지 않는 내용으로 문제가 생길 시 일체 책임을 지지 않습니다.";   /* v126: 기존 종이 상담지 문구 + 앞의 문구 */
 const TRIAL_SIGN_KIND="체험동의서";
 const TRIAL_Q=[
   ["ex","운동","지금 하는 운동 · 얼마나 자주, 얼마나 오래 · 예전에 했던 운동"],
@@ -5961,11 +6022,12 @@ function trialListHtml(){
     const ago=daysBetween(new Date(),parseD(t.date));
     return '<div class="trow">'+
       '<div class="tdt">'+esc(t.date.slice(2).replace(/-/g,"."))+'<em>'+(ago<=0?"오늘":ago+"일 전")+'</em></div>'+
-      '<div class="tmain"><div class="tnm"><button data-a="trialedit" data-v="'+t.id+'">'+esc(t.name||"이름 없음")+'</button>'+
+      '<div class="tmain"><div class="tnm">'+(m?'<button data-a="open" data-v="'+m.id+'" title="회원 상세 열기 — 상담 내용도 거기 있어요">'+esc(t.name||m.name)+'</button><span class="tag b">회원</span>'
+          :'<button data-a="trialedit" data-v="'+t.id+'">'+esc(t.name||"이름 없음")+'</button>')+
         '<span class="tph">'+esc(fmtPhone(t.phone)||"번호 없음")+'</span>'+
         (t.staffId?'<span class="tag n">'+esc(staffName({staffId:t.staffId})||"")+'</span>':'')+
         (t.sign?'<span class="tag g">서명 ✓</span>':'<span class="tag o">서명 대기</span>')+
-        (m?'<button class="tag b" data-a="open" data-v="'+m.id+'" title="회원 상세 열기">등록 → '+esc(m.name)+'</button>':'')+'</div>'+
+        (m&&m.name!==t.name?'<span class="tph">→ '+esc(m.name)+' 회원으로 등록</span>':'')+'</div>'+
         (sum?'<div class="tsum">'+sum+'</div>':'')+
         (c.length&&!S.ro?'<div class="tcand">'+c.map(x=>'<span>'+esc(x.name)+' 회원('+esc(fmtPhone(x.phone)||"번호 없음")+')과 같은 사람?</span>'+
           '<button class="btn sm navy" data-a="triallink" data-v="'+t.id+'" data-k="'+x.id+'">연결</button>'+
@@ -6022,6 +6084,8 @@ function bf2Remap(b,ng){
 function bf2Svg(g,view,marks,opt){
   opt=opt||{};
   let s='<svg class="bf bf2" viewBox="0 0 '+BF2.W+' '+BF2.H+'" data-v="'+view+'" data-g="'+g+'"><image href="'+bf2Url(g,view)+'" x="0" y="0" width="'+BF2.W+'" height="'+BF2.H+'"/>';
+  const LR=view==="front"?["오른쪽","왼쪽"]:["왼쪽","오른쪽"];       /* 앞은 그림 왼쪽이 회원 오른쪽, 뒤는 그대로 */
+  s+='<text class="bf2lr" x="16" y="46">'+LR[0]+'</text><text class="bf2lr" x="584" y="46" text-anchor="end">'+LR[1]+'</text>';
   const M=marks||{}, dr=opt.dotR||14, pr=opt.pinR||23;
   (M.dots||[]).filter(d=>d.v===view).forEach((d,i)=>{ s+='<circle class="bfdot" cx="'+d.x+'" cy="'+d.y+'" r="'+dr+'" data-i="'+i+'"/>'; });
   (M.pins||[]).filter(p=>p.v===view).forEach(p=>{
@@ -6041,6 +6105,9 @@ function bf2Canvas(b){
     g.fillStyle="#fff"; g.fillRect(0,0,1240,1000);
     [["front",f,0],["back",k,640]].forEach(([v,im,ox])=>{
       g.drawImage(im,ox,0,600,1000);
+      const LR=v==="front"?["오른쪽","왼쪽"]:["왼쪽","오른쪽"];
+      g.font="700 34px sans-serif"; g.fillStyle="#8a919c"; g.textBaseline="alphabetic";
+      g.textAlign="left"; g.fillText(LR[0],ox+16,46); g.textAlign="right"; g.fillText(LR[1],ox+584,46);
       (b.dots||[]).filter(d=>d.v===v).forEach(d=>{ g.beginPath(); g.arc(ox+d.x,d.y,14,0,Math.PI*2); g.fillStyle="rgba(195,58,46,.85)"; g.fill(); g.lineWidth=3; g.strokeStyle="#fff"; g.stroke(); });
       (b.pins||[]).filter(p=>p.v===v).forEach(p=>{ g.beginPath(); g.arc(ox+p.x,p.y,24,0,Math.PI*2); g.fillStyle="#1c3557"; g.fill(); g.lineWidth=4; g.strokeStyle="#fff"; g.stroke();
         g.fillStyle="#fff"; g.font="800 26px sans-serif"; g.textAlign="center"; g.textBaseline="middle"; g.fillText(String(p.n),ox+p.x,p.y+1); });
@@ -6279,7 +6346,8 @@ function trFigHtml(t,big){
     '<span class="trhint">'+(lock?'서명한 그림이에요':'불편한 곳을 누르면 점 · 다시 누르면 지움 · 번호는 끌어다 놓기')+'</span></div>'+
     '<div class="trbox"><div class="trtray">'+[1,2,3,4,5].map(n=>'<div class="trtok'+(placed.has(n)?" used":"")+'" data-n="'+n+'">'+n+'</div>').join("")+'<i>순위</i></div>'+
     '<div class="trfigs">'+["front","back"].map(v=>'<div class="trf">'+trSvg(b,v,b,big)+
-      '<div class="lr"><span>'+(v==="front"?"오른쪽":"왼쪽")+'</span><b>'+(v==="front"?"앞":"뒤")+'</b><span>'+(v==="front"?"왼쪽":"오른쪽")+'</span></div></div>').join("")+'</div></div>';
+      '<div class="lr">'+(trIs2(b)?'<span></span><b>'+(v==="front"?"앞":"뒤")+'</b><span></span>'
+        :'<span>'+(v==="front"?"오른쪽":"왼쪽")+'</span><b>'+(v==="front"?"앞":"뒤")+'</b><span>'+(v==="front"?"왼쪽":"오른쪽")+'</span>')+'</div></div>').join("")+'</div></div>';
   const ed=!big&&!lock;                                   /* 이름 고치기는 선생님 입력 화면에서만 */
   const dn=(b.dots||[]).map((d,i)=>({i,d,r:d.r||trNameAt(b,d.v,d.x,d.y)}));
   h+='<div class="trchips">'+(dn.length?dn.map(x=>'<span class="trchip">'+(ed?'<button class="trcn" data-a="trdotname" data-t="'+t.id+'" data-w="'+x.d.v+'" data-x="'+x.d.x+'" data-y="'+x.d.y+'" title="눌러서 이름 고치기">'+esc(x.r)+'</button>':esc(x.r))+(lock?'':'<button data-a="trdotdel" data-v="'+x.i+'" data-t="'+t.id+'">×</button>')+'</span>').join("")
@@ -6390,7 +6458,7 @@ function trialForm(){
   const ro=v=>'<div class="tro">'+esc(v||"-")+'</div>';
   let h='<div class="card tform"><div class="chead"><b>'+(t.name?esc(t.name)+' 체험':'새 체험')+'</b>'+
     '<span>'+(locked?'서명한 상담 내용은 고칠 수 없어요 — 뒤에 들은 건 추가 메모로 남기세요':'적는 대로 저장되고, 회원 태블릿에 1~2초 뒤 그대로 보여요')+'</span><span class="sp"></span>'+
-    '<span id="trstat">'+trStatHtml(t)+'</span><button class="btn sm gh" data-a="trialcancel">닫기</button></div><div class="tbody">'+
+    '<span id="trstat">'+trStatHtml(t)+'</span>'+(trialMember(t)?'<button class="btn sm" data-a="open" data-v="'+trialMember(t).id+'">회원 상세</button>':'')+'<button class="btn sm gh" data-a="trialcancel">닫기</button></div><div class="tbody">'+
     '<div class="tgrid">'+
       '<label>이름'+(locked?ro(t.name):inp("name","필수"))+'</label>'+
       '<label>전화번호'+inp("phone","등록하면 이 번호로 연결돼요",' inputmode="tel"')+'</label>'+
@@ -6416,7 +6484,7 @@ function trialForm(){
       '<textarea class="grow" rows="2" data-a="tfadd" placeholder="서명 뒤에 새로 들은 것 (오늘 날짜로 붙어요)">'+esc(TD.add||"")+'</textarea>'+
       '<div><button class="btn sm navy" data-a="trialaddsave">추가 메모 남기기</button></div></div></div>';
   }else{
-    h+='<div class="trsignbar"><div><b>서명</b> 태블릿에서 <u>체험 → 서명 받기</u>를 누르고 이 회원을 고르면 돼요.</div><span class="sp"></span>'+
+    h+='<div class="trsignbar"><div><b>서명</b> 태블릿에서 <u>주소 끝에 #상담</u>을 붙인 화면을 열고 이 회원 이름을 누르면 돼요.</div><span class="sp"></span>'+
       '<button class="btn" data-a="sgopen" data-v="'+t.id+'">이 컴퓨터에서 서명받기</button></div>';
   }
   h+='<div class="tfoot"><button class="btn gh" data-a="trialdel" style="color:var(--red)">이 기록 지우기</button></div></div></div>';
@@ -6428,7 +6496,7 @@ function trialDrawerHtml(m){
   return '<div><div class="dsec">체험 상담 '+tl.length+'건</div>'+tl.map(t=>
     '<div class="tcard"><div class="tch"><b>'+esc(t.date)+'</b>'+(t.staffId?'<span class="tag n">'+esc(staffName({staffId:t.staffId})||"")+'</span>':'')+
       (t.sign?'<span class="tag g">서명 ✓</span>':'<span class="tag o">서명 대기</span>')+'<span class="sp" style="flex:1"></span>'+
-      (S.ro?'':'<button class="lnk" data-a="trialunlink" data-v="'+t.id+'">연결 끊기</button>')+'</div>'+
+      (S.ro?'':'<button class="lnk" data-a="trialgo" data-v="'+t.id+'">상담 열기</button><button class="lnk" data-a="trialunlink" data-v="'+t.id+'">연결 끊기</button>')+'</div>'+
       ((t.body&&((t.body.pins||[]).length||(t.body.dots||[]).length))?'<div class="tcfig">'+["front","back"].map(v=>trSvg(t.body,v,t.body,false)).join("")+'</div>':'')+
       trialPreviewHtml(t)+
       ((t.adds||[]).length?'<div class="tcadd">추가 메모</div>'+t.adds.map(x=>'<div class="tcl"><i>'+esc(x.d.slice(5).replace("-","/"))+'</i><span>'+esc(x.text)+(x.by?' <em>— '+esc(x.by)+'</em>':'')+'</span></div>').join(""):'')+
@@ -6508,7 +6576,24 @@ function sgClose(){
   if(t&&!t.sign&&HOSTED&&trB(t).tab){ trBody(t).tab=null; trBump(t,"b"); save(); }
   S.signId=null; SG.sig=[]; paintSign(); render();
 }
+function sgReady(){                        /* 상담 모드: 로그인 화면이 떠 있는 동안은 아무것도 안 보여준다 */
+  if(!CONSULT||!HOSTED)return true;
+  const g=document.getElementById("authGate");
+  return !!(window.AUTH&&AUTH.staff)&&!(g&&g.classList.contains("on"));
+}
+const sgMD=d=>{ const m=String(d||"").match(/^\d{4}-(\d\d)-(\d\d)/); return m?(+m[1])+"/"+(+m[2]):""; };
+function sgConsultList(){
+  const l=(S.trials||[]).filter(t=>!t.sign&&String(t.date||"")===TODAY()).sort((a,b)=>String(a.createdAt||"").localeCompare(String(b.createdAt||"")));
+  const tm=t=>{ const d=t.createdAt?new Date(t.createdAt):null; return d&&!isNaN(d)?pad2(d.getHours())+":"+pad2(d.getMinutes()):""; };
+  const ver=((document.querySelector(".brand span")||{}).textContent||"");
+  return '<div class="sgwrap"><div class="sghead"><h1>오늘 상담</h1><span style="flex:1"></span><span class="sgwho">'+sgMD(TODAY())+'</span></div>'+
+    '<div class="sglist"><p class="sgp">이름을 누른 뒤 회원님께 태블릿을 드려 주세요.</p>'+
+    (l.length?l.map(t=>'<button class="sgpick" data-a="sgopen" data-v="'+t.id+'"><b>'+esc(t.name||"이름 적는 중")+'</b><span>'+tm(t)+'</span><em>열기 ›</em></button>').join("")
+      :'<div class="sgnone">오늘 만든 체험이 없어요. 선생님이 컴퓨터에서 + 새 체험을 먼저 만들어 주세요.</div>')+
+    '<div class="sgfoot"><span>'+esc(ver)+'</span><button class="btn sm gh" data-a="sgreload">새로고침</button></div></div></div>';
+}
 function sgListHtml(){
+  if(CONSULT)return sgConsultList();
   const from=D(new Date(Date.now()-3*86400000));
   const l=(S.trials||[]).filter(t=>!t.sign&&String(t.date||"")>=from).sort((a,b)=>String(b.updAt||b.createdAt||"").localeCompare(String(a.updAt||a.createdAt||"")));
   return '<div class="sgwrap"><div class="sghead"><h1>서명 받기</h1><span style="flex:1"></span><button class="btn" data-a="sgclose">닫기</button></div>'+
@@ -6518,17 +6603,19 @@ function sgListHtml(){
       :'<div class="empty">서명할 체험이 없어요. 컴퓨터에서 + 새 체험을 먼저 적어 주세요.</div>')+'</div></div>';
 }
 function sgViewHtml(t){
-  const pr=trPrioRows(t), off=HOSTED&&typeof SYNC!=="undefined"&&(SYNC.fail>0||!navigator.onLine);
-  let h='<div class="sgwrap"><div class="sghead"><h1>릴렉싱 체험 상담 확인</h1><span style="flex:1"></span>'+
-    '<span class="sgwho">'+esc(t.name||"이름 적는 중")+' 님 · '+esc(t.date||"")+' · 담당 '+esc(staffName({staffId:t.staffId})||"-")+'</span>'+
-    '<button class="btn" data-a="sgclose">닫기</button></div><div class="sgbody">';
+  const pr=trPrioRows(t), off=HOSTED&&typeof SYNC!=="undefined"&&(SYNC.fail>0||!navigator.onLine), md=sgMD(t.date);
+  let h='<div class="sgwrap"><div class="sghead"><h1>체험 상담 확인</h1><span style="flex:1"></span>'+
+    '<span class="sgwho">'+esc(t.name||"이름 적는 중")+' 님'+(md?' · '+md:'')+'</span>'+
+    '<button class="btn" data-a="sgclose">'+(CONSULT?'목록':'닫기')+'</button></div>';
+  if(CONSULT&&t.sign)return h+'<div class="sgthanks"><b>서명을 마쳤어요.</b><span>고맙습니다. 잠시 후 첫 화면으로 돌아가요.</span><button class="sgbtn" data-a="sgclose">처음으로</button></div></div>';
+  h+='<div class="sgbody"><div class="sgcol sgcolA">';
   if(t.sign)h+='<div class="sgdone">서명을 마쳤어요. 고맙습니다.</div>';
-  h+='<section><h2>불편한 곳을 눌러 주세요 <span>점은 다시 누르면 지워져요 · 옆의 번호를 끌어다 놓으면 순위가 돼요</span></h2>'+trFigHtml(t,true)+'</section>';
-  h+='<section id="sgprio"><h2>해결하고 싶은 순서</h2>'+(pr.length?'<div class="sgpr">'+pr.map(x=>'<div class="pr"><span class="n">'+x.n+'</span><span class="t"><b>'+esc(x.r||"")+'</b>'+(x.tx?' <i>— '+esc(x.tx)+'</i>':'')+'</span></div>').join("")+'</div>'
-     :'<div class="sgnone">그림 옆 1~5 번호를 불편한 곳에 끌어다 놓아 주세요.</div>')+'</section>';
-  h+='<section id="sgmemo"><h2>상담 내용 <span>선생님이 적은 내용이에요 · 다르거나 빠진 게 있으면 말씀해 주세요</span></h2><div class="sgmemo">'+(String(t.memo||"").trim()?esc(t.memo):'<i>아직 적은 내용이 없어요</i>')+'</div></section>';
+  h+='<section><h2><em>1</em>불편한 곳 <span>누르면 점이 찍히고, 다시 누르면 지워져요 · 숫자를 끌어다 놓으면 순위가 돼요</span></h2>'+trFigHtml(t,true)+'</section></div><div class="sgcol sgcolB">';
+  h+='<section id="sgprio"><h2><em>2</em>해결하고 싶은 것</h2>'+(pr.length?'<div class="sgpr">'+pr.map(x=>'<div class="pr"><span class="n">'+x.n+'</span><span class="t"><b>'+esc(x.r||"")+'</b>'+(x.tx?' <i>— '+esc(x.tx)+'</i>':'')+'</span></div>').join("")+'</div>'
+     :'<div class="sgnone">그림 옆 1~5 숫자를 불편한 곳에 끌어다 놓아 주세요.</div>')+'</section>';
+  h+='<section id="sgmemo"><h2><em>3</em>상담 메모 <span>선생님이 적은 내용이에요 · 다르거나 빠진 게 있으면 말씀해 주세요</span></h2><div class="sgmemo">'+(String(t.memo||"").trim()?esc(t.memo):'<i>아직 적은 내용이 없어요</i>')+'</div></section>';
   if(!t.sign){
-    h+='<section><label class="sgchk"><input type="checkbox" data-a="sgchk" data-k="sens"'+(SG.chk.sens?" checked":"")+'><span>상담에 필요한 건강 정보(불편한 곳, 병력, 복용 약)를 수집·이용하는 데 동의합니다.</span></label>'+
+    h+='<section class="sgsign"><h2><em>4</em>서명</h2><label class="sgchk"><input type="checkbox" data-a="sgchk" data-k="sens"'+(SG.chk.sens?" checked":"")+'><span>상담에 필요한 건강 정보(불편한 곳, 병력, 복용 약)를 수집·이용하는 데 동의합니다.</span></label>'+
       '<p class="sgterms">'+esc(TRIAL_TERMS)+'</p>'+
       '<label class="sgchk"><input type="checkbox" data-a="sgchk" data-k="ok"'+(SG.chk.ok?" checked":"")+'><span>위 상담 내용을 확인하였으며, 동의합니다.</span></label>'+
       '<div class="sgpadw"><canvas id="sgpad"></canvas><div class="sgpadbar"><span>여기에 서명해 주세요</span><button class="btn sm gh" data-a="sgpadclear">다시 쓰기</button></div></div>'+
@@ -6536,11 +6623,15 @@ function sgViewHtml(t){
       '<div id="sgmsg" class="sgwarn" style="display:none"></div>'+
       '<button class="sgbtn" data-a="sgdone"'+(off?" disabled":"")+'>서명 완료</button></section>';
   }
-  return h+'</div></div>';
+  return h+'</div></div></div>';
 }
 /* 덮개 그리기. soft=true면 서명 칸은 그대로 두고 나머지만 새로 */
 function paintSign(soft){
   let el=$("signv");
+  if(CONSULT){
+    if(!S.signId)S.signList=true;
+    if(!sgReady()){ if(el)el.classList.remove("on"); return; }
+  }
   if(!S.signId&&!S.signList){ if(el){ el.classList.remove("on"); el.innerHTML=""; } document.body.classList.remove("signing"); return; }
   if(!el){ el=document.createElement("div"); el.id="signv"; el.className="signv"; document.body.appendChild(el); }
   el.classList.add("on"); document.body.classList.add("signing");
@@ -6552,12 +6643,15 @@ function paintSign(soft){
     const fig=el.querySelector(".trfig"); if(fig)fig.outerHTML=trFigHtml(t,true);
     const tmp=document.createElement("div"); tmp.innerHTML=sgViewHtml(t);
     ["sgprio","sgmemo"].forEach(id=>{ const a=$(id), b=tmp.querySelector("#"+id); if(a&&b)a.innerHTML=b.innerHTML; });
-    el.querySelector(".sgwho").innerHTML=tmp.querySelector(".sgwho").innerHTML;
+    const w1=el.querySelector(".sgwho"), w2=tmp.querySelector(".sgwho"); if(w1&&w2)w1.innerHTML=w2.innerHTML;
     return;
   }
   const sc=el.scrollTop; el.innerHTML=sgViewHtml(t); el.scrollTop=sc;
   if(!t.sign)sgPadInit();
 }
+if(CONSULT)setInterval(()=>{ const el=$("signv"), on=!!(el&&el.classList.contains("on"));
+  if(sgReady()&&!on)paintSign(); else if(!sgReady()&&on)el.classList.remove("on"); },800);
+{ let rz=null; window.addEventListener("resize",()=>{ clearTimeout(rz); rz=setTimeout(()=>{ if($("sgpad"))sgPadInit(); },200); }); }
 function sgMsg(s){ const m=$("sgmsg"); if(m){ m.textContent=s; m.style.display=s?"block":"none"; } }
 function sgPadInit(){
   const c=$("sgpad"); if(!c)return;
@@ -6596,7 +6690,8 @@ async function sgDone(){
     const linked=trialAutoLink(); const m=trialMember(t); if(m)memPrioInit(m,true);
     logAct("체험 서명",t.name+" · "+t.date);
     save(); SG.sig=[]; paintSign(); render();
-    toast(m?"서명했어요. "+m.name+" 회원에게 연결했어요.":"서명했어요.");
+    if(CONSULT){ const id=t.id; setTimeout(()=>{ if(S.signId===id){ S.signId=null; S.signList=true; paintSign(); } },6000); }
+    else toast(m?"서명했어요. "+m.name+" 회원에게 연결했어요.":"서명했어요.");
   }catch(e){ if(btn){ btn.disabled=false; btn.textContent="서명 완료"; } sgMsg("서명을 저장하지 못했어요: "+(e.message||e)); }
 }
 
@@ -6722,11 +6817,12 @@ document.addEventListener("pointerup",()=>{
 });
 
 /* 새 체험·서명·우선순위 버튼 */
-const TR_ACTS=["trg","trdotdel","trdotname","sglist","sgopen","sgclose","sgdone","sgpadclear","sgchk","mpdone","mpdel"];
+const TR_ACTS=["trg","trdotdel","trdotname","sgreload","sglist","sgopen","sgclose","sgdone","sgpadclear","sgchk","mpdone","mpdel"];
 function trAct(a,v,el){
   if(a==="sglist"){ S.signList=true; S.signId=null; paintSign(); return true; }
   if(a==="sgopen"){ SG.fromList=!!S.signList; sgOpen(v); return true; }
-  if(a==="sgclose"){ if(S.signId){ const back=!!SG.fromList; sgClose(); if(back&&!S.signId){ S.signList=true; paintSign(); } } else { S.signList=false; paintSign(); } return true; }
+  if(a==="sgreload"){ location.reload(); return true; }
+  if(a==="sgclose"){ if(S.signId){ const back=!!SG.fromList||CONSULT; sgClose(); if(back&&!S.signId){ S.signList=true; paintSign(); } } else if(!CONSULT){ S.signList=false; paintSign(); } return true; }
   if(S.ro)return false;
   if(a==="sgdone"){ sgDone(); return true; }
   if(a==="sgpadclear"){ SG.sig=[]; SG.hash=null; sgPadInit(); return true; }
@@ -6751,6 +6847,7 @@ function trialAction(a,v,t){
   if(S.ro)return false;
   if(a==="trialnew"){ trialOpen(null); return true; }
   if(a==="trialedit"){ const x=S.trials.find(y=>y.id===v); if(x)trialOpen(x); return true; }
+  if(a==="trialgo"){ const x=S.trials.find(y=>y.id===v); if(x){ closeDrawer(); S.tab="trial"; trialOpen(x); } return true; }
   if(a==="trialcancel"){ trialClose(); return true; }
   if(a==="trialaddsave"){ trialAddSave(); return true; }
   if(a==="trialdel"){ trialDelete(); return true; }
