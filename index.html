@@ -464,6 +464,17 @@
   .dpempty{padding:40px 24px;text-align:center;color:var(--mut);line-height:1.7}
   .docfull{position:fixed;inset:0;background:rgba(15,20,28,.94);z-index:60;display:none;flex-direction:column}
   .docfull.on{display:flex}
+  #printbox{display:none}
+  .tdno{font-size:11px;color:var(--fnt);font-variant-numeric:tabular-nums}
+  @media print{
+    @page{size:A4;margin:0}
+    body.printing>*:not(#printbox){display:none!important}
+    body.printing{background:#fff!important;min-width:0!important}
+    body.printing #printbox{display:block}
+    #printbox .prpg{width:210mm;height:296mm;display:flex;align-items:center;justify-content:center;break-after:page;page-break-after:always;overflow:hidden}
+    #printbox .prpg:last-child{break-after:auto;page-break-after:auto}
+    #printbox img{max-width:100%;max-height:100%;object-fit:contain}
+  }
   .dfbar{display:flex;align-items:center;gap:8px;padding:10px 16px;color:#fff}
   .dfbar span{flex:1;font-size:13.5px}
   .dfbar button{height:32px;padding:0 14px;border-radius:6px;border:0;background:rgba(255,255,255,.14);color:#fff;font-weight:600;cursor:pointer}
@@ -835,7 +846,7 @@
 <div class="page">
 <header>
   <div class="hbar">
-    <div class="brand"><b>릴렉싱 데스크</b><span>v127 · 11/5 만듦</span></div>
+    <div class="brand"><b>릴렉싱 데스크</b><span>v128 · 11/5 만듦</span></div>
     <div class="seg" id="who"></div>
     <div class="hright">
       <div class="srch"><i></i><input id="q" placeholder="회원 이름 검색" autocomplete="off"></div>
@@ -3983,6 +3994,7 @@ function CRITERIA_(){
     {t:"자료 순서",d:"자료가 있는 회원은 상세를 열면 옆에 자료가 같이 뜨고, 맨 앞 자료가 크게 보입니다. 썸네일을 끌거나 ‘맨 앞으로’로 순서를 바꿉니다. 순서를 정해둔 회원은 새 자료가 첫 번째 바로 뒤에 들어갑니다"},
     {t:"체험 기록",d:"엑셀에 없는 체험자를 체험 탭에 적습니다. 적는 대로 저장되고(저장 버튼 없음), 서버 버전이면 다른 기기에 1~2초 뒤 보입니다. 아무것도 안 적고 닫으면 남기지 않습니다. 예전 양식의 운동·수면·식사는 옛 기록에서만 보입니다"},
     {t:"신체 그림·순위",d:"여성/남성 앞·뒤 근육 칸 그림(v124). 불편한 곳을 누르면 누른 자리 그대로 점이 찍히고(다시 누르면 지움), 그 자리 칸의 쉬운 부위 이름(약 120개, 오른쪽·왼쪽 자동)이 예상으로 붙습니다. 선 위나 테두리 바로 밖을 눌러도 점은 그 자리, 이름은 가장 가까운 칸. 부위 이름은 컴퓨터 입력 화면에서 고칠 수 있고(순위 칸의 이름 · 점 이름 누르기, 비우면 예상 이름으로), 서명 화면에서는 못 고칩니다. 번호를 다른 자리로 옮기면 새 자리 이름으로 다시 붙습니다. 성별을 바꾸면 점이 몸 폭 비율로 옮겨가고 고친 이름은 그대로입니다. v124 전에 점을 찍은 기록은 예전 그림으로 보입니다. 1~5번 버튼을 그림에 끌어다 놓으면 그 번호가 해결하고 싶은 순위가 되고, 그림 밖으로 끌어내면 빠집니다. 순위별 설명은 컴퓨터에서 적습니다. 앞모습은 그림 왼쪽이 회원의 오른쪽입니다"},
+    {t:"체험 상담 확인서 (v128)",d:"서명하면 A4 확인서가 만들어집니다: 머리(문서번호 T-날짜-순번)·회원 정보·01 불편한 곳과 순위(그림 + 순위별 설명 + 그 밖에 불편한 곳)·02 상담 메모·03 확인 및 동의·서명. 메모가 넘치면 다음 쪽으로 이어지고, 동의와 서명은 함께 마지막 쪽(서명은 쪽 아래)에 둡니다. 문서번호는 서명하는 순간 그날 순서대로 붙고 회원 상세 체험 상담 칸·상담 화면에 보입니다. 저장은 이미지(쪽마다 한 장)이고, PDF가 필요하면 자료 보기의 ‘인쇄·PDF’ → 인쇄 창에서 ‘PDF로 저장’. 이전에 서명한 동의서는 그대로입니다."},
     {t:"체험 기록 이름 (v127)",d:"등록된 회원(‘회원’ 표시)은 이름을 누르면 회원 상세가 열립니다 — 상세의 ‘체험 상담’ 칸에 그림·순위·상담 메모·추가 메모가 있고, ‘상담 열기’로 상담 입력 화면으로 갑니다. 상담 입력 화면 위 ‘회원 상세’로 반대로도 갑니다. 미등록 체험(연결 후보 포함)은 이름을 누르면 상담 입력 화면. 몸 그림은 앞·뒤 모두 그림 위 양쪽에 왼쪽/오른쪽이 적혀 있습니다(앞은 그림 왼쪽이 회원 오른쪽)."},
     {t:"상담 화면 (#상담, 태블릿)",d:"v125. 태블릿은 인터넷 주소 끝에 #상담 을 붙여 엽니다(홈 화면 아이콘 권장). 로그인 뒤 ‘오늘 상담’ — 오늘 만든 체험 중 서명 안 한 이름과 만든 시각만 나오고, 이름을 누르면 회원용 화면: ① 불편한 곳(그림·1~5 순위) ② 해결하고 싶은 것 ③ 상담 메모 ④ 서명(동의 체크 2개·문구·서명 칸)만 보입니다. 메뉴·체험 기록·전화번호·강사 이름·지우기 버튼은 안 보이고, 전체 프로그램으로 나갈 수 없습니다(‘목록’은 오늘 상담 목록으로만). 화면 크기에 비례해 맞춰지고(글자 = 화면 짧은 변의 약 2.3%), 세로는 한 줄, 가로는 왼쪽 그림·오른쪽 나머지 두 칸입니다. 서명하면 ‘고맙습니다’가 뜨고 6초 뒤 목록으로 돌아갑니다. 순위 설명·상담 메모·부위 이름은 컴퓨터에서만 고칩니다"},
     {t:"서명 받기",d:"컴퓨터에서는 체험 → 서명 받기(최근 3일) 또는 ‘이 컴퓨터에서 서명받기’로 같은 동의서 화면을 띄웁니다. 상담 메모는 회원에게 그대로 보이고, 건강 정보 수집·이용 동의와 상담 내용 확인에 체크하고 서명합니다. 서명하는 중에 내용이 바뀌면 서명을 지우고 다시 받습니다. 인터넷이 끊기면 서명 버튼이 잠깁니다. 그림·순위·메모·문구·서명이 한 장의 동의서 그림으로 남습니다"},
@@ -5856,6 +5868,7 @@ function paintDocs(){
       '<span class="dppg">'+(DV.page+1)+' / '+d.pages.length+'쪽</span>'+
       '<button class="btn sm gh" data-a="docpg" data-v="1"'+(DV.page<d.pages.length-1?'':' disabled')+'>▶</button>':'')+
     '<span class="sp"></span>'+(!S.ro&&list.length>1&&list[0].id!==d.id?'<button class="btn sm gh" data-a="docfirst" data-v="'+d.id+'" title="상세를 열면 이 자료가 먼저 뜨게">맨 앞으로</button>':'')+
+    (d.pdf?'':'<button class="btn sm gh" data-a="docprint" title="인쇄 창에서 ‘PDF로 저장’을 고르면 PDF가 돼요">인쇄·PDF</button>')+
     '<button class="btn sm gh" data-a="docbig">크게</button>'+
     (S.ro?'':'<button class="btn sm gh" data-a="docdel" data-v="'+d.id+'" style="color:var(--red)">지우기</button>')+'</div>'+
     (d.pdf?'<div class="dpview pdf"><iframe src="'+docURL(d,0)+'#view=FitH" title="PDF"></iframe></div>'
@@ -5874,9 +5887,22 @@ function paintDocFull(){
   if(!d){ v.innerHTML=""; return; }
   v.innerHTML='<div class="dfbar"><span>'+esc(m.name)+' · '+esc(d.date)+' · '+esc(d.kind)+(d.pages.length>1?' · '+(DV.page+1)+'/'+d.pages.length+'쪽':'')+'</span>'+
     (d.pages.length>1?'<button data-a="docpg" data-v="-1"'+(DV.page?'':' disabled')+'>◀</button><button data-a="docpg" data-v="1"'+(DV.page<d.pages.length-1?'':' disabled')+'>▶</button>':'')+
-    (d.pdf?'<a href="'+docURL(d,0)+'" target="_blank" rel="noopener">새 탭에서 열기</a>':'')+
+    (d.pdf?'<a href="'+docURL(d,0)+'" target="_blank" rel="noopener">새 탭에서 열기</a>':'<button data-a="docprint">인쇄·PDF</button>')+
     '<button data-a="docfullx">닫기 (Esc)</button></div>'+
     (d.pdf?'<div class="dfimg pdf"><iframe src="'+docURL(d,0)+'" title="PDF"></iframe></div>':'<div class="dfimg"><img src="'+docURL(d,DV.page)+'" alt=""></div>');
+}
+/* 인쇄·PDF — 쪽마다 A4 한 장. 인쇄 창에서 ‘PDF로 저장’을 고르면 PDF가 된다(미리 만들어 두는 파일은 없음) */
+function docPrint(d){
+  if(!d||d.pdf)return;
+  let box=$("printbox"); if(!box){ box=document.createElement("div"); box.id="printbox"; document.body.appendChild(box); }
+  box.innerHTML=d.pages.map((p,i)=>'<div class="prpg"><img src="'+docURL(d,i)+'" alt=""></div>').join("");
+  const ims=[...box.querySelectorAll("img")];
+  Promise.all(ims.map(im=>im.complete?1:new Promise(r=>{ im.onload=im.onerror=r; }))).then(()=>{
+    document.body.classList.add("printing");
+    const done=()=>{ document.body.classList.remove("printing"); box.innerHTML=""; window.removeEventListener("afterprint",done); };
+    window.addEventListener("afterprint",done);
+    window.print();
+  });
 }
 function docMove(step){
   const m=S.openId?byId(S.members,S.openId):null; if(!m)return;
@@ -5896,6 +5922,7 @@ function docAction(a,v,t){
   if(a==="docopen"){ DV.pane=true; paintDocs(); return true; }
   if(a==="docback"){ DV.pane=false; DV.add=false; DP.pages.forEach(p=>URL.revokeObjectURL(p.url)); DP.pages=[]; paintDocs(); return true; }
   if(a==="docfullx"){ DV.full=false; paintDocFull(); return true; }
+  if(a==="docprint"){ docPrint(docCurrent(m)); return true; }
   if(S.ro)return false;
   if(a==="docadd"){ DV.add=!DV.add; if(DV.add&&!DP.date)DP.date=TODAY(); paintDocs(); return true; }
   if(a==="dockind"){ DP.kind=v; paintDocs(); return true; }
@@ -6430,7 +6457,7 @@ function trRepaint(t){
 
 /* ── 컴퓨터 양식 ── */
 function trStatHtml(t){
-  if(t.sign)return '<span class="pill">서명 완료</span>';
+  if(t.sign)return '<span class="pill">서명 완료'+(t.sign.no?' · '+esc(t.sign.no):'')+'</span>';
   const tab=trB(t).tab, live=tab&&Date.now()-new Date(tab).getTime()<20*60000;
   return (live?'<span class="pill"><i></i>태블릿에서 보는 중 · 서명 대기</span>':'<span class="pill o">서명 대기</span>')+
     '<span class="trsaved">자동 저장됨 '+(t.updAt?esc(new Date(t.updAt).toTimeString().slice(0,8)):"")+'</span>';
@@ -6495,7 +6522,7 @@ function trialDrawerHtml(m){
   const tl=trialsOf(m); if(!tl.length)return "";
   return '<div><div class="dsec">체험 상담 '+tl.length+'건</div>'+tl.map(t=>
     '<div class="tcard"><div class="tch"><b>'+esc(t.date)+'</b>'+(t.staffId?'<span class="tag n">'+esc(staffName({staffId:t.staffId})||"")+'</span>':'')+
-      (t.sign?'<span class="tag g">서명 ✓</span>':'<span class="tag o">서명 대기</span>')+'<span class="sp" style="flex:1"></span>'+
+      (t.sign?'<span class="tag g">서명 ✓</span>'+(t.sign.no?'<span class="tdno">'+esc(t.sign.no)+'</span>':''):'<span class="tag o">서명 대기</span>')+'<span class="sp" style="flex:1"></span>'+
       (S.ro?'':'<button class="lnk" data-a="trialgo" data-v="'+t.id+'">상담 열기</button><button class="lnk" data-a="trialunlink" data-v="'+t.id+'">연결 끊기</button>')+'</div>'+
       ((t.body&&((t.body.pins||[]).length||(t.body.dots||[]).length))?'<div class="tcfig">'+["front","back"].map(v=>trSvg(t.body,v,t.body,false)).join("")+'</div>':'')+
       trialPreviewHtml(t)+
@@ -6681,10 +6708,11 @@ async function sgDone(){
   const btn=document.querySelector("[data-a=sgdone]"); if(btn){ btn.disabled=true; btn.textContent="저장하는 중…"; }
   try{
     const who=S.me?(byId(S.staff,S.me)||{}).name||"":"";
-    const pg=await trialSignImage(t,SG.sig);
-    const rec={id:uid("d"),memberId:t.id,member:t.name,date:t.date,kind:TRIAL_SIGN_KIND,savedAt:new Date().toISOString(),by:t.by||who,pages:[pg]};
+    const at=new Date().toISOString(), no=trSignNo(at);
+    const pages=await trialSignImage(t,SG.sig,no,at);
+    const rec={id:uid("d"),memberId:t.id,member:t.name,date:t.date,kind:TRIAL_SIGN_KIND,savedAt:at,by:t.by||who,no,pages};
     await docStorePut(rec); docListPut(rec);
-    t.sign={at:new Date().toISOString(),text:TRIAL_TERMS,docId:rec.id,sens:true,dev:(S.signDev||(window.matchMedia("(pointer:coarse)").matches?"tab":"pc")),by:who};
+    t.sign={at,no,text:TRIAL_TERMS,docId:rec.id,sens:true,dev:(S.signDev||(window.matchMedia("(pointer:coarse)").matches?"tab":"pc")),by:who};
     trBody(t).tab=null; trBump(t,"b");
     if(!t.birth&&t.birthIn)t.birth=parseBirth(t.birthIn)||"";
     const linked=trialAutoLink(); const m=trialMember(t); if(m)memPrioInit(m,true);
@@ -6702,58 +6730,158 @@ function bfSvgFile(g,marks){
   const one=v=>bfSvg(g,v,marks,{}).replace('<svg class="bf"','<svg x="'+(v==="front"?0:260)+'" width="240" height="560"').replace(/ data-v="[a-z]+"/,"");
   return '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="560" viewBox="0 0 500 560">'+st+one("front")+one("back")+'</svg>';
 }
-function trialSignImage(t,strokes){
-  return new Promise((ok,no)=>{
-    if(trIs2(trB(t)))bf2Canvas(trB(t)).then(c=>draw(c),()=>draw(null));
-    else{ const img=new Image();
-      img.onload=()=>draw(img); img.onerror=()=>draw(null);
-      img.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(bfSvgFile(trB(t).g,trB(t))); }
-    function draw(fig){
-    const W=1200, P=70, CW=W-P*2, font='"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans CJK KR",sans-serif';
-    const c=document.createElement("canvas"), g=c.getContext("2d");
-    const wrap=(text,px,maxW,weight)=>{ g.font=(weight||"")+" "+px+"px "+font; const out=[];
-      String(text).split("\n").forEach(par=>{ let line="";
-        for(const ch of par){ if(g.measureText(line+ch).width>maxW&&line){ out.push(line); line=ch.trim()?ch:""; } else line+=ch; }
+/* ── 체험 상담 확인서 (v128) — A4 쪽 단위. 시안 기준 794×1123 좌표로 그리고 2배로 찍는다.
+   1쪽: 머리·회원 정보·01 불편한 곳과 순위·02 상담 메모. 메모가 넘치면 다음 쪽으로 이어지고,
+   03 확인 및 동의 + 서명은 한 덩어리로 마지막 쪽에 둔다(서명은 쪽 아래). 쪽마다 아래 쪽 번호. ── */
+function trSignNo(at){
+  const d=new Date(at), ymd=String(d.getFullYear()).slice(2)+pad2(d.getMonth()+1)+pad2(d.getDate());
+  const used=new Set((S.trials||[]).map(x=>x.sign&&x.sign.no).filter(Boolean));
+  let n=1; while(used.has("T-"+ymd+"-"+pad2(n)))n++;
+  return "T-"+ymd+"-"+pad2(n);
+}
+function trDocImgs(b){
+  if(trIs2(b))return Promise.all(["front","back"].map(v=>new Promise(ok=>{ const im=new Image(); im.onload=()=>ok(im); im.onerror=()=>ok(null); im.src=bf2Url(b.g,v); })))
+    .then(([f,k])=>f&&k?{front:f,back:k}:null);
+  return new Promise(ok=>{ const im=new Image(); im.onload=()=>ok({old:im}); im.onerror=()=>ok(null);
+    im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(bfSvgFile(b.g,b)); });
+}
+function trialSignImage(t,strokes,no,at){
+  const b=trB(t);
+  return trDocImgs(b).then(imgs=>{
+    const PW=794, PH=1123, K=2, L=52, R=PW-52, CW=R-L, TOP=46, FOOT=PH-34;
+    const FONT='"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans CJK KR",sans-serif';
+    const C={ink:"#1c2533",navy:"#1c3557",mut:"#5d6673",fnt:"#9097a1",line:"#e3e6ea",soft:"#f5f6f8",red:"#c33a2e",chip:"#fbeceb"};
+    const meas=document.createElement("canvas").getContext("2d");
+    const F=(px,w)=>(w||400)+" "+px+"px "+FONT;
+    const wrap=(text,px,w,maxW)=>{ meas.font=F(px,w); const out=[];
+      String(text==null?"":text).split("\n").forEach(par=>{ let line="";
+        for(const ch of par){ if(meas.measureText(line+ch).width>maxW&&line){ out.push(line); line=ch.trim()?ch:""; } else line+=ch; }
         out.push(line); });
       return out; };
-    const qa=trialLines(t).map(([k,v])=>[k,wrap(v,28,CW-200)]);
-    const terms=wrap(TRIAL_TERMS,28,CW-40);
-    const sens=wrap("상담에 필요한 건강 정보(불편한 곳, 병력, 복용 약)를 수집·이용하는 데 동의합니다.",28,CW-80);
-    const info=[["성함",t.name],["생년월일",t.birth||t.birthIn||"-"],["연락처",fmtPhone(t.phone)||"-"],["체험일",t.date],["담당",staffName({staffId:t.staffId})||"-"],
-      ["서명 일시",new Date().toLocaleString("ko-KR",{hour12:false})]];
-    const LH=44, sigH=320, figH=fig?Math.round(CW*0.82*(fig.height||560)/(fig.width||500)):0;
-    const qaH=qa.length?qa.reduce((a,[,l])=>a+l.length*LH+14,0):LH;
-    const H=P+80+info.length*46+30+(fig?figH+40:0)+50+qaH+30+(sens.length*LH+20)+terms.length*LH+40+60+30+sigH+P;
-    c.width=W; c.height=H;
-    g.fillStyle="#fff"; g.fillRect(0,0,W,H); g.textBaseline="top";
-    let y=P;
-    g.fillStyle="#111"; g.font="700 42px "+font; g.fillText("릴렉싱 프로그램 체험 상담 · 동의서",P,y); y+=80;
-    info.forEach(([k,v])=>{ g.font="600 26px "+font; g.fillStyle="#777"; g.fillText(k,P,y);
-      g.font="28px "+font; g.fillStyle="#111"; g.fillText(String(v||"-"),P+160,y); y+=46; });
-    y+=30;
-    if(fig){ const fw=CW*0.82, fx=P+(CW-fw)/2; g.drawImage(fig,fx,y,fw,figH);
-      g.font="600 24px "+font; g.fillStyle="#888"; g.fillText("앞 (그림 왼쪽이 오른쪽)",fx+fw*0.05,y+figH-6); g.fillText("뒤 (그림 왼쪽이 왼쪽)",fx+fw*0.57,y+figH-6); y+=figH+40; }
-    g.fillStyle="#111"; g.font="700 30px "+font; g.fillText("상담 내용",P,y); y+=50;
-    g.strokeStyle="#ddd"; g.lineWidth=2; g.beginPath(); g.moveTo(P,y-10); g.lineTo(W-P,y-10); g.stroke();
-    if(!qa.length){ g.font="28px "+font; g.fillStyle="#999"; g.fillText("(적은 내용 없음)",P,y); y+=LH; }
-    qa.forEach(([k,lines])=>{
-      g.font="700 26px "+font; g.fillStyle="#555"; g.fillText(k,P,y);
-      g.font="28px "+font; g.fillStyle="#111"; lines.forEach(l=>{ g.fillText(l,P+200,y); y+=LH; }); y+=14; });
-    y+=30;
-    g.font="28px "+font; g.fillStyle="#111"; sens.forEach((l,i)=>{ g.fillText((i?"    ":"☑ ")+l,P,y); y+=LH; }); y+=20;
-    g.fillStyle="#f4f5f7"; g.fillRect(P,y-16,CW,terms.length*LH+32+60);
-    g.fillStyle="#111"; g.font="28px "+font; terms.forEach(l=>{ g.fillText(l,P+20,y); y+=LH; });
-    g.font="700 28px "+font; g.fillText("☑ 위 상담 내용을 확인하였으며, 동의합니다.",P+20,y+10); y+=60+40;
-    y+=30;
-    g.strokeStyle="#bbb"; g.lineWidth=2; g.strokeRect(P,y,CW,sigH);
-    g.font="24px "+font; g.fillStyle="#999"; g.fillText("서명",P+14,y+12);
-    const bw=CW-40, bh=sigH-40, bx=P+20, by=y+20;
-    g.strokeStyle="#111"; g.lineWidth=4; g.lineCap="round"; g.lineJoin="round";
-    (strokes||[]).forEach(s=>{ g.beginPath(); s.forEach(([x,yy],i)=>i?g.lineTo(bx+x*bw,by+yy*bh):g.moveTo(bx+x*bw,by+yy*bh)); if(s.length===1)g.lineTo(bx+s[0][0]*bw+1,by+s[0][1]*bh); g.stroke(); });
-    c.toBlob(b=>b?ok({blob:b,w:W,h:H}):no(new Error("동의서 그림을 만들지 못했어요")),"image/jpeg",0.9);
+    const fit=(text,px,w,maxW)=>{ meas.font=F(px,w); let s=String(text||"-"); if(meas.measureText(s).width<=maxW)return s;
+      while(s.length>1&&meas.measureText(s+"…").width>maxW)s=s.slice(0,-1); return s+"…"; };
+    const dt=s=>{ const m=String(s||"").match(/^(\d{4})-(\d\d)-(\d\d)/); return m?m[1]+". "+m[2]+". "+m[3]:String(s||"-"); };
+    const dtw=s=>{ const m=String(s||"").match(/^(\d{4})-(\d\d)-(\d\d)/); if(!m)return dt(s); const d=new Date(+m[1],+m[2]-1,+m[3]); return dt(s)+" ("+WD[d.getDay()]+")"; };
+    const sat=new Date(at||Date.now()), signed=sat.getFullYear()+". "+pad2(sat.getMonth()+1)+". "+pad2(sat.getDate())+" "+pad2(sat.getHours())+":"+pad2(sat.getMinutes());
+    const bir=t.birth?dt(t.birth):(t.birthIn||"-");
+    /* 내용 준비 */
+    const pr=trPrioRows(t), dots=trDotNames(t).map(s=>s||"이름 없는 곳");
+    const prW=CW-330-22-36;
+    const prRows=pr.map(x=>({n:x.n,title:x.r||"부위 표시 없음",desc:x.tx?wrap(x.tx,10.5,400,prW):[]}));
+    const memoLines=String(t.memo||"").trim()?wrap(String(t.memo).trim(),11.5,400,CW-30):null;
+    const terms=String(TRIAL_TERMS).split("\n").map(p=>wrap(p,9.6,400,CW-23-2-24));
+    const ck1=wrap("상담에 필요한 건강 정보(불편한 곳, 병력, 복용 약)를 수집·이용하는 데 동의합니다.",11.5,600,CW-23);
+    const ck2=wrap("위 상담 내용을 확인하였으며, 동의합니다.",11.5,600,CW-23);
+    /* 높이 */
+    const prH=prRows.reduce((a,x,i)=>a+(i?10:2)+16+x.desc.length*15.5+10+1,0);
+    meas.font=F(10.5);
+    const chipW=dots.map(s=>Math.ceil(meas.measureText(s).width)+7+7+5+9);
+    let cx=0, crow=dots.length?1:0; chipW.forEach(w=>{ if(cx+w>CW-352&&cx>0){ crow++; cx=0; } cx+=w+4; });
+    const etcH=dots.length?12+14+crow*25:0;
+    const rightH=(pr.length?prH:22)+etcH;
+    const FIGH=10+255+2+14+6, sec1H=22+10+Math.max(FIGH,rightH);
+    const termsH=18+terms.reduce((a,l)=>a+l.length*16.3,0)+(terms.length-1)*4;
+    const agreeH=22+10+ck1.length*20+7+termsH+7+ck2.length*20;
+    const SIGNH=16+74+18;
+    const LH=20, MPAD=13;
+    /* 쪽 나누기 */
+    const pages=[]; let pg=null, y=0;
+    const newPage=first=>{ pg={ops:[],first}; pages.push(pg); y=first?TOP:TOP; };
+    const op=f=>pg.ops.push(f);
+    const bottom=FOOT-30;
+    newPage(true);
+    op(g=>{ g.fillStyle=C.navy; g.font=F(9.5,700); if("letterSpacing" in g)g.letterSpacing="2px"; g.fillText("LAVIDA SPORTS MEDICAL · RELAXING",L,TOP); if("letterSpacing" in g)g.letterSpacing="0px";
+      g.fillStyle=C.ink; g.font=F(25,800); g.fillText("체험 상담 확인서",L,TOP+18);
+      g.textAlign="right"; g.fillStyle=C.mut; g.font=F(12,700); g.fillText(dtw(t.date),R,TOP+31); g.fillStyle=C.fnt; g.font=F(9.5); g.fillText("문서번호 "+(no||"-"),R,TOP+49); g.textAlign="left";
+      g.fillStyle=C.navy; g.fillRect(L,TOP+66,CW,2);
+      const info=[["성함",t.name],["생년월일",bir],["연락처",fmtPhone(t.phone)||t.phone||"-"],["주소",t.addr||"-"],["담당 강사",staffName({staffId:t.staffId})||"-"]];
+      info.forEach(([k,v],i)=>{ const x=L+i*CW/5; g.fillStyle=C.fnt; g.font=F(9.5); g.fillText(k,x,TOP+80);
+        g.fillStyle=C.ink; g.font=F(12.5,700); g.fillText(fit(v,12.5,700,CW/5-10),x,TOP+96); });
+      g.fillStyle=C.line; g.fillRect(L,TOP+122,CW,1); });
+    y=TOP+123;
+    const secHead=(num,title,sub)=>{ const yy=y; op(g=>{ g.fillStyle=C.navy; trRR(g,L,yy+3,22,15,4); g.fill(); g.fillStyle="#fff"; g.font=F(10,800); g.textAlign="center"; g.fillText(num,L+11,yy+5); g.textAlign="left";
+      g.fillStyle=C.ink; g.font=F(14,800); g.fillText(title,L+30,yy); if(sub){ meas.font=F(14,800); const w=meas.measureText(title).width; g.fillStyle=C.fnt; g.font=F(9.5); g.fillText(sub,L+30+w+8,yy+4); } }); y+=22+10; };
+    /* 01 */
+    y+=20; secHead("01","불편한 곳과 해결하고 싶은 것","회원님이 직접 표시하고 순서를 정했어요");
+    { const y0=y;
+      op(g=>{ g.fillStyle=C.soft; trRR(g,L,y0,330,FIGH,10); g.fill();
+        if(imgs&&imgs.front){ [["front",0],["back",1]].forEach(([v,i])=>{ const fw=153, fh=255, fx=L+8+i*(fw+8), fy=y0+10, s=fw/600;
+            g.drawImage(imgs[v],fx,fy,fw,fh);
+            const LR=v==="front"?["오른쪽","왼쪽"]:["왼쪽","오른쪽"]; g.fillStyle="#9aa1ab"; g.font=F(36*s,700); g.textAlign="left"; g.fillText(LR[0],fx+18*s,fy+16*s); g.textAlign="right"; g.fillText(LR[1],fx+582*s,fy+16*s);
+            (b.dots||[]).filter(d=>d.v===v).forEach(d=>{ g.beginPath(); g.arc(fx+d.x*s,fy+d.y*s,17*s,0,Math.PI*2); g.fillStyle="rgba(195,58,46,.88)"; g.fill(); g.lineWidth=4*s; g.strokeStyle="#fff"; g.stroke(); });
+            (b.pins||[]).filter(p=>p.v===v).forEach(p=>{ g.beginPath(); g.arc(fx+p.x*s,fy+p.y*s,30*s,0,Math.PI*2); g.fillStyle=C.navy; g.fill(); g.lineWidth=5*s; g.strokeStyle="#fff"; g.stroke();
+              g.fillStyle="#fff"; g.font=F(30*s,800); g.textAlign="center"; g.textBaseline="middle"; g.fillText(String(p.n),fx+p.x*s,fy+p.y*s+1); g.textBaseline="top"; });
+            g.textAlign="center"; g.fillStyle=C.mut; g.font=F(9.5,700); g.fillText(v==="front"?"앞":"뒤",fx+fw/2,fy+fh+2); g.textAlign="left"; }); }
+        else if(imgs&&imgs.old){ const iw=314, ih=255, r=Math.min(iw/imgs.old.width,ih/imgs.old.height), w=imgs.old.width*r, h=imgs.old.height*r; g.drawImage(imgs.old,L+8+(iw-w)/2,y0+10+(ih-h)/2,w,h); }
+        /* 오른쪽: 순위 */
+        const X=L+330+22; let yy=y0;
+        if(!prRows.length){ g.fillStyle=C.fnt; g.font=F(11); g.fillText("순위를 정한 곳이 없어요",X,yy+2); yy+=22; }
+        prRows.forEach((x,i)=>{ yy+=(i?10:2);
+          g.beginPath(); g.arc(X+11,yy+9,11,0,Math.PI*2); g.fillStyle=C.navy; g.fill(); g.fillStyle="#fff"; g.font=F(11.5,800); g.textAlign="center"; g.textBaseline="middle"; g.fillText(String(x.n),X+11,yy+9.5); g.textAlign="left"; g.textBaseline="top";
+          g.fillStyle=C.ink; g.font=F(12.5,800); g.fillText(fit(x.title,12.5,800,prW),X+36,yy); yy+=16;
+          g.fillStyle=C.mut; g.font=F(10.5); x.desc.forEach(l=>{ yy+=2; g.fillText(l,X+36,yy); yy+=13.5; });
+          yy+=10; g.fillStyle=C.line; g.fillRect(X,yy,R-X,1); yy+=1; });
+        if(dots.length){ yy+=12; g.fillStyle=C.fnt; g.font=F(9.5); g.fillText("그 밖에 불편한 곳 "+dots.length+"곳",X,yy); yy+=14;
+          let px=0, py=yy; dots.forEach((s,i)=>{ const w=chipW[i]; if(px+w>R-X&&px>0){ px=0; py+=25; }
+            g.fillStyle=C.chip; trRR(g,X+px,py+2,w,21,10.5); g.fill(); g.beginPath(); g.arc(X+px+7+3.5,py+12.5,3.5,0,Math.PI*2); g.fillStyle=C.red; g.fill();
+            g.fillStyle=C.ink; g.font=F(10.5); g.fillText(s,X+px+7+7+5,py+6); px+=w+4; }); }
+      });
+      y=y0+Math.max(FIGH,rightH); }
+    /* 02 상담 메모 — 넘치면 다음 쪽으로 */
+    const contHead=()=>{ newPage(false); const yy=TOP;
+      op(g=>{ g.fillStyle=C.ink; g.font=F(14,800); g.fillText("체험 상담 확인서",L,yy); meas.font=F(14,800); const w=meas.measureText("체험 상담 확인서").width;
+        g.fillStyle=C.fnt; g.font=F(9.5); g.fillText("· "+(t.name||"")+" · "+dt(t.date),L+w+6,yy+5); g.textAlign="right"; g.fillText("문서번호 "+(no||"-"),R,yy+5); g.textAlign="left";
+        g.fillStyle=C.navy; g.fillRect(L,yy+26,CW,1.5); });
+      y=TOP+28; };
+    const memo=memoLines||["(적은 내용 없음)"];
+    let mi=0, first=true;
+    while(mi<memo.length){
+      const need=20+22+10+MPAD*2+LH*1;
+      if(y+need>bottom){ contHead(); }
+      y+=20; secHead("02",first?"상담 메모":"상담 메모 (이어서)",first?"상담 중 선생님이 적은 내용이에요":"");
+      const room=Math.floor((bottom-22-y-MPAD*2)/LH), take=Math.max(1,Math.min(memo.length-mi,room)), lines=memo.slice(mi,mi+take), y0=y, empty=!memoLines;
+      const h=MPAD*2+lines.length*LH;
+      op(g=>{ g.fillStyle=C.soft; trRR(g,L,y0,CW,Math.max(h,62),10); g.fill(); g.fillStyle=empty?C.fnt:C.ink; g.font=F(11.5); lines.forEach((l,i)=>g.fillText(l,L+15,y0+MPAD+i*LH+2)); });
+      y+=Math.max(h,62); mi+=take; first=false;
+      if(mi<memo.length){ const yy=y; op(g=>{ g.fillStyle=C.fnt; g.font=F(9.5); g.textAlign="right"; g.fillText("다음 장에 이어져요 →",R,yy+6); g.textAlign="left"; }); contHead(); }
     }
+    /* 03 확인 및 동의 + 서명 (한 덩어리) */
+    if(y+20+agreeH+20+SIGNH>bottom)contHead();
+    y+=20; secHead("03","확인 및 동의");
+    { const y0=y;
+      op(g=>{ let yy=y0;
+        const ck=(lines)=>{ g.fillStyle=C.navy; trRR(g,L,yy+2,15,15,3); g.fill(); g.fillStyle="#fff"; g.font=F(10,800); g.textAlign="center"; g.fillText("✓",L+7.5,yy+3.5); g.textAlign="left";
+          g.fillStyle=C.ink; g.font=F(11.5,600); lines.forEach((l,i)=>g.fillText(l,L+23,yy+i*20+1)); yy+=lines.length*20; };
+        ck(ck1); yy+=7;
+        g.fillStyle=C.line; g.fillRect(L+23,yy,2,termsH);
+        let ty=yy+9; g.fillStyle=C.mut; g.font=F(9.6); terms.forEach((p,pi)=>{ p.forEach(l=>{ g.fillText(l,L+23+2+12,ty); ty+=16.3; }); ty+=4; });
+        yy+=termsH+7; ck(ck2); });
+      y+=agreeH; }
+    { const last=pg, sy=bottom-SIGNH+16;
+      op(g=>{ const bx=R-250, by=sy; g.fillStyle=C.mut; g.font=F(10.5); g.textAlign="right"; g.fillText("서명 일시",bx-26,by+40); g.fillStyle=C.ink; g.font=F(12,700); g.fillText(signed,bx-26,by+58); g.textAlign="left";
+        g.fillStyle=C.ink; g.fillRect(bx,by+74,250,1.5);
+        g.fillStyle=C.fnt; g.font=F(9.5); g.fillText("회원 서명",bx,by+80); g.fillStyle=C.ink; g.font=F(10.5,700); g.textAlign="right"; g.fillText(t.name||"",R,by+80); g.textAlign="left";
+        const sb={x:bx+10,y:by+2,w:230,h:68};
+        const pts=[].concat(...(strokes||[])); if(pts.length){
+          let x0=1,x1=0,y0=1,y1=0; pts.forEach(([x,yy])=>{ x0=Math.min(x0,x); x1=Math.max(x1,x); y0=Math.min(y0,yy); y1=Math.max(y1,yy); });
+          const PADW=0.02, sw=Math.max(x1-x0,PADW), sh=Math.max(y1-y0,PADW), padAR=3, sc=Math.min(sb.w/(sw*padAR),sb.h/sh), ox=sb.x+(sb.w-sw*padAR*sc)/2, oy=sb.y+(sb.h-sh*sc)/2;
+          g.strokeStyle=C.ink; g.lineWidth=2.2; g.lineCap="round"; g.lineJoin="round";
+          (strokes||[]).forEach(s=>{ g.beginPath(); s.forEach(([x,yy],i)=>{ const X=ox+(x-x0)*padAR*sc, Y=oy+(yy-y0)*sc; i?g.lineTo(X,Y):g.moveTo(X,Y); }); if(s.length===1)g.lineTo(ox+(s[0][0]-x0)*padAR*sc+.5,oy+(s[0][1]-y0)*sc); g.stroke(); }); } });
+    }
+    /* 그리기 */
+    const total=pages.length;
+    const outs=pages.map((p,i)=>new Promise((ok,no2)=>{
+      const c=document.createElement("canvas"); c.width=PW*K; c.height=PH*K; const g=c.getContext("2d");
+      g.scale(K,K); g.fillStyle="#fff"; g.fillRect(0,0,PW,PH); g.textBaseline="top";
+      p.ops.forEach(f=>{ g.save(); f(g); g.restore(); });
+      if(i===total-1){ g.fillStyle=C.line; g.fillRect(L,FOOT-21,CW,1); g.fillStyle=C.fnt; g.font=F(8.8); g.fillText("이 확인서는 서명하는 즉시 자동으로 만들어져 회원 기록에 보관됩니다.",L,FOOT-13); g.textAlign="right"; g.fillText("라비다 스포츠메디컬 · 릴렉싱",R,FOOT-13); }
+      if(total>1){ g.textAlign="right"; g.fillStyle=C.fnt; g.font=F(8.8); g.fillText((i+1)+" / "+total,R,PH-22); g.textAlign="left"; }
+      c.toBlob(bl=>bl?ok({blob:bl,w:c.width,h:c.height}):no2(new Error("확인서 그림을 만들지 못했어요")),"image/jpeg",0.9);
+    }));
+    return Promise.all(outs);
   });
 }
+function trRR(g,x,y,w,h,r){ r=Math.min(r,w/2,h/2); g.beginPath(); g.moveTo(x+r,y); g.arcTo(x+w,y,x+w,y+h,r); g.arcTo(x+w,y+h,x,y+h,r); g.arcTo(x,y+h,x,y,r); g.arcTo(x,y,x+w,y,r); g.closePath(); }
 
 /* ===================== 회원 상세 — 해결하고 싶은 것 =====================
    체험에서 정한 순위로 시작한다. 해결되면 ✓ → 빗금 치고 흐려져 아래로. 나중에 더하고, 끌어서 순서를 바꾼다. */
