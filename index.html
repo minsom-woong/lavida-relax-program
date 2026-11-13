@@ -514,7 +514,48 @@
   .lesbad .why{color:var(--red);font-weight:700}.lesbad em{font-style:normal;font-weight:700;text-align:right;color:var(--mut)}
   .lesmine{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;padding:10px 14px;cursor:pointer}
   .lesmine b{font-size:14px}.lesmine span{font-size:12.5px;color:var(--mut)}
-  .lesmine em{font-style:normal;color:var(--red);font-weight:700;font-size:12.5px}.lesmine i{margin-left:auto;font-style:normal;color:var(--fnt);font-size:18px}
+  .lesmine em{font-style:normal;color:var(--red);font-weight:700;font-size:12.5px}
+  .vf .vfb{padding:14px 18px 16px}.vf .rd{color:var(--red)}
+  .vfsum{display:flex;flex-wrap:wrap;gap:8px 30px;margin:0 0 4px}.vfsum b{display:block;font-size:22px;line-height:1.2}.vfsum span{font-size:12.5px;color:var(--mut)}
+  .vf h3{font-size:13.5px;margin:18px 0 4px;padding-bottom:6px;border-bottom:1px solid var(--line)}.vf h3 small{font-weight:400;color:var(--mut);margin-left:6px}
+  .vfr{display:grid;grid-template-columns:170px 240px 1fr 150px;align-items:center;gap:14px;padding:7px 4px;border-bottom:1px solid var(--line);cursor:pointer;border-radius:6px}
+  .vfr:hover{background:rgba(31,45,77,.04)}.vfr .nm b{font-size:14px}.vfr .nm span{font-size:11.5px;color:var(--fnt);margin-left:6px}.vfr .nm .tag{margin-left:6px;font-size:10.5px;background:#eee;color:#666;border-radius:99px;padding:1px 7px}
+  .vfr .bars{display:flex;gap:8px;align-items:flex-end;height:46px}.vfr .bars div{width:46px;text-align:center}.vfr .bars i{display:block;border-radius:4px 4px 0 0;background:#86b6ef;margin:0 auto;width:26px}
+  .vfr .bars div.now i{background:#184f95}.vfr .bars em{display:block;font-style:normal;font-size:10.5px;color:var(--fnt)}.vfr .bars b{font-size:11.5px;display:block}
+  .vfr .tx{font-size:13.5px}.vfr .last{font-size:12.5px;color:var(--mut);text-align:right}.vfr .last i{display:block;font-style:normal;font-size:11.5px;color:#1f8a4c}.vfr .last i.no{color:var(--fnt)}
+  .vf .say,.vfc .say{font-size:14.5px;margin:0 0 12px}.vfc .say{font-size:13px;margin:0 0 10px}.vfc .rd{color:var(--red)}
+  .vfleg{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--mut);margin:4px 0 10px}.vfleg i{display:inline-block;width:13px;height:13px;border-radius:3px;vertical-align:-2px;margin-right:5px}
+  .vfleg i.bk{border:2px solid #3987e5}.vfleg i.st{box-shadow:0 0 0 2px #111}
+  .vf svg{width:100%;height:auto;display:block}
+  .vft{border-collapse:collapse;width:100%;font-size:12.5px;margin-top:6px}.vft td,.vft th{padding:5px 2px;text-align:center;border-top:1px solid var(--line);font-weight:400;white-space:nowrap}.vft th{color:var(--fnt);font-size:11.5px;border:0}
+  .vft td:first-child,.vft th:first-child{text-align:left;color:var(--mut)}.vft td.now{font-weight:800}
+  .vftr{display:grid;grid-template-columns:110px 1fr 250px;gap:14px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}.vftr:first-child{border-top:0}.vftr b{font-size:14px}.vftr small{display:block;color:var(--fnt);font-size:11.5px}
+  .vftr .hb{display:flex;gap:2px;height:26px}.vftr .hb div{border-radius:4px;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;min-width:14px}
+  .vftr .tx{font-size:12.5px;color:var(--mut)}.vftr .tx b{font-size:12.5px;color:var(--ink,inherit)}.vftr .tx b.rd{color:var(--red)}
+  .vfc{margin-top:18px}.vfc .ms{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .vfc .mm>b{font-size:13.5px;display:block}.vfc .cn{font-size:11.5px;color:var(--mut);display:block;margin-bottom:5px}.vfc .cn b{font-size:13px;color:var(--ink,inherit)}.vfc .cn i{font-style:normal}
+  .vfc .g{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}.vfc .g span{font-size:10px;color:var(--fnt);text-align:center}
+  .vfc .g div{height:20px;border-radius:5px;font-size:10.5px;display:flex;align-items:center;justify-content:center;color:var(--fnt)}
+  .vfc .g div.v1{background:#86b6ef;color:#111;font-weight:700}.vfc .g div.v2{background:#184f95;color:#fff;font-weight:700}.vfc .g div.f{opacity:.4}
+  .vfc .g div.bk{box-shadow:inset 0 0 0 2px #3987e5;color:#184f95;font-weight:700}.vfc .g div.st{box-shadow:0 0 0 2px #111}.vfc .g div.bk.st{box-shadow:inset 0 0 0 2px #3987e5,0 0 0 2px #111}
+  .vfc .bar{height:5px;border-radius:3px;background:var(--line);margin-top:7px;overflow:hidden}.vfc .bar i{display:block;height:100%;background:#3987e5;border-radius:3px}
+  @media (max-width:900px){ .vfr{grid-template-columns:1fr 1fr} .vfr .last{text-align:left} .vftr{grid-template-columns:90px 1fr} .vftr .tx{grid-column:1/-1} }
+  .lesmine .paymine{width:100%;font-size:12.5px;color:var(--mut)}.lesmine .paymine b{font-size:13px;color:var(--navy,#1f2d4d)}
+  .paycard .chead .btn{margin-left:4px}
+  .payclosed{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;font-size:12.5px;color:var(--mut);padding:4px 0}
+  .paynote{font-size:12px;color:var(--fnt);padding:8px 0 0}.paynote b{color:var(--mut)}
+  .paytab input{width:104px;height:28px;border:1px solid var(--line);border-radius:7px;padding:0 6px;font:inherit;text-align:right}
+  .paytab select{height:28px;border:1px solid var(--line);border-radius:7px;font:inherit}
+  .paytab td em{font-style:normal;color:var(--fnt);font-size:12px}
+  .paycfg{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:12.5px;color:var(--mut);border-top:1px solid var(--line);margin-top:12px;padding-top:12px}
+  .paycfg input[type=number]{width:96px;height:28px;border:1px solid var(--line);border-radius:7px;padding:0 6px;font:inherit;text-align:right}
+  .paycfg .payshow{font-weight:700;color:var(--ink,inherit)}
+  .paytiers{width:100%;display:grid;grid-template-columns:repeat(auto-fill,minmax(460px,1fr));gap:6px 18px}
+  .paytiers span{display:flex;align-items:center;gap:5px;white-space:nowrap}.paytiers b{width:16px;color:var(--ink,inherit)}
+  .paycfg .paytiers input[type=number]{width:56px}.paycfg .paytiers input.m{width:112px}
+  .paytab td,.paytab th{white-space:nowrap}
+  .payone{max-width:560px}.payrow{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}
+  .payrow.tot{font-size:15px}.payrow.tot b{font-size:16px}.lesmine i{margin-left:auto;font-style:normal;color:var(--fnt);font-size:18px}
   @media (max-width:700px){ .lesbad>div{grid-template-columns:1fr 1fr} .lesbad em{text-align:left} }
   .tdno{font-size:11px;color:var(--fnt);font-variant-numeric:tabular-nums}
   @media print{
@@ -897,7 +938,7 @@
 <div class="page">
 <header>
   <div class="hbar">
-    <div class="brand"><b>릴렉싱 데스크</b><span>v130 · 11/10 만듦</span></div>
+    <div class="brand"><b>릴렉싱 데스크</b><span>v133 · 11/13 만듦</span></div>
     <div class="seg" id="who"></div>
     <div class="hright">
       <div class="srch"><i></i><input id="q" placeholder="회원 이름 검색" autocomplete="off"></div>
@@ -981,7 +1022,7 @@ const S={
   slotW:null, slotH:null, memoDay:null, folded:{},
   lostDays:1,
   trials:[], sharedAt:null, autoShare:false, openId:null, undo:null, log:null, editMemo:null, acts2:[], dataQ:"", workDays:null,
-  lessons:{}, lesRules:{}, lesPrice:null, lesYm:null, lesFrom:null, lesTo:null, lesDays:{}
+  lessons:{}, lesRules:{}, lesPrice:null, lesYm:null, lesFrom:null, lesTo:null, lesDays:{}, lesPriceHist:{}, payCfg:null, payLocal:{}
 };
 /* ── 저장 접기 ──
    수업 기록이 저장 용량의 3/4을 차지한다.
@@ -1032,7 +1073,7 @@ function save(){
       me:S.me,limitRelax:S.limitRelax,limitRebuild:S.limitRebuild,goneDays:S.goneDays,lastImport:S.lastImport,
       lostDays:S.lostDays, box:S.box,
       sharedAt:S.sharedAt,autoShare:S.autoShare,acts2:S.acts2,workDays:S.workDays,
-      lessons:S.lessons,lesRules:S.lesRules,lesPrice:S.lesPrice,lesDays:S.lesDays}));
+      lessons:S.lessons,lesRules:S.lesRules,lesPrice:S.lesPrice,lesDays:S.lesDays,lesPriceHist:S.lesPriceHist,payCfg:S.payCfg,payLocal:S.payLocal}));
   }catch(e){ toast("저장 공간이 가득 찼어요."); }
 }
 function load(){
@@ -1052,7 +1093,7 @@ function load(){
     S.sharedAt=d.sharedAt||null;
     S.acts2=Array.isArray(d.acts2)?d.acts2:[];
     S.workDays=d.workDays||null;
-    S.lessons=d.lessons&&typeof d.lessons==="object"?d.lessons:{}; S.lesRules=d.lesRules||{}; S.lesPrice=d.lesPrice||null; S.lesDays=d.lesDays||{};
+    S.lessons=d.lessons&&typeof d.lessons==="object"?d.lessons:{}; S.lesRules=d.lesRules||{}; S.lesPrice=d.lesPrice||null; S.lesDays=d.lesDays||{}; S.lesPriceHist=d.lesPriceHist||{}; S.payCfg=d.payCfg||null; S.payLocal=d.payLocal||{};
     return true;
   }catch(e){ return false; }
 }
@@ -2188,8 +2229,13 @@ function render(){
   else if(S.tab==="trial")m.innerHTML=L+viewTrial();
   else if(S.tab==="renew")m.innerHTML=L+viewRenew();
   else if(S.tab==="lessons")m.innerHTML=L+viewLessons();
-  else if(S.tab==="slot")m.innerHTML=L+'<div class="stack"><div class="card"><div class="chead"><b>오는 시간</b>'+
-    '<span>최근 '+SLOT_WEEKS+'주 방문 기록 · 칸을 누르면 그 시간에 온 회원, 회원을 누르면 그 회원이 오는 시간</span></div>'+viewSlot()+'</div></div>';
+  else if(S.tab==="slot"){
+    const flow=S.slotView==="flow";
+    const tog='<span class="sp"></span><button class="btn sm '+(flow?'gh':'navy')+'" data-a="vfview" data-v="time">시간표</button><button class="btn sm '+(flow?'navy':'gh')+'" data-a="vfview" data-v="flow" style="margin-left:6px">방문 흐름</button>';
+    m.innerHTML=L+'<div class="stack"><div class="card"><div class="chead"><b>오는 시간</b>'+
+      (flow?'<span>회원들이 평소대로 오고 있는지 · 달 단위</span>'+tog+'</div></div>'+vfHtml()
+           :'<span>최근 '+SLOT_WEEKS+'주 방문 기록 · 칸을 누르면 그 시간에 온 회원, 회원을 누르면 그 회원이 오는 시간</span>'+tog+'</div>'+viewSlot()+'</div>')+'</div>';
+  }
   else m.innerHTML=L+viewStats();
   if(S.openId)paintDrawer();
   paintDocs(); paintDocFull();
@@ -4051,7 +4097,7 @@ function CRITERIA_(){
     {t:"자료 순서",d:"자료가 있는 회원은 상세를 열면 옆에 자료가 같이 뜨고, 맨 앞 자료가 크게 보입니다. 썸네일을 끌거나 ‘맨 앞으로’로 순서를 바꿉니다. 순서를 정해둔 회원은 새 자료가 첫 번째 바로 뒤에 들어갑니다"},
     {t:"체험 기록",d:"엑셀에 없는 체험자를 체험 탭에 적습니다. 적는 대로 저장되고(저장 버튼 없음), 서버 버전이면 다른 기기에 1~2초 뒤 보입니다. 아무것도 안 적고 닫으면 남기지 않습니다. 예전 양식의 운동·수면·식사는 옛 기록에서만 보입니다"},
     {t:"신체 그림·순위",d:"여성/남성 앞·뒤 근육 칸 그림(v124). 불편한 곳을 누르면 누른 자리 그대로 점이 찍히고(다시 누르면 지움), 그 자리 칸의 쉬운 부위 이름(약 120개, 오른쪽·왼쪽 자동)이 예상으로 붙습니다. 선 위나 테두리 바로 밖을 눌러도 점은 그 자리, 이름은 가장 가까운 칸. 부위 이름은 컴퓨터 입력 화면에서 고칠 수 있고(순위 칸의 이름 · 점 이름 누르기, 비우면 예상 이름으로), 서명 화면에서는 못 고칩니다. 번호를 다른 자리로 옮기면 새 자리 이름으로 다시 붙습니다. 성별을 바꾸면 점이 몸 폭 비율로 옮겨가고 고친 이름은 그대로입니다. v124 전에 점을 찍은 기록은 예전 그림으로 보입니다. 1~5번 버튼을 그림에 끌어다 놓으면 그 번호가 해결하고 싶은 순위가 되고, 그림 밖으로 끌어내면 빠집니다. 순위별 설명은 컴퓨터에서 적습니다. 앞모습은 그림 왼쪽이 회원의 오른쪽입니다"},
-    {t:"수업 집계 (v130)",d:"센터 프로그램의 예약 내역 엑셀(수업일·강사·회원명·수강권명·예약상태)을 끌어다 놓으면 ① 강사별 수업 수·수업료 ② 이번 달 누적 ③ 수업 메모 명단을 한 번에 채웁니다(수업목록은 따로 안 올려도 됨). 한 줄 = 수업 1개: 25분 수강권(릴렉싱·릴리즈·스페셜케어·리셋 25분)은 25·30분 한 줄이 25분 1개(50분 수업이면 두 줄), 50분 수강권(리빌딩·리셋 패키지 50분)은 50·60분 한 줄이 50분 1개. 줄 길이(45분 이상이면 50분 줄)와 수강권이 안 맞으면 ‘고칠 줄’로 따로 보여 주고, 센터 프로그램에서 고쳐 다시 올리기 전까지 금액에서 뺍니다(‘고치면 +○원’). 단가 구간은 수강권 이름의 횟수: 29회 이하 1회 단가(35,000원), 30~49회 30회 단가(25,000원), 50회 이상 50회 단가(23,000원), 리빌딩 50,000원. 스페셜케어·리셋 패키지 25분은 30회 단가, 리셋 패키지(50분)는 리빌딩. 같은 구간이어도 수강권별로 따로 보여 줍니다. 노쇼·결석·당일취소도 수업으로 셉니다. 어제까지는 ‘한 수업’, 오늘·앞날은 ‘예약’. 이번 달: 어제까지 한 수업 · 마지막 수업일 하루 · 예약 포함(최소) · 지금 속도면(지금까지 수업료 ÷ 지난 수업일 × 이번 달 수업일, 평일 자동·직접 바꿈) · 지난달 같은 수업일 수까지 비교. 범위: 파일 이름의 날짜부터 바꾸고, 앞날 예약이 든 파일은 그 달 말일까지 바꿉니다(취소된 예약이 남지 않게). 강사 1명만 든 파일은 그 강사 줄만 바꿉니다. 각 샘 수업 메모 맨 위에는 자기 숫자만 보입니다. 수업료 기준이며 급여가 아닙니다. 전화번호는 끝 4자리만 저장합니다."},
+    {t:"수업 집계 (v130)",d:"센터 프로그램의 예약 내역 엑셀(수업일·강사·회원명·수강권명·예약상태)을 끌어다 놓으면 ① 강사별 수업 수·수업료 ② 이번 달 누적 ③ 수업 메모 명단을 한 번에 채웁니다(수업목록은 따로 안 올려도 됨). 한 줄 = 수업 1개: 25분 수강권(릴렉싱·릴리즈·스페셜케어·리셋 25분)은 25·30분 한 줄이 25분 1개(50분 수업이면 두 줄), 50분 수강권(리빌딩·리셋 패키지 50분)은 50·60분 한 줄이 50분 1개. 줄 길이(45분 이상이면 50분 줄)와 수강권이 안 맞으면 ‘고칠 줄’로 따로 보여 주고, 센터 프로그램에서 고쳐 다시 올리기 전까지 금액에서 뺍니다(‘고치면 +○원’). 단가 구간은 수강권 이름의 횟수: 29회 이하 1회 단가(35,000원), 30~49회 30회 단가(25,000원), 50회 이상 50회 단가(23,000원), 리빌딩 50,000원. 스페셜케어·리셋 패키지 25분은 30회 단가, 리셋 패키지(50분)는 리빌딩. 같은 구간이어도 수강권별로 따로 보여 줍니다. 노쇼·결석·당일취소도 수업으로 셉니다. 어제까지는 ‘한 수업’, 오늘·앞날은 ‘예약’. 이번 달: 어제까지 한 수업 · 마지막 수업일 하루 · 예약 포함(최소) · 지금 속도면(지금까지 수업료 ÷ 지난 수업일 × 이번 달 수업일, 평일 자동·직접 바꿈) · 지난달 같은 수업일 수까지 비교. 범위: 파일 이름의 날짜부터 바꾸고, 앞날 예약이 든 파일은 그 달 말일까지 바꿉니다(취소된 예약이 남지 않게). 강사 1명만 든 파일은 그 강사 줄만 바꿉니다. 각 샘 수업 메모 맨 위에는 자기 숫자만 보입니다. 수업료 기준이며 급여가 아닙니다. 전화번호는 끝 4자리만 저장합니다."},{t:"급여 (v131)",d:"계약서 제3·4조대로 계산합니다. 월 임금(세전) = 기본급(트레이너 70만·파트장 100만) + 인센티브 + 기타 수당. 인센티브 = 실매출 × 등급 요율(원 미만 올림). 실매출 = 수업 집계의 수업료에서 부가세(÷1.1)와 카드수수료(%)를 뺀 값. 등급은 가매출 = (그 샘이 판 수강권 결제 합계 − 환불)에서 같은 공제를 한 값으로 정합니다: 500만 미만 F 30%/32%, 500만~ E 32/34, 800만~ D 34/36, 1,100만~ C 36/38, 1,300만~ B 38/40, 1,500만~ A 40/42 (트레이너/파트장). 등급이 오르면 실매출 전체에 새 요율. 결제 합계·환불·기타 수당·조정·명세서 인센티브는 파트장이 넣고, 서버 pay 표에 저장돼 관리자는 전부·각 샘은 자기 것만 읽을 수 있습니다(변경 기록에도 안 남김). 직급·기본급·요율표·공제율은 모두에게 같은 규칙이라 설정에 둡니다. 관리자 표는 '급여 표 열기'를 눌러야 보이고 10분 뒤 저절로 닫힙니다. '샘들에게 보이기'를 켜면 각 샘 수업 메모 맨 위에 자기 예상 급여만 보입니다(로그인한 본인 화면에서만). 지난달을 고르면 '명세서 인센티브'를 넣어 계산과의 차이(%)를 볼 수 있습니다. 단가는 고른 달부터 적용되고 그 전 달 숫자는 바뀌지 않습니다. 최저임금 보전수당은 계산하지 않습니다."},{t:"방문 흐름 · 방문 달력 (v132)",d:"오는 시간 탭의 ‘방문 흐름’은 출석 기록만으로 누가 평소보다 덜 오는지를 달 단위로 보여 줍니다. 대상은 석 달 넘게 다녔고, 그 달 15일까지 수강권이 살아 있고, 그 전 석 달 동안 한 달 평균 2일 이상 온 회원입니다. 그 달에 한 번도 안 오면 ‘안 옴’, 평소(그 전 석 달의 한 달 평균 방문일)의 절반 이하면 ‘줄어듦’, 그 밖은 ‘평소대로’. 줄어든 회원 목록 · 달마다 막대 · 강사별 막대가 모두 이 한 가지 기준을 씁니다. 달 막대를 누르면 그 달의 명단으로 바뀝니다. 지난 달들에는 지금 휴지통에 있는 회원도 그때 다니던 회원으로 셉니다. 강사 화면에서는 자기 책임 회원만 봅니다. 회원 상세 맨 아래 ‘방문 달력’은 최근 6개월(1년까지)을 달력으로 보여 줍니다: 온 날에 색(1회차 연하게, 2회차 이상 진하게), 잡힌 예약은 테두리, 수강권 시작한 날은 검은 테두리. 백업 파일에는 이 프로그램의 자료만 담고(로그인 정보·다른 프로그램 자료 제외), 백업 되돌리기는 출석 기록과 강사까지 그대로 되돌립니다."},
     {t:"체험 상담 확인서 (v128)",d:"서명하면 A4 확인서가 만들어집니다: 머리(문서번호 T-날짜-순번)·회원 정보·01 불편한 곳과 순위(그림 + 순위별 설명 + 그 밖에 불편한 곳)·02 상담 메모·03 확인 및 동의·서명. 메모가 넘치면 다음 쪽으로 이어지고, 동의와 서명은 함께 마지막 쪽(서명은 쪽 아래)에 둡니다. 문서번호는 서명하는 순간 그날 순서대로 붙고 회원 상세 체험 상담 칸·상담 화면에 보입니다. 저장은 이미지(쪽마다 한 장)이고, PDF가 필요하면 자료 보기의 ‘인쇄·PDF’ → 인쇄 창에서 ‘PDF로 저장’. 이전에 서명한 동의서는 그대로입니다."},
     {t:"체험 기록 이름 (v127)",d:"등록된 회원(‘회원’ 표시)은 이름을 누르면 회원 상세가 열립니다 — 상세의 ‘체험 상담’ 칸에 그림·순위·상담 메모·추가 메모가 있고, ‘상담 열기’로 상담 입력 화면으로 갑니다. 상담 입력 화면 위 ‘회원 상세’로 반대로도 갑니다. 미등록 체험(연결 후보 포함)은 이름을 누르면 상담 입력 화면. 몸 그림은 앞·뒤 모두 그림 위 양쪽에 왼쪽/오른쪽이 적혀 있습니다(앞은 그림 왼쪽이 회원 오른쪽)."},
     {t:"상담 화면 (#상담, 태블릿)",d:"v125. 태블릿은 인터넷 주소 끝에 #상담 을 붙여 엽니다(홈 화면 아이콘 권장). 로그인 뒤 ‘오늘 상담’ — 오늘 만든 체험 중 서명 안 한 이름과 만든 시각만 나오고, 이름을 누르면 회원용 화면: ① 불편한 곳(그림·1~5 순위) ② 해결하고 싶은 것 ③ 상담 메모 ④ 서명(동의 체크 2개·문구·서명 칸)만 보입니다. 메뉴·체험 기록·전화번호·강사 이름·지우기 버튼은 안 보이고, 전체 프로그램으로 나갈 수 없습니다(‘목록’은 오늘 상담 목록으로만). 화면 크기에 비례해 맞춰지고(글자 = 화면 짧은 변의 약 2.3%), 세로는 한 줄, 가로는 왼쪽 그림·오른쪽 나머지 두 칸입니다. 서명하면 ‘고맙습니다’가 뜨고 6초 뒤 목록으로 돌아갑니다. 순위 설명·상담 메모·부위 이름은 컴퓨터에서만 고칩니다"},
@@ -4249,6 +4295,7 @@ function paintDrawer(){
   h+='</div>';
 
   h+=slotMiniHtml(m);
+  h+=vfCalHtml(m);   /* 방문 달력 (v132) */
   const will=willAtt(m);
   if(will.length){
     h+='<div><div class="dsec">예정 수업 '+will.length+'건</div>';
@@ -4432,7 +4479,7 @@ async function sniffDetail(file){
   return {kind:"unknown",heads,why:why.join(" · ")};
 }
 
-/* ===================== 수업 집계 (v130) =====================
+/* ===================== 수업 집계 (v130 · 단가 이력 v131) =====================
    센터 프로그램의 '예약 내역' 엑셀(수업일·수업시작·수업종료·강사·회원명·수강권명·예약상태 …) 하나로
    ① 강사별 수업 수·수업료(단가 구간 1회 / 30회 / 50회 / 리빌딩, 수강권별)
    ② 이번 달 누적(어제까지 한 수업 · 남은 예약 · 지금 속도면 월말)
@@ -4452,7 +4499,10 @@ async function sniffDetail(file){
    · 저장: 달마다 한 덩어리(S.lessons["2026-10"]) — 서버 settings 표의 "les:2026-10" 줄. 전화번호는 끝 4자리만. */
 const LES_TIERS=[{k:"one",label:"1회 단가",def:35000},{k:"t30",label:"30회 단가",def:25000},{k:"t50",label:"50회 단가",def:23000},{k:"rb",label:"리빌딩(50분)",def:50000}];
 const lesTierLabel=k=>(LES_TIERS.find(x=>x.k===k)||{label:"확인 필요"}).label;
-function lesPrice(k){ const p=S.lesPrice||{}; const v=+p[k]; return v>0?v:((LES_TIERS.find(x=>x.k===k)||{}).def||0); }
+/* 단가는 '바꾼 달부터' 적용 — 계약서: 요금이 바뀌어도 기존 수강권은 구매 당시 금액.
+   (예약 내역에는 수강권 산 날이 없어서 수업한 달로 가른다) S.lesPriceHist = {"2026-12":{one,t30,t50,rb}, …} */
+function lesPriceSet(ym){ const H=S.lesPriceHist||{}, ks=Object.keys(H).filter(k=>k<=ym).sort(); return ks.length?H[ks[ks.length-1]]:(S.lesPrice||{}); }
+function lesPrice(k,d){ const p=lesPriceSet(String(d||TODAY()).slice(0,7)); const v=+p[k]; return v>0?v:((LES_TIERS.find(x=>x.k===k)||{}).def||0); }
 function lesTier(name){
   const r=(S.lesRules||{})[name]; if(r)return r;
   const n=String(name||"");
@@ -4467,7 +4517,7 @@ const lesLong=x=>lesDur(x)>=45;
 /* 고칠 줄 — 줄 길이와 수강권 길이가 안 맞는다 */
 const lesBad=(x,k)=>!!k&&(lesLong(x)!==(k==="rb"));
 /* 고치면 들어올 금액(추정): 25분권 50분 한 줄 → 두 줄, 50분권 25분 한 줄 → 50분 1개 */
-const lesFixAmt=(x,k)=>k==="rb"?lesPrice("rb"):Math.max(2,Math.round(lesDur(x)/30))*lesPrice(k);
+const lesFixAmt=(x,k)=>k==="rb"?lesPrice("rb",x.d):Math.max(2,Math.round(lesDur(x)/30))*lesPrice(k,x.d);
 const lesBadWhy=(x,k)=>(k==="rb"?"50분 수강권인데 ":"25분 수강권인데 ")+lesDur(x)+"분 한 줄";
 const lesWon=n=>(Math.round(n)||0).toLocaleString("ko-KR")+"원";
 const lesR10k=n=>Math.round((n||0)/10000)*10000;
@@ -4592,8 +4642,8 @@ function lesAgg(rows){
     const o=(T[x.t]=T[x.t]||{name:x.t,tiers:{},passes:{},n:0,amt:0,rows:0,bad:0,badAmt:0}); o.rows++;
     if(!k){ (unk[x.p]=unk[x.p]||{n:0,t:{}}).n++; unk[x.p].t[x.t]=(unk[x.p].t[x.t]||0)+1; return; }
     if(lesBad(x,k)){ const f=lesFixAmt(x,k); bad.push({x,k,fix:f}); o.bad++; o.badAmt+=f; return; }
-    o.tiers[k]=(o.tiers[k]||0)+1; o.n++; o.amt+=lesPrice(k);
-    const p=(o.passes[x.p]=o.passes[x.p]||{name:x.p,tier:k,n:0}); p.n++;
+    const pr=lesPrice(k,x.d); o.tiers[k]=(o.tiers[k]||0)+1; o.n++; o.amt+=pr;
+    const p=(o.passes[x.p]=o.passes[x.p]||{name:x.p,tier:k,n:0,amt:0}); p.n++; p.amt+=pr;
   });
   const list=Object.values(T).sort((a,b)=>b.n-a.n||a.name.localeCompare(b.name,"ko"));
   const tot={tiers:{},n:0,amt:0,bad:0,badAmt:0};
@@ -4645,7 +4695,7 @@ function lesChart(M){
   const labels=[];
   M.names.forEach((t,i)=>{
     const c=(staffColor(t)||{}).b||LES_COLORS[i%LES_COLORS.length];
-    const dayAmt={}; M.rows.forEach(x=>{ if(x.t!==t)return; const k=lesTier(x.p); if(!k||lesBad(x,k))return; const d=+x.d.slice(8); dayAmt[d]=(dayAmt[d]||0)+lesPrice(k); });
+    const dayAmt={}; M.rows.forEach(x=>{ if(x.t!==t)return; const k=lesTier(x.p); if(!k||lesBad(x,k))return; const d=+x.d.slice(8); dayAmt[d]=(dayAmt[d]||0)+lesPrice(k,x.d); });
     let cum=0; const pd=[], pb=[]; const lastDone=cur?td-1:n;
     for(let d=1;d<=n;d++){ cum+=dayAmt[d]||0; if(d<=lastDone)pd.push([d,cum]); if(d>=lastDone)pb.push([d,cum]); }
     const path=pts=>pts.map((p,j)=>(j?"L":"M")+X(Math.max(1,p[0])).toFixed(1)+" "+Y(p[1]).toFixed(1)).join(" ");
@@ -4698,7 +4748,7 @@ function lesMineLine(){
   return '<div class="card lesmine" data-a="lesgo" title="수업 집계에서 자세히"><b>'+esc(ymLabel(ym))+' 내 수업 '+b.n+'회 · 수업료 '+lesWon(b.amt)+'</b>'+
     '<span>'+(M.lastDay?esc(fmtMD(M.lastDay))+'까지':'')+(b.dayN?' · '+esc(fmtMD(M.lastDay))+' +'+b.dayN+'회':'')+' · 예약 포함 '+lesWon(b.floor)+
     (M.elapsed?' · 지금 속도면 약 '+lesWon(lesR10k(b.est)):'')+(M.stale?' · '+esc(fmtMD(D(new Date(M.at))))+' 기준':'')+'</span>'+
-    (b.bad?'<em>고칠 줄 '+b.bad+'건</em>':'')+'<i>›</i></div>';
+    (b.bad?'<em>고칠 줄 '+b.bad+'건</em>':'')+payMineHtml(ym,me,b,M)+'<i>›</i></div>';
 }
 function viewLessons(){
   const yms=Object.keys(S.lessons||{}).sort(), rg=lesRange(), today=TODAY(), cur=today.slice(0,7);
@@ -4717,6 +4767,7 @@ function viewLessons(){
         (S.ro?'':LES_TIERS.map(t=>'<button class="btn sm gh" data-a="lesrule" data-v="'+esc(p)+'" data-k="'+t.k+'">'+t.label+'</button>').join(""))+'</div>').join("")+'</div>';
   }
   h+=lesNowHtml()+'</div></div>';
+  h+=payCardHtml();   /* 급여 (v131) */
   /* 기간별 정산 */
   h+='<div class="card"><div class="chead"><b>기간별 정산</b><span>달을 고르거나 기간을 직접 넣으세요 · 오늘 이후 예약은 빼고 셉니다</span></div><div class="lesbody">';
   h+='<div class="lesbar">'+yms.map(y=>'<button class="btn sm'+(rg&&!rg.custom&&rg.ym===y?' navy':' gh')+'" data-a="lesym" data-v="'+y+'">'+esc(ymLabel(y))+'</button>').join("")+
@@ -4727,7 +4778,7 @@ function viewLessons(){
   h+='<div class="lesmeta">'+esc(rg?rg.label:"")+' · '+rows.length+'줄'+(fut?' (오늘 이후 예약 '+fut+'줄은 뺌)':'')+(spans.length?' · 올린 범위 '+spans.map(s=>esc(fmtMD(s.from))+'~'+esc(fmtMD(s.to))+(s.only?' '+esc(s.only)+'만':'')+(s.by?' ('+esc(s.by)+')':'')).join(", "):'')+
     (rows.length?' · 예약상태 '+Object.keys(A.st).map(k=>esc(k)+' '+A.st[k]).join(" · "):'')+'</div>';
   const bc=A.tot.bad>0;
-  h+='<div class="tw"><table class="lestab"><thead><tr><th>강사</th>'+LES_TIERS.map(t=>'<th>'+t.label+'<i>'+lesWon(lesPrice(t.k))+'</i></th>').join("")+'<th>합계</th><th>금액</th>'+(bc?'<th>고칠 줄<i>고치면</i></th>':'')+'</tr></thead><tbody>'+
+  h+='<div class="tw"><table class="lestab"><thead><tr><th>강사</th>'+LES_TIERS.map(t=>'<th>'+t.label+'<i>'+lesWon(lesPrice(t.k,rg&&rg.to))+'</i></th>').join("")+'<th>합계</th><th>금액</th>'+(bc?'<th>고칠 줄<i>고치면</i></th>':'')+'</tr></thead><tbody>'+
     A.list.map(o=>'<tr><td><b>'+esc(o.name||"(강사 없음)")+'</b></td>'+LES_TIERS.map(t=>'<td>'+(o.tiers[t.k]||'<em>0</em>')+'</td>').join("")+'<td><b>'+o.n+'</b></td><td>'+lesWon(o.amt)+'</td>'+
       (bc?'<td>'+(o.bad?'<b class="bd">'+o.bad+'줄</b><i>+'+lesWon(o.badAmt)+'</i>':'<em>0</em>')+'</td>':'')+'</tr>').join("")+
     '</tbody><tfoot><tr><td>합계</td>'+LES_TIERS.map(t=>'<td>'+(A.tot.tiers[t.k]||0)+'</td>').join("")+'<td>'+A.tot.n+'</td><td>'+lesWon(A.tot.amt)+'</td>'+(bc?'<td>'+A.tot.bad+'줄<i>+'+lesWon(A.tot.badAmt)+'</i></td>':'')+'</tr></tfoot></table></div>';
@@ -4737,13 +4788,16 @@ function viewLessons(){
   if(A.list.length)h+='<div class="card"><div class="chead"><b>강사별 수강권</b><span>같은 단가 구간이어도 수강권마다 따로 셉니다</span></div><div class="lesgrid">'+
     A.list.map(o=>{ const ps=Object.values(o.passes).sort((a,b)=>LES_TIERS.findIndex(t=>t.k===a.tier)-LES_TIERS.findIndex(t=>t.k===b.tier)||b.n-a.n);
       return '<div class="lescard"><div class="lesch"><b>'+esc(o.name||"(강사 없음)")+'</b><span>'+o.n+'회 · '+lesWon(o.amt)+'</span></div>'+
-        ps.map(p=>'<div class="lesp"><span class="tag '+(p.tier==="rb"?"o":p.tier==="t50"?"g":p.tier==="one"?"r":"b")+'">'+esc(lesTierLabel(p.tier))+'</span><span class="pn" title="'+esc(p.name)+'">'+esc(p.name)+'</span><b>'+p.n+'</b><i>'+lesWon(p.n*lesPrice(p.tier))+'</i></div>').join("")+'</div>'; }).join("")+'</div></div>';
+        ps.map(p=>'<div class="lesp"><span class="tag '+(p.tier==="rb"?"o":p.tier==="t50"?"g":p.tier==="one"?"r":"b")+'">'+esc(lesTierLabel(p.tier))+'</span><span class="pn" title="'+esc(p.name)+'">'+esc(p.name)+'</span><b>'+p.n+'</b><i>'+lesWon(p.amt)+'</i></div>').join("")+'</div>'; }).join("")+'</div></div>';
   /* 고칠 줄 — 이번 달 것은 위 '이번 달'에 이미 나온다 */
   const bad=A.bad.filter(z=>z.x.d.slice(0,7)!==cur);
   if(bad.length)h+='<div class="card"><div class="chead"><b>고칠 줄 '+bad.length+'건</b><span>수강권 길이와 수업 길이가 안 맞는 줄 — 센터 프로그램에서 고친 뒤 그 기간을 다시 올리세요. 그 전까지 금액에서 빠져요</span></div><div class="lesbody">'+lesBadHtml(bad)+'</div></div>';
-  /* 단가 */
-  h+='<div class="card"><div class="chead"><b>단가</b><span>1회 수업당 · 바꾸면 모두에게 바로 반영돼요</span></div><div class="lesprice">'+
-    LES_TIERS.map(t=>'<label>'+t.label+' <input type="number" step="500" min="0" data-a="lesprice" data-k="'+t.k+'" value="'+lesPrice(t.k)+'"'+(S.ro?' disabled':'')+'>원</label>').join("")+
+  /* 단가 — 고른 달부터 적용 */
+  const pym=S.lesPriceYm||cur, pyms=[...new Set(yms.concat([cur]))].sort(), hist=Object.keys(S.lesPriceHist||{}).sort();
+  h+='<div class="card"><div class="chead"><b>단가</b><span>1회 수업당 · 고른 달부터 적용돼요 (그 전 달 숫자는 안 바뀜)</span></div><div class="lesprice">'+
+    '<label>적용 시작 <select data-a="lespym">'+pyms.map(y=>'<option value="'+y+'"'+(y===pym?' selected':'')+'>'+esc(ymLabel(y))+'</option>').join("")+'</select>부터</label>'+
+    LES_TIERS.map(t=>'<label>'+t.label+' <input type="number" step="500" min="0" data-a="lesprice" data-k="'+t.k+'" value="'+lesPrice(t.k,pym)+'"'+(S.ro?' disabled':'')+'>원</label>').join("")+
+    (hist.length?'<div class="lesrules">단가 바뀐 기록: '+hist.map(y=>esc(ymLabel(y))+'부터 '+LES_TIERS.map(t=>lesWon(lesPrice(t.k,y))).join(" / ")).join(" · ")+'</div>':'')+
     (Object.keys(S.lesRules||{}).length?'<div class="lesrules">직접 정한 수강권: '+Object.keys(S.lesRules).map(p=>esc(p)+' → '+esc(lesTierLabel(S.lesRules[p]))+(S.ro?'':' <button class="lnk" data-a="lesunrule" data-v="'+esc(p)+'">되돌리기</button>')).join(" · ")+'</div>':'')+
     '</div></div></div>';
   return h;
@@ -4751,11 +4805,11 @@ function viewLessons(){
 function lesExport(){
   const rg=lesRange(); if(!rg)return;
   const today=TODAY(), rows=lesRows(rg).filter(x=>x.d<today), A=lesAgg(rows);
-  const s1=[["강사"].concat(LES_TIERS.map(t=>t.label+" ("+lesPrice(t.k)+"원)"),["합계(회)","금액(원)","고칠 줄","고치면(원)"])];
+  const s1=[["강사"].concat(LES_TIERS.map(t=>t.label+" ("+lesPrice(t.k,rg.to)+"원)"),["합계(회)","금액(원)","고칠 줄","고치면(원)"])];
   A.list.forEach(o=>s1.push([o.name].concat(LES_TIERS.map(t=>o.tiers[t.k]||0),[o.n,Math.round(o.amt),o.bad,Math.round(o.badAmt)])));
   s1.push(["합계"].concat(LES_TIERS.map(t=>A.tot.tiers[t.k]||0),[A.tot.n,Math.round(A.tot.amt),A.tot.bad,Math.round(A.tot.badAmt)]));
   const s2=[["강사","단가 구간","수강권명","회","단가","금액"]];
-  A.list.forEach(o=>Object.values(o.passes).forEach(p=>s2.push([o.name,lesTierLabel(p.tier),p.name,p.n,lesPrice(p.tier),p.n*lesPrice(p.tier)])));
+  A.list.forEach(o=>Object.values(o.passes).forEach(p=>s2.push([o.name,lesTierLabel(p.tier),p.name,p.n,Math.round(p.amt/p.n),p.amt])));
   const s3=[["수업일","시작","종료","분","강사","회원","끝번호","수강권명","예약상태","단가 구간","회","확인"]];
   rows.forEach(x=>{ const k=lesTier(x.p), b=lesBad(x,k);
     s3.push([x.d,x.s,x.e,lesDur(x),x.t,x.m,x.ph,x.p,x.st,k?lesTierLabel(k):"확인 필요",k&&!b?1:0,b?"고칠 줄: "+lesBadWhy(x,k):(k?"":"단가 구간 모름")]); });
@@ -4778,9 +4832,328 @@ function lesChange(el){
   if(a==="lesfrom"||a==="lesto"){ if(a==="lesfrom")S.lesFrom=el.value||null; else S.lesTo=el.value||null;
     if(S.lesFrom&&S.lesTo&&S.lesFrom>S.lesTo){ const x=S.lesFrom; S.lesFrom=S.lesTo; S.lesTo=x; }
     if(S.lesFrom&&S.lesTo)render(); return true; }
-  if(a==="lesprice"){ if(S.ro)return true; const v=Math.max(0,Math.round(+el.value||0)); S.lesPrice=Object.assign({},S.lesPrice||{}); S.lesPrice[el.dataset.k]=v; save(); render(); return true; }
+  if(a==="lespym"){ S.lesPriceYm=el.value||null; render(); return true; }
+  if(a==="lesprice"){ if(S.ro)return true; const v=Math.max(0,Math.round(+el.value||0)), ym=S.lesPriceYm||TODAY().slice(0,7);
+    const set={}; LES_TIERS.forEach(t=>set[t.k]=lesPrice(t.k,ym)); set[el.dataset.k]=v;
+    S.lesPriceHist=Object.assign({},S.lesPriceHist||{}); S.lesPriceHist[ym]=set; clearCache(); save(); render(); toast(ymLabel(ym)+"부터 "+lesTierLabel(el.dataset.k)+" "+lesWon(v)); return true; }
   if(a==="lesdays"){ if(S.ro)return true; const v=Math.round(+el.value||0); S.lesDays=Object.assign({},S.lesDays||{});
     if(v>0&&v<=31)S.lesDays[el.dataset.k]=v; else delete S.lesDays[el.dataset.k]; save(); render(); return true; }
+  return false;
+}
+/* ===================== 급여 (v131) =====================
+   계약서 제3·4조:
+   · 월 임금(세전) = 기본급 + 인센티브 + 기타 수당. 1일~말일 정산, 다음 달 10일 지급.
+   · 기본급: 트레이너 70만 / 파트장 100만 (직급마다 같음)
+   · 인센티브 = 개인 월 '실매출' × 등급 요율 (원 미만 올림)
+       실매출 = 실제 한 수업 × 회당 금액 − 부가세 − 카드수수료 − 환불   ← 수업 집계 금액에서 공제
+       등급  = 개인 월 '가매출'(본인이 판 수강권 결제액 − 부가세 − 카드수수료 − 환불)로 정한다
+       등급이 오르면 실매출 '전체'에 새 요율을 곱한다(넘은 부분만이 아님)
+   · 규칙(직급·기본급·요율표·공제)은 모두에게 같으므로 settings(payCfg)에 둔다.
+   · 사람마다 다른 칸(결제 합계·환불·기타 수당·조정·명세서 인센티브)은 서버 'pay' 표에 둔다
+     — 관리자는 전부, 강사는 자기 줄만 읽는다(05_급여표.sql). 이 칸은 이 컴퓨터에 저장하지 않는다.
+   · 서버 없이 쓰는 파일 모드에서는 S.payLocal에 둔다(한 컴퓨터 전용). */
+const PAY_DEF={base:{tr:700000,pt:1000000},
+  tiers:[{min:0,g:"F",tr:30,pt:32},{min:5000000,g:"E",tr:32,pt:34},{min:8000000,g:"D",tr:34,pt:36},
+         {min:11000000,g:"C",tr:36,pt:38},{min:13000000,g:"B",tr:38,pt:40},{min:15000000,g:"A",tr:40,pt:42}]};
+const PAY_RANK={tr:"트레이너",pt:"파트장"};
+function payCfg(){ const c=S.payCfg||{};
+  return {base:Object.assign({},PAY_DEF.base,c.base||{}),tiers:(Array.isArray(c.tiers)&&c.tiers.length?c.tiers:PAY_DEF.tiers).slice().sort((a,b)=>a.min-b.min),
+    vat:c.vat!==false,card:Math.max(0,+c.card||0),show:!!c.show,rank:c.rank||{}}; }
+const PAY={rows:{},at:0,loading:false,missing:false,err:"",openAt:0,ym:null};
+const payKey=(ym,sid)=>ym+"|"+sid;
+const payServer=()=>!!(typeof SYNC!=="undefined"&&SYNC.on&&SYNC.sb);
+const payMeId=()=>payServer()?((SYNC.me||{}).id||null):S.me;
+const payAdmin=()=>payServer()?!!SYNC.admin:!S.ro;
+const payOpen=()=>payAdmin()&&Date.now()-PAY.openAt<10*60*1000;   /* 전체 표는 연 뒤 10분이면 저절로 닫힌다 */
+function payGet(ym,sid){ const k=payKey(ym,sid); return payServer()?((PAY.rows[k]||{}).value||null):((S.payLocal||{})[k]||null); }
+async function payLoad(force){
+  if(!payServer()||PAY.loading)return;
+  if(!force&&Date.now()-PAY.at<60000)return;
+  PAY.loading=true;
+  try{
+    const {data,error}=await SYNC.sb.from("pay").select("id,staff_id,ym,value,updated_at");
+    if(error){ const m=(error.message||"")+" "+(error.code||""); PAY.missing=/does not exist|schema cache|42P01|PGRST20/i.test(m); PAY.err=error.message||String(error); }
+    else{ PAY.rows={}; (data||[]).forEach(r=>PAY.rows[r.id]=r); PAY.missing=false; PAY.err=""; }
+  }catch(e){ PAY.err=e.message||String(e); }
+  PAY.at=Date.now(); PAY.loading=false; render();
+}
+async function paySave(ym,sid,patch){
+  if(!payAdmin())return;
+  const cur=Object.assign({},payGet(ym,sid)||{});
+  Object.keys(patch).forEach(k=>{ const v=patch[k]; if(v===null||v===""||(typeof v==="number"&&isNaN(v)))delete cur[k]; else cur[k]=v; });
+  const k=payKey(ym,sid);
+  if(payServer()){
+    PAY.rows[k]={id:k,staff_id:sid,ym,value:cur}; render();
+    const {error}=await SYNC.sb.from("pay").upsert({id:k,staff_id:sid,ym,value:cur},{onConflict:"id"});
+    if(error){ toast("급여 칸을 서버에 저장하지 못했어요 — "+(error.message||error)); payLoad(true); }
+  }else{ S.payLocal=Object.assign({},S.payLocal||{}); S.payLocal[k]=cur; save(); render(); }
+}
+/* 공제: 부가세(÷1.1) → 카드수수료(%) */
+function payNet(v){ const c=payCfg(); let x=+v||0; if(c.vat)x/=1.1; return x*(1-c.card/100); }
+function payTier(sales){ const t=payCfg().tiers; let r=t[0]; t.forEach(z=>{ if(sales>=z.min)r=z; }); return r; }
+const payNext=sales=>payCfg().tiers.find(z=>z.min>sales)||null;
+const payRank=sid=>payCfg().rank[sid]==="pt"?"pt":"tr";
+/* 강사 한 명·한 달 — gross: 어제까지 수업료, grossE: 월말 예상 수업료 */
+function payCalc(ym,sid,gross,grossE){
+  const c=payCfg(), v=payGet(ym,sid)||{}, rk=payRank(sid);
+  const has=v.paid!=null&&v.paid!=="";
+  const paid=+v.paid||0, refund=+v.refund||0, sales=payNet(paid-refund);
+  const tier=payTier(sales), rate=(+tier[rk]||0)/100, nx=payNext(sales);
+  const real=payNet(gross), inc=Math.ceil(real*rate-1e-9);
+  const realE=payNet(grossE), incE=Math.ceil(realE*rate-1e-9);
+  const base=+c.base[rk]||0, extra=+v.extra||0, adj=+v.adj||0;
+  let up=null; if(nx){ const r2=(+nx[rk]||0)/100; up={need:nx.min-sales,g:nx.g,pct:+nx[rk]||0,gain:Math.ceil(realE*r2-1e-9)-incE}; }
+  const stmt=v.stmt!=null&&v.stmt!==""?+v.stmt:null;
+  return {rk,has,paid,refund,sales,tier,pct:+tier[rk]||0,rate,real,inc,realE,incE,base,extra,adj,
+    total:base+inc+extra+adj,totalE:base+incE+extra+adj,up,stmt,gap:stmt?(inc-stmt)/stmt*100:null,memo:v.memo||""};
+}
+/* 한 달 강사별 수업료: 이번 달 = 어제까지 + 지금 속도면, 지난달 = 한 달 전체 */
+function payGross(ym){
+  const today=TODAY(), out={};
+  if(ym===today.slice(0,7)){ const M=lesMonth(ym); M.names.forEach(t=>{ const b=M.by[t]; out[t]={amt:b.amt,est:M.elapsed?b.est:b.floor}; }); return {out,cur:true,M}; }
+  lesAgg(lesRowsOf(ym).filter(x=>x.d<today)).list.forEach(o=>out[o.name]={amt:o.amt,est:o.amt});
+  return {out,cur:false,M:null};
+}
+const payDue=ym=>{ let y=+ym.slice(0,4), m=+ym.slice(5,7)+1; if(m>12){ m=1; y++; } return m+"/10"; };
+/* 수업 메모 맨 위 한 줄에 붙는 급여 — 로그인한 본인 화면에서만 */
+function payMineHtml(ym,me,b,M){
+  if(!me||me.id!==payMeId())return "";
+  if(payServer())payLoad();
+  const c=payCfg(); if(!(payServer()?(!!SYNC.admin||c.show):c.show))return "";   /* 파일 모드(로그인 없음)는 보이기를 켠 때만 */
+  if(!payGet(ym,me.id))return "";
+  const p=payCalc(ym,me.id,b.amt,M&&M.elapsed?b.est:b.floor);
+  return '<span class="paymine">예상 급여(세전) <b>'+lesWon(p.total)+'</b>'+(M&&M.elapsed?' · 지금 속도면 약 '+lesWon(lesR10k(p.totalE)):'')+
+    ' · '+esc(p.tier.g)+'등급 '+p.pct+'%'+(p.up?' · 다음 등급까지 가매출 '+lesWon(Math.max(0,p.up.need)):'')+'</span>';
+}
+function payCardHtml(){
+  if(!(S.lessons&&Object.keys(S.lessons).length))return "";
+  if(payServer())payLoad();
+  const c=payCfg(), admin=payAdmin(), cur=TODAY().slice(0,7);
+  const yms=[...new Set(Object.keys(S.lessons).concat([cur]))].sort().reverse().slice(0,6);
+  const ym=PAY.ym&&yms.indexOf(PAY.ym)>=0?PAY.ym:cur;
+  const G=payGross(ym);
+  let h='<div class="card paycard"><div class="chead"><b>급여 (세전 · 예상)</b><span>기본급 + 실매출 × 등급 요율 + 기타 수당 · '+esc(payDue(ym))+' 지급분</span><span class="sp"></span>'+
+    yms.map(y=>'<button class="btn sm'+(y===ym?' navy':' gh')+'" data-a="payym" data-v="'+y+'">'+esc(ymLabel(y))+'</button>').join("")+'</div><div class="lesbody">';
+  if(payServer()&&PAY.missing){
+    return h+(admin?'<div class="leswarn">서버에 급여 칸이 아직 없어요. Supabase → SQL Editor에서 <b>05_급여표.sql</b>을 한 번 실행한 뒤 새로고침하세요.</div>':'')+'</div></div>';
+  }
+  if(payServer()&&PAY.err&&!Object.keys(PAY.rows).length&&!PAY.missing)h+='<div class="leswarn">급여 칸을 불러오지 못했어요 — '+esc(PAY.err)+'</div>';
+  /* 강사 본인 */
+  if(!admin){
+    const me=byId(S.staff,payMeId());
+    if(!c.show||!me||!payGet(ym,me.id))return "";
+    const g=G.out[normName(me.name)]||{amt:0,est:0}, p=payCalc(ym,me.id,g.amt,g.est);
+    return h+payOneHtml(p,G.cur,me.name)+'</div></div>';
+  }
+  /* 관리자 */
+  if(!payOpen()){
+    return h+'<div class="payclosed"><span>강사별 결제 합계·급여가 보이는 표예요. 다른 사람이 화면을 볼 수 있는 곳이면 열지 마세요.</span><button class="btn sm navy" data-a="payopen">급여 표 열기</button></div>'+
+      '<div class="paynote">샘들에게 보이기: <b>'+(c.show?'켜짐 — 각자 수업 메모 맨 위에 자기 예상 급여가 보여요':'꺼짐 — 지금은 관리자만 봐요')+'</b></div></div></div>';
+  }
+  const names=new Set(Object.keys(G.out));
+  const staff=(S.staff||[]).filter(s=>names.has(normName(s.name))||payGet(ym,s.id));
+  const ro=payServer()&&PAY.missing;
+  const inp=(sid,k,v,ph)=>'<input type="number" step="1000" data-a="payin" data-s="'+esc(sid)+'" data-k="'+k+'" value="'+(v==null||v===""?"":esc(String(v)))+'" placeholder="'+(ph||"")+'"'+(ro?' disabled':'')+'>';
+  const tot={real:0,inc:0,total:0,totalE:0};
+  h+='<div class="tw"><table class="lestab paytab"><thead><tr><th>강사</th><th>직급</th><th>결제 합계<i>부가세 포함</i></th><th>환불</th><th>가매출<i>등급 · 요율</i></th>'+
+    '<th>실매출<i>'+(G.cur?'어제까지':'한 달')+'</i></th><th>인센티브</th><th>기본급</th><th>기타 수당<i>교육수당 등</i></th><th>조정<i>±</i></th><th>예상 급여<i>'+(G.cur?'어제까지':'세전')+'</i></th>'+
+    (G.cur?'<th>지금 속도면<i>월말</i></th><th>다음 등급</th>':'<th>명세서 인센티브<i>맞춰 보기</i></th>')+'</tr></thead><tbody>'+
+    staff.map(s=>{ const g=G.out[normName(s.name)]||{amt:0,est:0}, p=payCalc(ym,s.id,g.amt,g.est), v=p;
+      tot.real+=p.real; tot.inc+=p.inc; tot.total+=p.total; tot.totalE+=p.totalE;
+      const raw=payGet(ym,s.id)||{};
+      return '<tr><td><b>'+esc(s.name)+'</b></td><td><select data-a="payrank" data-s="'+esc(s.id)+'">'+Object.keys(PAY_RANK).map(k=>'<option value="'+k+'"'+(p.rk===k?' selected':'')+'>'+PAY_RANK[k]+'</option>').join("")+'</select></td>'+
+        '<td>'+inp(s.id,"paid",raw.paid,"입력")+'</td><td>'+inp(s.id,"refund",raw.refund,"0")+'</td>'+
+        '<td>'+(p.has?'<b>'+lesWon(p.sales)+'</b><i>'+esc(p.tier.g)+'등급 · '+p.pct+'%</i>':'<em>결제 합계 필요</em>')+'</td>'+
+        '<td><b>'+lesWon(p.real)+'</b><i>수업료 '+lesWon(g.amt)+'</i></td><td>'+(p.has?'<b>'+lesWon(p.inc)+'</b>':'<em>F 가정 '+lesWon(p.inc)+'</em>')+'</td><td>'+lesWon(p.base)+'</td>'+
+        '<td>'+inp(s.id,"extra",raw.extra,"0")+'</td><td>'+inp(s.id,"adj",raw.adj,"0")+'</td>'+
+        '<td>'+(p.has?'<b>'+lesWon(p.total)+'</b>':'<em>F 가정 '+lesWon(p.total)+'</em>')+'</td>'+
+        (G.cur?'<td><b>약 '+lesWon(lesR10k(p.totalE))+'</b></td><td>'+(p.up?esc(p.up.g)+'까지 가매출 '+lesWon(Math.max(0,p.up.need))+'<i>오르면 약 +'+lesWon(lesR10k(p.up.gain))+'</i>':'<em>최고 등급</em>')+'</td>'
+          :'<td>'+inp(s.id,"stmt",raw.stmt,"명세서 값")+(p.gap!=null?'<i class="'+(Math.abs(p.gap)<=1?'up':'dn')+'">계산 '+(p.gap>=0?'+':'')+p.gap.toFixed(1)+'%</i>':'')+'</td>')+'</tr>'; }).join("")+
+    '</tbody><tfoot><tr><td>합계</td><td></td><td></td><td></td><td></td><td>'+lesWon(tot.real)+'</td><td>'+lesWon(tot.inc)+'</td><td></td><td></td><td></td><td>'+lesWon(tot.total)+'</td>'+
+    (G.cur?'<td>약 '+lesWon(lesR10k(tot.totalE))+'</td><td></td>':'<td></td>')+'</tr></tfoot></table></div>';
+  h+='<div class="paynote">가매출 = (결제 합계 − 환불)'+(c.vat?' ÷ 1.1':'')+(c.card?' × (1 − 카드수수료 '+c.card+'%)':'')+' · 실매출 = 수업료'+(c.vat?' ÷ 1.1':'')+(c.card?' × (1 − '+c.card+'%)':'')+
+    ' · 인센티브 = 실매출 × 요율 (원 미만 올림) · 결제 합계는 센터 프로그램 매출에서 그 샘이 판 수강권 합계를 넣으세요. '+
+    '<b>명세서와 1% 안으로 맞춘 뒤에</b> 샘들에게 보이기를 켜는 걸 권해요.</div>';
+  /* 규칙 */
+  h+='<div class="paycfg"><b>규칙</b> '+
+    '<label>기본급 트레이너 <input type="number" step="10000" data-a="paycfg" data-k="base.tr" value="'+c.base.tr+'">원</label>'+
+    '<label>파트장 <input type="number" step="10000" data-a="paycfg" data-k="base.pt" value="'+c.base.pt+'">원</label>'+
+    '<label><input type="checkbox" data-a="paycfg" data-k="vat"'+(c.vat?' checked':'')+'> 부가세 빼기(÷1.1)</label>'+
+    '<label>카드수수료 <input type="number" step="0.1" min="0" max="10" data-a="paycfg" data-k="card" value="'+c.card+'">%</label>'+
+    '<label class="payshow"><input type="checkbox" data-a="paycfg" data-k="show"'+(c.show?' checked':'')+'> 샘들에게 보이기 (각자 자기 것만)</label>'+
+    '<div class="paytiers">'+c.tiers.map((t,i)=>'<span><b>'+esc(t.g)+'</b> 가매출 <input class="m" type="number" step="100000" data-a="paytier" data-i="'+i+'" data-k="min" value="'+t.min+'">원 이상 · 트레이너 <input type="number" step="1" data-a="paytier" data-i="'+i+'" data-k="tr" value="'+t.tr+'">% · 파트장 <input type="number" step="1" data-a="paytier" data-i="'+i+'" data-k="pt" value="'+t.pt+'">%</span>').join("")+'</div>'+
+    '<button class="btn sm gh" data-a="payclose">표 닫기</button></div>';
+  return h+'</div></div>';
+}
+/* 강사 본인 화면 — 자기 것만 */
+function payOneHtml(p,cur,name){
+  return '<div class="payone"><div class="payrow"><span>기본급 ('+PAY_RANK[p.rk]+')</span><b>'+lesWon(p.base)+'</b></div>'+
+    '<div class="payrow"><span>인센티브 = 실매출 '+lesWon(p.real)+' × '+p.pct+'% ('+esc(p.tier.g)+'등급)</span><b>'+lesWon(p.inc)+'</b></div>'+
+    (p.extra?'<div class="payrow"><span>기타 수당</span><b>'+lesWon(p.extra)+'</b></div>':'')+(p.adj?'<div class="payrow"><span>조정</span><b>'+lesWon(p.adj)+'</b></div>':'')+
+    '<div class="payrow tot"><span>예상 급여 (세전'+(cur?' · 어제까지':'')+')</span><b>'+lesWon(p.total)+'</b></div>'+
+    (cur?'<div class="payrow"><span>지금 속도면 월말</span><b>약 '+lesWon(lesR10k(p.totalE))+'</b></div>':'')+
+    (p.up?'<div class="paynote">다음 등급('+esc(p.up.g)+' · '+p.up.pct+'%)까지 가매출 '+lesWon(Math.max(0,p.up.need))+' — 오르면 약 +'+lesWon(lesR10k(p.up.gain))+'</div>':'')+
+    '<div class="paynote">가매출은 파트장이 넣은 값 기준이에요. 실제 급여는 명세서가 기준입니다.</div></div>';
+}
+function payAction(a,v,el){
+  if(a==="payym"){ PAY.ym=v; render(); return true; }
+  if(a==="payopen"){ PAY.openAt=Date.now(); if(payServer())payLoad(true); render(); return true; }
+  if(a==="payclose"){ PAY.openAt=0; render(); return true; }
+  return false;
+}
+function payChange(el){
+  const a=el.dataset.a; if(!payAdmin())return true;
+  const ym=PAY.ym||TODAY().slice(0,7);
+  if(a==="payin"){ const raw=String(el.value).trim(); paySave(ym,el.dataset.s,{[el.dataset.k]:raw===""?null:Math.round(+raw)}); return true; }
+  if(a==="payrank"){ const c=Object.assign({},S.payCfg||{}); c.rank=Object.assign({},c.rank||{}); c.rank[el.dataset.s]=el.value; S.payCfg=c; save(); render(); return true; }
+  if(a==="paycfg"){ const c=Object.assign({},S.payCfg||{}), k=el.dataset.k;
+    if(k==="vat"||k==="show")c[k]=!!el.checked;
+    else if(k==="card")c.card=Math.max(0,Math.min(10,+el.value||0));
+    else if(k.indexOf("base.")===0){ c.base=Object.assign({},PAY_DEF.base,c.base||{}); c.base[k.slice(5)]=Math.max(0,Math.round(+el.value||0)); }
+    S.payCfg=c; save(); render(); return true; }
+  if(a==="paytier"){ const c=Object.assign({},S.payCfg||{}); const t=payCfg().tiers.map(z=>Object.assign({},z)); const i=+el.dataset.i;
+    if(t[i]){ t[i][el.dataset.k]=Math.max(0,+el.value||0); c.tiers=t; S.payCfg=c; save(); render(); } return true; }
+  return false;
+}
+
+/* ===================== 방문 흐름 · 방문 달력 (v132) =====================
+   출석 기록(m.att)만으로 "누가 평소보다 덜 오나"를 달 단위로 본다. 따로 저장하는 값은 없다.
+   · 대상(그 달): 석 달 넘게 다녔고(첫 방문이 석 달 전 1일 이전), 그 달 15일까지 수강권이 살아 있고,
+     그 전 석 달 평균이 한 달 2일 이상인 회원.
+   · 상태: 그 달에 0일 = 안 옴 · 평소(그 전 석 달 평균)의 절반 이하 = 줄어듦 · 그 밖 = 평소대로.
+   · 화면 세 곳(줄어든 회원 목록 · 달마다 막대 · 강사별 막대)이 모두 이 한 가지 기준을 쓴다.
+   · 지난 달들을 볼 때는 지금 휴지통에 있는 회원도 그때 다니던 회원으로 센다.
+   · 강사 화면에서는 자기 책임 회원만 본다. */
+const VF={ym:null,year:false};
+const VF_COL={ok:"#3987e5",half:"#ec835a",stop:"#d03b3b"}, VF_LAB={ok:"평소대로 옴",half:"절반 이하로 줄어듦",stop:"한 번도 안 옴"};
+function vfAdd(ym,k){ const t=(+ym.slice(0,4))*12+(+ym.slice(5,7)-1)+k; return Math.floor(t/12)+"-"+pad2(t%12+1); }
+/* 회원 한 명의 출석 색인: 날짜별 회차 수 · 달별 온 날 수 · 첫/마지막 방문 */
+function vfIdx(m){ return cache("vfi",m.id,()=>{
+  const t=TODAY(), days={}, cnt={}; let first=null,last=null;
+  (m.att||[]).forEach(a=>{ const d=a.date; if(!d)return; days[d]=(days[d]||0)+1; });
+  Object.keys(days).forEach(d=>{ if(d>t)return; cnt[d.slice(0,7)]=(cnt[d.slice(0,7)]||0)+1; if(!first||d<first)first=d; if(!last||d>last)last=d; });
+  return {days,cnt,first,last};
+}); }
+/* 수강권이 살아 있던 기간들 */
+function vfIv(m){ return cache("vfv",m.id,()=>{
+  const t=TODAY(), ix=vfIdx(m), hist={}; (m.passHist||[]).forEach(h=>{ hist[h.k]=h; });
+  const ps=(m.passes||[]).filter(p=>p&&p.start).slice().sort((a,b)=>a.start<b.start?-1:a.start>b.start?1:0);
+  return ps.map((p,i)=>{ let e;
+    if((+p.remaining||0)>0)e=p.expiry&&p.expiry<t?p.expiry:t;
+    else{ const h=hist[p.start+"|"+(p.expiry||"")+"|"+p.total]; e=h&&h.end?h.end:(ps[i+1]?ps[i+1].start:(ix.last||p.start)); }
+    return [p.start,e<p.start?p.start:e]; });
+}); }
+function vfState(m,ym){
+  const ix=vfIdx(m); if(!ix.first||ix.first>vfAdd(ym,-3)+"-01")return null;
+  const a=ym+"-15", b=lesMonthEnd(ym); if(!vfIv(m).some(v=>v[0]<=b&&v[1]>=a))return null;
+  const c3=[ix.cnt[vfAdd(ym,-3)]||0,ix.cnt[vfAdd(ym,-2)]||0,ix.cnt[vfAdd(ym,-1)]||0], prev=(c3[0]+c3[1]+c3[2])/3;
+  if(prev<2)return null;
+  const c=ix.cnt[ym]||0;
+  return {k:c===0?"stop":c<=prev*0.5?"half":"ok",c,prev,c3};
+}
+const vfPool=()=>S.me?S.members.filter(m=>m.staffId===S.me):S.members;
+/* 볼 수 있는 달들 — 기록이 시작되고 석 달 뒤부터 지난달까지, 최근 12달 */
+function vfMonths(){ return cache("vfm","all",()=>{
+  let first=null; S.members.forEach(m=>{ const f=vfIdx(m).first; if(f&&(!first||f<first))first=f; });
+  if(!first)return [];
+  const lastYm=vfAdd(TODAY().slice(0,7),-1), out=[];
+  /* 첫 기록이 달 중간부터면 견줄 수 있는 첫 달은 넉 달 뒤 */
+  for(let ym=vfAdd(first.slice(0,7),first.slice(8)==="01"?3:4); ym<=lastYm; ym=vfAdd(ym,1))out.push(ym);
+  return out.slice(-12);
+}); }
+function vfMonth(ym){ return cache("vfs",ym+"|"+(S.me||""),()=>{
+  const rows=[]; vfPool().forEach(m=>{ const s=vfState(m,ym); if(s)rows.push({m,s}); });
+  const n={ok:0,half:0,stop:0}; rows.forEach(r=>n[r.s.k]++);
+  return {ym,rows,n,tot:rows.length};
+}); }
+const vfMo=ym=>(+ym.slice(5,7))+"월";
+function vfRowHtml(r,ym){
+  const m=r.m, ix=vfIdx(m), t=TODAY(), mx=Math.max(1,r.s.c,r.s.c3[0],r.s.c3[1],r.s.c3[2],6);
+  const bar=(y,c,now)=>'<div'+(now?' class="now"':'')+' title="'+vfMo(y)+' '+c+'일 옴"><b>'+c+'</b><i style="height:'+Math.max(2,Math.round(24*c/mx))+'px"></i><em>'+vfMo(y)+'</em></div>';
+  const gap=ix.last?daysBetween(new Date(),parseD(ix.last)):null;
+  const next=Object.keys(ix.days).filter(d=>d>t).sort()[0];
+  return '<div class="vfr" data-a="open" data-v="'+m.id+'"><div class="nm"><b>'+esc(m.name)+'</b><span>'+esc(staffName(m)||"책임자 없음")+'</span>'+(m.trashed?'<span class="tag z">휴지통</span>':'')+'</div>'+
+    '<div class="bars">'+bar(vfAdd(ym,-3),r.s.c3[0])+bar(vfAdd(ym,-2),r.s.c3[1])+bar(vfAdd(ym,-1),r.s.c3[2])+bar(ym,r.s.c,true)+'</div>'+
+    '<div class="tx">'+vfMo(vfAdd(ym,-3))+'~'+vfMo(vfAdd(ym,-1))+' 한 달 평균 <b>'+(Math.round(r.s.prev*10)/10)+'일</b> → '+vfMo(ym)+' <b class="rd">'+r.s.c+'일</b></div>'+
+    '<div class="last">'+(gap===null?'':gap<=0?'오늘 옴':'마지막 방문 '+gap+'일 전')+(next?'<i>다음 예약 '+esc(fmtMD(next))+'</i>':'<i class="no">잡힌 예약 없음</i>')+'</div></div>';
+}
+function vfHtml(){
+  const yms=vfMonths();
+  if(!yms.length)return '<div class="empty">방문 기록이 넉 달 넘게 쌓이면 여기에 흐름이 보여요.<br>예약 내역(또는 수업목록) 엑셀을 올려 주세요.</div>';
+  const ym=VF.ym&&yms.indexOf(VF.ym)>=0?VF.ym:yms[yms.length-1], M=vfMonth(ym), isLast=ym===yms[yms.length-1];
+  const sortF=(a,b)=>(a.s.c/a.s.prev)-(b.s.c/b.s.prev)||b.s.prev-a.s.prev||a.m.name.localeCompare(b.m.name,"ko");
+  const stop=M.rows.filter(r=>r.s.k==="stop").sort(sortF), half=M.rows.filter(r=>r.s.k==="half").sort(sortF);
+  /* ① 줄어든 회원 */
+  let h='<div class="card vf"><div class="chead"><b>'+(isLast?'지난달('+vfMo(ym)+')':ymLabel(ym))+'에 발길이 줄어든 회원</b><span>석 달 넘게 다닌 회원 · 그 전 석 달 평균과 비교 · 줄을 누르면 회원 상세</span></div><div class="vfb">'+
+    '<div class="vfsum"><div><b class="rd">'+M.n.stop+'명</b><span>'+vfMo(ym)+'에 한 번도 안 옴</span></div><div><b>'+M.n.half+'명</b><span>평소의 절반 이하로 줄어듦</span></div><div><b>'+M.n.ok+'명</b><span>평소대로 옴</span></div></div>';
+  if(!M.tot)h+='<div class="empty">이 달에 견줄 회원이 없어요.</div>';
+  if(stop.length)h+='<h3>'+vfMo(ym)+'에 한 번도 안 온 회원<small>'+stop.length+'명</small></h3>'+stop.map(r=>vfRowHtml(r,ym)).join("");
+  if(half.length)h+='<h3>평소의 절반 이하로 줄어든 회원<small>'+half.length+'명</small></h3>'+half.map(r=>vfRowHtml(r,ym)).join("");
+  if(M.tot&&!stop.length&&!half.length)h+='<div class="empty">'+vfMo(ym)+'에는 모두 평소대로 왔어요.</div>';
+  h+='</div></div>';
+  /* ② 달마다 */
+  const A=yms.map(y=>vfMonth(y)), mx=Math.max(1,...A.map(x=>x.tot)), prev=A.length>1?A[A.length-2]:null, cur=A[yms.indexOf(ym)], pi=yms.indexOf(ym)-1, pv=pi>=0?A[pi]:null;
+  const pc=x=>x.tot?Math.round(100*x.n.ok/x.tot):0;
+  h+='<div class="card vf"><div class="chead"><b>달마다 회원들이 평소대로 오고 있나</b><span>막대를 누르면 그 달의 명단으로 바뀌어요</span></div><div class="vfb">'+
+    '<p class="say">'+vfMo(ym)+'에는 '+cur.tot+'명 중 <b>'+cur.n.ok+'명('+pc(cur)+'%)</b>이 평소대로 왔어요.'+(pv&&pv.tot?' '+vfMo(pv.ym)+'은 '+pc(pv)+'%였어요.':'')+' <b class="rd">줄었거나 안 온 회원은 '+(cur.n.half+cur.n.stop)+'명</b>이에요.</p>'+
+    '<div class="vfleg">'+["ok","half","stop"].map(k=>'<span><i style="background:'+VF_COL[k]+'"></i>'+VF_LAB[k]+'</span>').join("")+'</div>';
+  const W=1040,H=250,bt=26,tp=8,slot=W/yms.length,bw=Math.min(110,slot-22);
+  let s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="달마다 평소대로 온 회원 수">';
+  A.forEach((x,i)=>{ const x0=i*slot+(slot-bw)/2; let y=H-bt; const on=x.ym===ym;
+    s+='<g data-a="vfym" data-v="'+x.ym+'" style="cursor:pointer"><title>'+ymLabel(x.ym)+' · 평소대로 '+x.n.ok+'명 · 줄어듦 '+x.n.half+'명 · 안 옴 '+x.n.stop+'명</title><rect x="'+(i*slot)+'" y="0" width="'+slot+'" height="'+H+'" fill="'+(on?'rgba(31,45,77,.05)':'transparent')+'"/>';
+    ["ok","half","stop"].forEach(k=>{ const hh=(H-bt-tp)*x.n[k]/mx; if(hh<=0)return;
+      s+='<rect x="'+x0.toFixed(1)+'" y="'+(y-hh+1).toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+Math.max(1,hh-2).toFixed(1)+'" rx="3" fill="'+VF_COL[k]+'"/>'+
+        (hh>=15?'<text x="'+(x0+bw/2).toFixed(1)+'" y="'+(y-hh/2+4).toFixed(1)+'" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">'+x.n[k]+'</text>':'');
+      y-=hh; });
+    s+='<text x="'+(x0+bw/2).toFixed(1)+'" y="'+(H-7)+'" font-size="12" text-anchor="middle" fill="'+(on?'var(--ink,#111)':'var(--fnt)')+'" font-weight="'+(on?700:400)+'">'+vfMo(x.ym)+'</text></g>'; });
+  h+=s+'</svg><div class="tw"><table class="vft"><tr><th></th>'+A.map(x=>'<th>'+vfMo(x.ym)+'</th>').join("")+'</tr>'+
+    '<tr><td>평소대로 온 비율</td>'+A.map(x=>'<td'+(x.ym===ym?' class="now"':'')+'>'+(x.tot?pc(x)+'%':'–')+'</td>').join("")+'</tr>'+
+    '<tr><td>줄었거나 안 온 회원</td>'+A.map(x=>'<td'+(x.ym===ym?' class="now"':'')+'>'+(x.n.half+x.n.stop)+'명</td>').join("")+'</tr></table></div></div></div>';
+  /* ③ 강사별 — 전체 보기에서만 */
+  if(!S.me){
+    const by={}; M.rows.forEach(r=>{ const k=r.m.staffId||""; (by[k]=by[k]||{name:staffName(r.m)||"책임자 없음",n:{ok:0,half:0,stop:0},tot:0}); by[k].n[r.s.k]++; by[k].tot++; });
+    const list=Object.values(by).sort((a,b)=>b.tot-a.tot), mxn=Math.max(1,...list.map(x=>x.tot));
+    if(list.length)h+='<div class="card vf"><div class="chead"><b>강사별 — '+ymLabel(ym)+'</b><span>책임 회원 기준 · 막대 길이 = 회원 수</span></div><div class="vfb">'+
+      list.map(x=>'<div class="vftr"><div><b>'+esc(x.name)+'</b><small>'+x.tot+'명</small></div><div class="hb" style="width:'+Math.max(8,Math.round(100*x.tot/mxn))+'%">'+
+        ["ok","half","stop"].map(k=>x.n[k]?'<div style="flex:'+x.n[k]+';background:'+VF_COL[k]+'" title="'+VF_LAB[k]+' '+x.n[k]+'명">'+x.n[k]+'</div>':'').join("")+'</div>'+
+        '<div class="tx">평소대로 <b>'+Math.round(100*x.n.ok/x.tot)+'%</b> · 줄어듦 <b>'+x.n.half+'명</b> · 안 옴 <b class="rd">'+x.n.stop+'명</b></div></div>').join("")+'</div></div>';
+  }
+  return h+'<div class="note">대상: 석 달 넘게 다녔고, 그 달 15일까지 수강권이 살아 있고, 그 전 석 달 동안 한 달 평균 2일 이상 온 회원. ‘평소’는 그 전 석 달의 한 달 평균 방문일이에요. 지난 달들에는 지금 휴지통에 있는 회원도 그때 다니던 회원으로 셉니다.</div>';
+}
+/* 회원 상세 · 방문 달력 */
+function vfCalHtml(m){
+  const ix=vfIdx(m), t=TODAY(), cur=t.slice(0,7);
+  if(!ix.first&&!Object.keys(ix.days).length)return '<div><div class="dsec">방문 달력</div><div class="note" style="padding:0">아직 방문 기록이 없어요.</div></div>';
+  const n=VF.year?12:6, yms=[]; for(let i=n-1;i>=0;i--)yms.push(vfAdd(cur,-i));
+  const starts={}; (m.passes||[]).forEach(p=>{ if(p&&p.start)starts[p.start]=1; });
+  const cnts=yms.map(y=>ix.cnt[y]||0), mx=Math.max(1,...cnts);
+  /* 한 문장 */
+  const lm=vfAdd(cur,-1), p3=[ix.cnt[vfAdd(cur,-4)]||0,ix.cnt[vfAdd(cur,-3)]||0,ix.cnt[vfAdd(cur,-2)]||0], lo=Math.min(...p3), hi=Math.max(...p3), c=ix.cnt[lm]||0, avg=(p3[0]+p3[1]+p3[2])/3;
+  const gap=ix.last?daysBetween(new Date(),parseD(ix.last)):null;
+  let say="";
+  if(ix.first&&ix.first<=vfAdd(cur,-4)+"-01"&&avg>0){
+    const rng=vfMo(vfAdd(cur,-4))+'~'+vfMo(vfAdd(cur,-2))+'에는 한 달에 '+(lo===hi?lo:lo+'~'+hi)+'일 왔';
+    say=c===0?rng+'는데, <b class="rd">'+vfMo(lm)+'에는 한 번도 안 왔어요.</b>':c<=avg*0.5?rng+'는데, <b class="rd">'+vfMo(lm)+'에는 '+c+'일</b>만 왔어요.':rng+'고, '+vfMo(lm)+'에도 '+c+'일 왔어요.';
+  }else say='최근 '+n+'개월 동안 '+cnts.reduce((a,b)=>a+b,0)+'일 왔어요.';
+  say+=gap===null?'':gap<=0?' 오늘도 왔어요.':' 마지막 방문은 '+gap+'일 전이에요.';
+  let h='<div class="vfc"><div class="dsec" style="display:flex;align-items:center">방문 달력 · 최근 '+n+'개월<button class="lnk" style="margin-left:auto;font-size:11.5px;font-weight:600" data-a="vfyear">'+(VF.year?'6개월만 보기':'1년 보기')+'</button></div>'+
+    '<p class="say">'+say+'</p><div class="ms">';
+  yms.forEach((ym,i)=>{
+    const y=+ym.slice(0,4), mo=+ym.slice(5,7), first=new Date(y,mo-1,1), last=new Date(y,mo,0).getDate(), off=(first.getDay()+6)%7;
+    h+='<div class="mm"><b>'+mo+'월</b><span class="cn"><b>'+cnts[i]+'일</b> 옴'+(ym===cur?' <i>('+(+t.slice(8))+'일까지)</i>':'')+'</span><div class="g">'+
+      "월화수목금토일".split("").map(x=>'<span>'+x+'</span>').join("")+'<div></div>'.repeat(off);
+    for(let d=1;d<=last;d++){ const ds=ym+"-"+pad2(d), k=ix.days[ds]||0; let cls="";
+      if(k&&ds<=t)cls=k>=2?"v2":"v1"; else if(k)cls="bk"; else if(ds>t)cls="f";
+      if(starts[ds])cls+=" st";
+      h+='<div'+(cls?' class="'+cls.trim()+'"':'')+' title="'+mo+'/'+d+(k?(ds<=t?' · '+k+'회차':' · 예약 '+k+'칸'):'')+(starts[ds]?' · 수강권 시작':'')+'">'+d+'</div>'; }
+    h+='</div><div class="bar"><i style="width:'+Math.round(100*cnts[i]/mx)+'%"></i></div></div>';
+  });
+  return h+'</div><div class="vfleg"><span><i style="background:#86b6ef"></i>온 날 · 1회차</span><span><i style="background:#184f95"></i>온 날 · 2회차 이상</span><span><i class="bk"></i>잡힌 예약</span><span><i class="st"></i>수강권 시작한 날</span></div></div>';
+}
+function vfAction(a,v){
+  if(a==="vfview"){ S.slotView=v==="flow"?"flow":null; render(); return true; }
+  if(a==="vfym"){ VF.ym=v; render(); return true; }
+  if(a==="vfyear"){ VF.year=!VF.year; if(S.openId)paintDrawer(); return true; }
   return false;
 }
 
@@ -5032,24 +5405,28 @@ function fmtTime(v){
    되돌리기 전에 지금 상태를 먼저 따로 저장해둔다. */
 function restoreDump(dump){
   if(!dump||typeof dump!=="object")throw new Error("백업 파일이 아니에요");
-  /* v2 이상 — 저장소 원본을 그대로 되돌린다 */
-  if(dump._localStorage&&typeof dump._localStorage==="object"){
-    const keep=localStorage.getItem(KEY);
+  let keep=null; try{ keep=localStorage.getItem(KEY); }catch(e){}
+  /* v132: 화면 상태(회원·출석·강사 전부)가 들어 있으면 그걸로 되돌린다.
+     예전에는 저장소 원본을 먼저 썼는데, 서버에서 쓰던 컴퓨터의 저장소 원본은 오래된 것이라 출석 기록과 강사가 빠졌다.
+     또 저장소 원본에는 로그인 토큰과 다른 프로그램 자료가 섞여 있을 수 있어서, 이 프로그램의 저장본(KEY) 말고는 건드리지 않는다. */
+  if(Array.isArray(dump.members)){
+    try{ localStorage.setItem("rd_before_restore",keep||""); }catch(e){}
+    S.staff=dump.staff||[]; S.members=dump.members||[]; S.regs=dump.regs||[];
+    if(dump.me!==undefined)S.me=dump.me;
+    ["limitRelax","limitRebuild","goneDays","lostDays","workDays","lastImport","acts2","sharedAt","autoShare","box","trials","lessons","lesRules","lesPrice","lesDays","lesPriceHist","payCfg","payLocal"]
+      .forEach(k=>{ if(dump[k]!==undefined)S[k]=dump[k]; });
+    if(typeof clearCache==="function")clearCache();
+    save();
+    return;
+  }
+  /* 화면 상태가 없는 백업 — 이 프로그램의 저장본만 되돌린다 */
+  if(dump._localStorage&&typeof dump._localStorage==="object"&&dump._localStorage[KEY]){
     localStorage.setItem("rd_before_restore",keep||"");
-    Object.keys(dump._localStorage).forEach(k=>{
-      if(k==="rd_before_restore")return;
-      localStorage.setItem(k,dump._localStorage[k]);
-    });
+    localStorage.setItem(KEY,dump._localStorage[KEY]);
     if(!load())throw new Error("되돌린 자료를 읽지 못했어요");
     return;
   }
-  /* 저장소 원본이 없는 예전 백업 — 화면 상태만 되돌린다 */
-  if(!Array.isArray(dump.members))throw new Error("백업 파일이 아니에요");
-  S.staff=dump.staff||[]; S.members=dump.members||[]; S.regs=dump.regs||[];
-  if(dump.me!==undefined)S.me=dump.me;
-  ["limitRelax","limitRebuild","goneDays","lostDays","workDays","acts2","sharedAt","autoShare","box","trials","lessons","lesRules","lesPrice","lesDays"]
-    .forEach(k=>{ if(dump[k]!==undefined)S[k]=dump[k]; });
-  save();
+  throw new Error("백업 파일이 아니에요");
 }
 /* 되돌리기 직전 상태가 남아 있나 */
 function hasUndoRestore(){
@@ -5104,6 +5481,12 @@ async function readDumpFile(file){
 async function importBackup(file){
   const j=JSON.parse(await file.text());
   if(!Array.isArray(j.members))throw new Error("백업 형식이 아니에요");
+  /* v132: 이 프로그램이 만든 백업(‘백업 파일 받기’)을 화면에 끌어다 놓은 경우 — 아주 옛날 형식으로 읽으면 출석·강사·수강권 이름이 빠진다.
+     그대로 되돌리는 쪽으로 보낸다. */
+  if(!Array.isArray(j.rows)&&(Array.isArray(j.staff)||j._count||j._localStorage)){
+    restoreDump(j);
+    return {members:S.members.length,staff:S.staff.length,regs:S.regs.length};
+  }
   const rowName={}; (j.rows||[]).forEach(r=>rowName[r.id]=r.name);
   S.staff=[];
   (j.rows||[]).forEach(r=>{ if(r.id!=="row-unassigned")S.staff.push({id:uid("s"),name:r.name}); });
@@ -5357,20 +5740,19 @@ async function exportMigration(){
   toast("서버 이전 파일을 받았어요 · 자료 "+docs.length+"건 포함");
 }
 function backup(){
+  /* v132: 이 프로그램의 저장본(KEY)만 담는다.
+     예전에는 브라우저 저장소를 통째로 담아서 로그인 토큰(sb-…-auth-token)과 같은 주소의 다른 프로그램 자료까지 백업 파일에 들어갔다. */
   const store={};
-  for(let i=0;i<localStorage.length;i++){
-    const k=localStorage.key(i);
-    store[k]=localStorage.getItem(k);
-  }
+  try{ const cur=localStorage.getItem(KEY); if(cur)store[KEY]=cur; }catch(e){}
   const dump={
     v:3, at:new Date().toISOString(), today:TODAY(),
     box:S.box||"이름없음",
     /* 지금 화면이 들고 있는 상태 — 사람이 눈으로 읽기 쉬운 형태 */
     staff:S.staff, members:S.members, regs:S.regs, trials:S.trials,
     me:S.me, limitRelax:S.limitRelax, limitRebuild:S.limitRebuild, goneDays:S.goneDays,
-    lostDays:S.lostDays,
+    lostDays:S.lostDays, lastImport:S.lastImport,
     sharedAt:S.sharedAt, autoShare:S.autoShare, acts2:S.acts2, workDays:S.workDays,
-    lessons:S.lessons, lesRules:S.lesRules, lesPrice:S.lesPrice, lesDays:S.lesDays,
+    lessons:S.lessons, lesRules:S.lesRules, lesPrice:S.lesPrice, lesDays:S.lesDays, lesPriceHist:S.lesPriceHist, payCfg:S.payCfg, payLocal:S.payLocal,
     /* 저장소 원본 통째 — 복구는 이걸로 한다 */
     _localStorage:store,
     /* 대조용 숫자 — 복원 후 이 값과 맞는지 확인 */
@@ -5472,6 +5854,8 @@ document.addEventListener("click",e=>{
   if(a.indexOf("trial")===0&&trialAction(a,v,t))return;
   if(TR_ACTS.indexOf(a)>=0&&trAct(a,v,t))return;
   if(a.indexOf("les")===0&&lesAction(a,v,t))return;
+  if(a.indexOf("pay")===0&&payAction(a,v,t))return;
+  if(a.indexOf("vf")===0&&vfAction(a,v,t))return;
   if(S.ro&&RO_OK.indexOf(a)<0){ toast("보기 전용이에요."); return; }
   if(a==="undo"){ doUndo(); return; }
   if(a==="redo"){ doRedo(); return; }
@@ -5505,7 +5889,7 @@ document.addEventListener("click",e=>{
   /* 이름으로 찾기 · 상세에서 넘어오기 — 그 회원이 가장 많이 온 칸을 같이 고른다 */
   if(a==="slotpick"||a==="slotgo"){ const mm=byId(S.members,v); if(!mm)return;
     S.slotM=v; S.slotQ=""; const ms=memberSlots(mm); if(ms.top){ const p=ms.top.split("|"); S.slotW=+p[0]; S.slotH=+p[1]; }
-    if(a==="slotgo"){ closeDrawer(); S.tab="slot"; }
+    if(a==="slotgo"){ closeDrawer(); S.tab="slot"; S.slotView=null; }
     render(); window.scrollTo(0,0); return; }
   if(a==="filter"){ S.mFilter=v; render(); return; }
   if(a==="filter2"){ S.mFilter=v; S.tab="members"; render(); return; }
@@ -5780,6 +6164,7 @@ document.addEventListener("click",e=>{
 document.addEventListener("change",e=>{
   const t=e.target.closest("[data-a]"); if(!t)return;
   if(t.dataset.a.indexOf("les")===0&&lesChange(t))return;
+  if(t.dataset.a.indexOf("pay")===0&&payChange(t))return;
   if(t.dataset.a==="dpick"){
     let v=t.value; if(v&&v>maxDay())v=maxDay();
     S.viewDay=(!v||v===TODAY())?null:v; render(); return;
@@ -7225,9 +7610,11 @@ function trialSignImage(t,strokes,no,at){
       g.fillStyle=C.ink; g.font=F(25,800); g.fillText("체험 상담 확인서",L,TOP+18);
       g.textAlign="right"; g.fillStyle=C.mut; g.font=F(12,700); g.fillText(dtw(t.date),R,TOP+31); g.fillStyle=C.fnt; g.font=F(9.5); g.fillText("문서번호 "+(no||"-"),R,TOP+49); g.textAlign="left";
       g.fillStyle=C.navy; g.fillRect(L,TOP+66,CW,2);
-      const info=[["성함",t.name],["생년월일",bir],["연락처",fmtPhone(t.phone)||t.phone||"-"],["주소",t.addr||"-"],["담당 강사",staffName({staffId:t.staffId})||"-"]];
-      info.forEach(([k,v],i)=>{ const x=L+i*CW/5; g.fillStyle=C.fnt; g.font=F(9.5); g.fillText(k,x,TOP+80);
-        g.fillStyle=C.ink; g.font=F(12.5,700); g.fillText(fit(v,12.5,700,CW/5-10),x,TOP+96); });
+      /* v133: 주소를 안 적은 기록은 주소 칸을 빼고 나머지를 넓게 편다 */
+      const info=[["성함",t.name],["생년월일",bir],["연락처",fmtPhone(t.phone)||t.phone||"-"]].concat(String(t.addr||"").trim()?[["주소",t.addr]]:[],[["담당 강사",staffName({staffId:t.staffId})||"-"]]);
+      const iw=CW/info.length;
+      info.forEach(([k,v],i)=>{ const x=L+i*iw; g.fillStyle=C.fnt; g.font=F(9.5); g.fillText(k,x,TOP+80);
+        g.fillStyle=C.ink; g.font=F(12.5,700); g.fillText(fit(v,12.5,700,iw-10),x,TOP+96); });
       g.fillStyle=C.line; g.fillRect(L,TOP+122,CW,1); });
     y=TOP+123;
     const secHead=(num,title,sub)=>{ const yy=y; op(g=>{ g.fillStyle=C.navy; trRR(g,L,yy+3,22,15,4); g.fill(); g.fillStyle="#fff"; g.font=F(10,800); g.textAlign="center"; g.fillText(num,L+11,yy+5); g.textAlign="left";
@@ -7643,7 +8030,7 @@ function rpNum(v,label,tone){
    · 되돌리기: 내가 바꾼 줄만 되돌린다 (그사이 남이 바꾼 줄은 건드리지 않음) */
 const SY_TABLES=["staff","members","attendance","notes","contacts","regs","trials","settings"];
 const SY_PUSH_ORDER=["staff","members","attendance","notes","contacts","regs","trials","settings"];
-const SY_SETTINGS=["limitRelax","limitRebuild","goneDays","lostDays","workDays","lastImport","lesRules","lesPrice","lesDays"];
+const SY_SETTINGS=["limitRelax","limitRebuild","goneDays","lostDays","workDays","lastImport","lesRules","lesPrice","lesDays","lesPriceHist","payCfg"];   /* 급여 칸(사람마다 다른 숫자)은 settings가 아니라 pay 표 */
 const syIsD=v=>/^\d{4}-\d{2}-\d{2}$/.test(String(v||""))?String(v):null;
 const syTs=v=>{ if(!v)return null; const d=new Date(v); return isNaN(d)?null:d.toISOString(); };
 /* 키 순서와 상관없이 같은 내용이면 같은 글자가 나오게 (서버 jsonb는 키 순서를 바꾼다) */
