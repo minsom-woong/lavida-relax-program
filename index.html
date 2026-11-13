@@ -430,7 +430,7 @@
   .vbars .vbar .ym{font-size:11.5px;color:var(--mut2);font-weight:600;margin-top:7px;white-space:nowrap}
 
   /* 자료 칸 — 상세 서랍 왼쪽 */
-  :root{--dpw:min(780px,calc(100vw - 430px))}
+  :root{--dpw:min(450px,calc(100vw - 520px))}
   .docpane{position:fixed;top:0;bottom:0;right:0;width:var(--dpw);
     background:#e9ecf0;border-left:1px solid var(--line);z-index:51;display:none;flex-direction:column}
   @media(min-width:1101px){.drawer.on.withdoc{right:var(--dpw)}}
@@ -454,7 +454,15 @@
   .dped b{font-size:13.5px;color:var(--ink,#1a1f27)}
   .dpview{flex:1;overflow:auto;padding:14px;display:flex;justify-content:center;align-items:flex-start}
   .dpview img{max-width:100%;background:#fff;box-shadow:0 2px 10px rgba(20,26,34,.12);cursor:zoom-in}
-  .dpthumbs{display:flex;gap:8px;padding:10px 14px;overflow-x:auto;background:var(--sf);border-top:1px solid var(--line)}
+  .dpthumbs{display:flex;flex-wrap:wrap;gap:8px;padding:10px 14px;background:var(--sf);border-bottom:1px solid var(--line)}
+  /* v136: 썸네일 크기, 넓은 화면에서는 자료 칸을 내용 높이만큼만 */
+  .dpthumbs .dpth{width:80px} .dpthumbs .dpth span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .dpthumbs .dpth img,.dpthumbs .dpthpdf{height:92px}
+  .dphint{padding:8px 14px 10px;font-size:12px;color:var(--fnt);background:var(--sf)}
+  @media(min-width:1101px){
+    .docpane{bottom:auto;max-height:100vh;overflow-y:auto;border-bottom:1px solid var(--line);border-bottom-left-radius:10px;box-shadow:-10px 8px 28px rgba(20,26,34,.12)}
+    .docpane .dpview{flex:none} .docpane .dpview.pdf iframe{min-height:0;height:62vh}
+    .docpane .dpbar{flex-wrap:wrap;padding:8px 12px;row-gap:6px} .docpane .dpbar>*,.docpane .dped b{white-space:nowrap}
+  }
   .dpth{flex:none;width:86px;border:2px solid transparent;border-radius:6px;padding:0;background:none;cursor:pointer;text-align:left}
   .dpth.on{border-color:var(--navy)}
   .dpth{position:relative} .dpth.over{outline:2px dashed var(--navy);outline-offset:2px} .dpth.dragging{opacity:.4}
@@ -829,7 +837,7 @@
   /* 서랍 */
   .scrim{position:fixed;inset:0;background:rgba(20,26,34,.28);z-index:50;display:none}
   .scrim.on{display:block}
-  .drawer{position:fixed;top:0;right:0;bottom:0;width:min(430px,94vw);background:var(--sf);
+  .drawer{position:fixed;top:0;right:0;bottom:0;width:min(520px,94vw);background:var(--sf);
     border-left:1px solid var(--line);box-shadow:-14px 0 40px rgba(20,26,34,.14);z-index:51;
     overflow-y:auto;transform:translateX(100%);transition:transform .18s ease}
   .drawer.on{transform:none}
@@ -938,7 +946,7 @@
 <div class="page">
 <header>
   <div class="hbar">
-    <div class="brand"><b>릴렉싱 데스크</b><span>v133 · 11/13 만듦</span></div>
+    <div class="brand"><b>릴렉싱 데스크</b><span>v137 · 11/13 만듦</span></div>
     <div class="seg" id="who"></div>
     <div class="hright">
       <div class="srch"><i></i><input id="q" placeholder="회원 이름 검색" autocomplete="off"></div>
@@ -4094,10 +4102,10 @@ function CRITERIA_(){
     {t:"컴퓨터 구분",d:"‘회사컴’만 쓰기가 됩니다. ‘내 컴퓨터’는 보기 전용으로 열려서, 확인하다 자료가 갈라지는 일을 막습니다"},
     {t:"소진 표시",d:"잔여가 0으로 처음 보인 날을 수강권에 찍어둡니다. 그날이 지나도 ‘소진 완료’로 남습니다"},
     {t:"회원 자료",d:"검사결과지·체험상담지 사진은 이 컴퓨터 브라우저 창고에 저장되고, 설정 → 데이터에서 보관 폴더를 연결하면 원본 사본이 ‘이름_전화끝4자리’ 폴더에 함께 쌓입니다. 백업 파일에는 사진이 들어가지 않으니 보관 폴더를 꼭 연결하세요. 브라우저 기록이 지워지면 ‘폴더에서 되살리기’로 되돌립니다. 다른 컴퓨터에서는 보이지 않습니다"},
-    {t:"자료 순서",d:"자료가 있는 회원은 상세를 열면 옆에 자료가 같이 뜨고, 맨 앞 자료가 크게 보입니다. 썸네일을 끌거나 ‘맨 앞으로’로 순서를 바꿉니다. 순서를 정해둔 회원은 새 자료가 첫 번째 바로 뒤에 들어갑니다"},
+    {t:"자료 순서",d:"자료가 있는 회원은 상세를 열면 옆에 자료 썸네일이 뜨고(1건이어도), 첫 번째 자료는 그 아래에 바로 열려 있고, 다른 썸네일을 누르면 그 자료로 바뀝니다(v137). 같은 썸네일을 다시 누르거나 ✕를 누르면 접힙니다. 더 크게 보려면 ‘크게’. 썸네일을 끌거나 ‘맨 앞으로’로 순서를 바꿉니다. 순서를 정해둔 회원은 새 자료가 첫 번째 바로 뒤에 들어갑니다"},
     {t:"체험 기록",d:"엑셀에 없는 체험자를 체험 탭에 적습니다. 적는 대로 저장되고(저장 버튼 없음), 서버 버전이면 다른 기기에 1~2초 뒤 보입니다. 아무것도 안 적고 닫으면 남기지 않습니다. 예전 양식의 운동·수면·식사는 옛 기록에서만 보입니다"},
     {t:"신체 그림·순위",d:"여성/남성 앞·뒤 근육 칸 그림(v124). 불편한 곳을 누르면 누른 자리 그대로 점이 찍히고(다시 누르면 지움), 그 자리 칸의 쉬운 부위 이름(약 120개, 오른쪽·왼쪽 자동)이 예상으로 붙습니다. 선 위나 테두리 바로 밖을 눌러도 점은 그 자리, 이름은 가장 가까운 칸. 부위 이름은 컴퓨터 입력 화면에서 고칠 수 있고(순위 칸의 이름 · 점 이름 누르기, 비우면 예상 이름으로), 서명 화면에서는 못 고칩니다. 번호를 다른 자리로 옮기면 새 자리 이름으로 다시 붙습니다. 성별을 바꾸면 점이 몸 폭 비율로 옮겨가고 고친 이름은 그대로입니다. v124 전에 점을 찍은 기록은 예전 그림으로 보입니다. 1~5번 버튼을 그림에 끌어다 놓으면 그 번호가 해결하고 싶은 순위가 되고, 그림 밖으로 끌어내면 빠집니다. 순위별 설명은 컴퓨터에서 적습니다. 앞모습은 그림 왼쪽이 회원의 오른쪽입니다"},
-    {t:"수업 집계 (v130)",d:"센터 프로그램의 예약 내역 엑셀(수업일·강사·회원명·수강권명·예약상태)을 끌어다 놓으면 ① 강사별 수업 수·수업료 ② 이번 달 누적 ③ 수업 메모 명단을 한 번에 채웁니다(수업목록은 따로 안 올려도 됨). 한 줄 = 수업 1개: 25분 수강권(릴렉싱·릴리즈·스페셜케어·리셋 25분)은 25·30분 한 줄이 25분 1개(50분 수업이면 두 줄), 50분 수강권(리빌딩·리셋 패키지 50분)은 50·60분 한 줄이 50분 1개. 줄 길이(45분 이상이면 50분 줄)와 수강권이 안 맞으면 ‘고칠 줄’로 따로 보여 주고, 센터 프로그램에서 고쳐 다시 올리기 전까지 금액에서 뺍니다(‘고치면 +○원’). 단가 구간은 수강권 이름의 횟수: 29회 이하 1회 단가(35,000원), 30~49회 30회 단가(25,000원), 50회 이상 50회 단가(23,000원), 리빌딩 50,000원. 스페셜케어·리셋 패키지 25분은 30회 단가, 리셋 패키지(50분)는 리빌딩. 같은 구간이어도 수강권별로 따로 보여 줍니다. 노쇼·결석·당일취소도 수업으로 셉니다. 어제까지는 ‘한 수업’, 오늘·앞날은 ‘예약’. 이번 달: 어제까지 한 수업 · 마지막 수업일 하루 · 예약 포함(최소) · 지금 속도면(지금까지 수업료 ÷ 지난 수업일 × 이번 달 수업일, 평일 자동·직접 바꿈) · 지난달 같은 수업일 수까지 비교. 범위: 파일 이름의 날짜부터 바꾸고, 앞날 예약이 든 파일은 그 달 말일까지 바꿉니다(취소된 예약이 남지 않게). 강사 1명만 든 파일은 그 강사 줄만 바꿉니다. 각 샘 수업 메모 맨 위에는 자기 숫자만 보입니다. 수업료 기준이며 급여가 아닙니다. 전화번호는 끝 4자리만 저장합니다."},{t:"급여 (v131)",d:"계약서 제3·4조대로 계산합니다. 월 임금(세전) = 기본급(트레이너 70만·파트장 100만) + 인센티브 + 기타 수당. 인센티브 = 실매출 × 등급 요율(원 미만 올림). 실매출 = 수업 집계의 수업료에서 부가세(÷1.1)와 카드수수료(%)를 뺀 값. 등급은 가매출 = (그 샘이 판 수강권 결제 합계 − 환불)에서 같은 공제를 한 값으로 정합니다: 500만 미만 F 30%/32%, 500만~ E 32/34, 800만~ D 34/36, 1,100만~ C 36/38, 1,300만~ B 38/40, 1,500만~ A 40/42 (트레이너/파트장). 등급이 오르면 실매출 전체에 새 요율. 결제 합계·환불·기타 수당·조정·명세서 인센티브는 파트장이 넣고, 서버 pay 표에 저장돼 관리자는 전부·각 샘은 자기 것만 읽을 수 있습니다(변경 기록에도 안 남김). 직급·기본급·요율표·공제율은 모두에게 같은 규칙이라 설정에 둡니다. 관리자 표는 '급여 표 열기'를 눌러야 보이고 10분 뒤 저절로 닫힙니다. '샘들에게 보이기'를 켜면 각 샘 수업 메모 맨 위에 자기 예상 급여만 보입니다(로그인한 본인 화면에서만). 지난달을 고르면 '명세서 인센티브'를 넣어 계산과의 차이(%)를 볼 수 있습니다. 단가는 고른 달부터 적용되고 그 전 달 숫자는 바뀌지 않습니다. 최저임금 보전수당은 계산하지 않습니다."},{t:"방문 흐름 · 방문 달력 (v132)",d:"오는 시간 탭의 ‘방문 흐름’은 출석 기록만으로 누가 평소보다 덜 오는지를 달 단위로 보여 줍니다. 대상은 석 달 넘게 다녔고, 그 달 15일까지 수강권이 살아 있고, 그 전 석 달 동안 한 달 평균 2일 이상 온 회원입니다. 그 달에 한 번도 안 오면 ‘안 옴’, 평소(그 전 석 달의 한 달 평균 방문일)의 절반 이하면 ‘줄어듦’, 그 밖은 ‘평소대로’. 줄어든 회원 목록 · 달마다 막대 · 강사별 막대가 모두 이 한 가지 기준을 씁니다. 달 막대를 누르면 그 달의 명단으로 바뀝니다. 지난 달들에는 지금 휴지통에 있는 회원도 그때 다니던 회원으로 셉니다. 강사 화면에서는 자기 책임 회원만 봅니다. 회원 상세 맨 아래 ‘방문 달력’은 최근 6개월(1년까지)을 달력으로 보여 줍니다: 온 날에 색(1회차 연하게, 2회차 이상 진하게), 잡힌 예약은 테두리, 수강권 시작한 날은 검은 테두리. 백업 파일에는 이 프로그램의 자료만 담고(로그인 정보·다른 프로그램 자료 제외), 백업 되돌리기는 출석 기록과 강사까지 그대로 되돌립니다."},
+    {t:"수업 집계 (v130)",d:"센터 프로그램의 예약 내역 엑셀(수업일·강사·회원명·수강권명·예약상태)을 끌어다 놓으면 ① 강사별 수업 수·수업료 ② 이번 달 누적 ③ 수업 메모 명단을 한 번에 채웁니다(수업목록은 따로 안 올려도 됨). 한 줄 = 수업 1개: 25분 수강권(릴렉싱·릴리즈·스페셜케어·리셋 25분)은 25·30분 한 줄이 25분 1개(50분 수업이면 두 줄), 50분 수강권(리빌딩·리셋 패키지 50분)은 50·60분 한 줄이 50분 1개. 줄 길이(45분 이상이면 50분 줄)와 수강권이 안 맞으면 ‘고칠 줄’로 따로 보여 주고, 센터 프로그램에서 고쳐 다시 올리기 전까지 금액에서 뺍니다(‘고치면 +○원’). 단가 구간은 수강권 이름의 횟수: 29회 이하 1회 단가(35,000원), 30~49회 30회 단가(25,000원), 50회 이상 50회 단가(23,000원), 리빌딩 50,000원. 스페셜케어·리셋 패키지 25분은 30회 단가, 리셋 패키지(50분)는 리빌딩. 같은 구간이어도 수강권별로 따로 보여 줍니다. 노쇼·결석·당일취소도 수업으로 셉니다. 어제까지는 ‘한 수업’, 오늘·앞날은 ‘예약’. 이번 달: 어제까지 한 수업 · 마지막 수업일 하루 · 예약 포함(최소) · 지금 속도면(지금까지 수업료 ÷ 지난 수업일 × 이번 달 수업일, 평일 자동·직접 바꿈) · 지난달 같은 수업일 수까지 비교. 범위: 파일 이름의 날짜부터 바꾸고, 앞날 예약이 든 파일은 그 달 말일까지 바꿉니다(취소된 예약이 남지 않게). 강사 1명만 든 파일은 그 강사 줄만 바꿉니다. 각 샘 수업 메모 맨 위에는 자기 숫자만 보입니다. 수업료 기준이며 급여가 아닙니다. 전화번호는 끝 4자리만 저장합니다."},{t:"급여 (v131)",d:"계약서 제3·4조대로 계산합니다. 월 임금(세전) = 기본급(트레이너 70만·파트장 100만) + 인센티브 + 기타 수당. 인센티브 = 실매출 × 등급 요율(원 미만 올림). 실매출 = 수업 집계의 수업료에서 부가세(÷1.1)와 카드수수료(%)를 뺀 값. 등급은 가매출 = (그 샘이 판 수강권 결제 합계 − 환불)에서 같은 공제를 한 값으로 정합니다: 500만 미만 F 30%/32%, 500만~ E 32/34, 800만~ D 34/36, 1,100만~ C 36/38, 1,300만~ B 38/40, 1,500만~ A 40/42 (트레이너/파트장). 등급이 오르면 실매출 전체에 새 요율. 결제 합계·환불·기타 수당·조정·명세서 인센티브는 파트장이 넣고, 서버 pay 표에 저장돼 관리자는 전부·각 샘은 자기 것만 읽을 수 있습니다(변경 기록에도 안 남김). 직급·기본급·요율표·공제율은 모두에게 같은 규칙이라 설정에 둡니다. 관리자 표는 '급여 표 열기'를 눌러야 보이고 10분 뒤 저절로 닫힙니다. '샘들에게 보이기'를 켜면 각 샘 수업 메모 맨 위에 자기 예상 급여만 보입니다(로그인한 본인 화면에서만). 지난달을 고르면 '명세서 인센티브'를 넣어 계산과의 차이(%)를 볼 수 있습니다. 단가는 고른 달부터 적용되고 그 전 달 숫자는 바뀌지 않습니다. 최저임금 보전수당은 계산하지 않습니다."},{t:"방문 흐름 · 방문 달력 (v132)",d:"오는 시간 탭의 ‘방문 흐름’은 출석 기록만으로 누가 평소보다 덜 오는지를 달 단위로 보여 줍니다. 대상은 석 달 넘게 다녔고, 그 달 15일까지 수강권이 살아 있고, 그 전 석 달 동안 한 달 평균 2일 이상 온 회원입니다. 그 달에 한 번도 안 오면 ‘안 옴’, 평소(그 전 석 달의 한 달 평균 방문일)의 절반 이하면 ‘줄어듦’, 그 밖은 ‘평소대로’. 줄어든 회원 목록 · 달마다 막대 · 강사별 막대가 모두 이 한 가지 기준을 씁니다. 달 막대를 누르면 그 달의 명단으로 바뀝니다. 지난 달들에는 지금 휴지통에 있는 회원도 그때 다니던 회원으로 셉니다(숫자·막대·강사별). 줄어든 회원 명단에서는 휴지통 회원을 뺍니다(v135). 강사 화면에서는 자기 책임 회원만 봅니다. 회원 상세 맨 아래 ‘방문 달력’은 최근 6개월(1년까지)을 달력으로 보여 줍니다: 온 날에 색(1회차 연하게, 2회차 이상 진하게), 잡힌 예약은 테두리, 수강권 시작한 날은 검은 테두리. 백업 파일에는 이 프로그램의 자료만 담고(로그인 정보·다른 프로그램 자료 제외), 백업 되돌리기는 출석 기록과 강사까지 그대로 되돌립니다."},
     {t:"체험 상담 확인서 (v128)",d:"서명하면 A4 확인서가 만들어집니다: 머리(문서번호 T-날짜-순번)·회원 정보·01 불편한 곳과 순위(그림 + 순위별 설명 + 그 밖에 불편한 곳)·02 상담 메모·03 확인 및 동의·서명. 메모가 넘치면 다음 쪽으로 이어지고, 동의와 서명은 함께 마지막 쪽(서명은 쪽 아래)에 둡니다. 문서번호는 서명하는 순간 그날 순서대로 붙고 회원 상세 체험 상담 칸·상담 화면에 보입니다. 저장은 이미지(쪽마다 한 장)이고, PDF가 필요하면 자료 보기의 ‘인쇄·PDF’ → 인쇄 창에서 ‘PDF로 저장’. 이전에 서명한 동의서는 그대로입니다."},
     {t:"체험 기록 이름 (v127)",d:"등록된 회원(‘회원’ 표시)은 이름을 누르면 회원 상세가 열립니다 — 상세의 ‘체험 상담’ 칸에 그림·순위·상담 메모·추가 메모가 있고, ‘상담 열기’로 상담 입력 화면으로 갑니다. 상담 입력 화면 위 ‘회원 상세’로 반대로도 갑니다. 미등록 체험(연결 후보 포함)은 이름을 누르면 상담 입력 화면. 몸 그림은 앞·뒤 모두 그림 위 양쪽에 왼쪽/오른쪽이 적혀 있습니다(앞은 그림 왼쪽이 회원 오른쪽)."},
     {t:"상담 화면 (#상담, 태블릿)",d:"v125. 태블릿은 인터넷 주소 끝에 #상담 을 붙여 엽니다(홈 화면 아이콘 권장). 로그인 뒤 ‘오늘 상담’ — 오늘 만든 체험 중 서명 안 한 이름과 만든 시각만 나오고, 이름을 누르면 회원용 화면: ① 불편한 곳(그림·1~5 순위) ② 해결하고 싶은 것 ③ 상담 메모 ④ 서명(동의 체크 2개·문구·서명 칸)만 보입니다. 메뉴·체험 기록·전화번호·강사 이름·지우기 버튼은 안 보이고, 전체 프로그램으로 나갈 수 없습니다(‘목록’은 오늘 상담 목록으로만). 화면 크기에 비례해 맞춰지고(글자 = 화면 짧은 변의 약 2.3%), 세로는 한 줄, 가로는 왼쪽 그림·오른쪽 나머지 두 칸입니다. 서명하면 ‘고맙습니다’가 뜨고 6초 뒤 목록으로 돌아갑니다. 순위 설명·상담 메모·부위 이름은 컴퓨터에서만 고칩니다"},
@@ -5082,14 +5090,17 @@ function vfHtml(){
   if(!yms.length)return '<div class="empty">방문 기록이 넉 달 넘게 쌓이면 여기에 흐름이 보여요.<br>예약 내역(또는 수업목록) 엑셀을 올려 주세요.</div>';
   const ym=VF.ym&&yms.indexOf(VF.ym)>=0?VF.ym:yms[yms.length-1], M=vfMonth(ym), isLast=ym===yms[yms.length-1];
   const sortF=(a,b)=>(a.s.c/a.s.prev)-(b.s.c/b.s.prev)||b.s.prev-a.s.prev||a.m.name.localeCompare(b.m.name,"ko");
-  const stop=M.rows.filter(r=>r.s.k==="stop").sort(sortF), half=M.rows.filter(r=>r.s.k==="half").sort(sortF);
+  /* v135: 명단은 연락할 사람만 — 휴지통 회원은 뺀다. 위 숫자·막대·강사별은 그 달 흐름 그대로(휴지통 포함) */
+  const trS=M.rows.filter(r=>r.s.k==="stop"&&r.m.trashed).length, trH=M.rows.filter(r=>r.s.k==="half"&&r.m.trashed).length;
+  const stop=M.rows.filter(r=>r.s.k==="stop"&&!r.m.trashed).sort(sortF), half=M.rows.filter(r=>r.s.k==="half"&&!r.m.trashed).sort(sortF);
+  const trX=k=>k?' · 휴지통 '+k+'명 뺌':'';
   /* ① 줄어든 회원 */
   let h='<div class="card vf"><div class="chead"><b>'+(isLast?'지난달('+vfMo(ym)+')':ymLabel(ym))+'에 발길이 줄어든 회원</b><span>석 달 넘게 다닌 회원 · 그 전 석 달 평균과 비교 · 줄을 누르면 회원 상세</span></div><div class="vfb">'+
     '<div class="vfsum"><div><b class="rd">'+M.n.stop+'명</b><span>'+vfMo(ym)+'에 한 번도 안 옴</span></div><div><b>'+M.n.half+'명</b><span>평소의 절반 이하로 줄어듦</span></div><div><b>'+M.n.ok+'명</b><span>평소대로 옴</span></div></div>';
   if(!M.tot)h+='<div class="empty">이 달에 견줄 회원이 없어요.</div>';
-  if(stop.length)h+='<h3>'+vfMo(ym)+'에 한 번도 안 온 회원<small>'+stop.length+'명</small></h3>'+stop.map(r=>vfRowHtml(r,ym)).join("");
-  if(half.length)h+='<h3>평소의 절반 이하로 줄어든 회원<small>'+half.length+'명</small></h3>'+half.map(r=>vfRowHtml(r,ym)).join("");
-  if(M.tot&&!stop.length&&!half.length)h+='<div class="empty">'+vfMo(ym)+'에는 모두 평소대로 왔어요.</div>';
+  if(stop.length||trS)h+='<h3>'+vfMo(ym)+'에 한 번도 안 온 회원<small>'+stop.length+'명'+trX(trS)+'</small></h3>'+stop.map(r=>vfRowHtml(r,ym)).join("");
+  if(half.length||trH)h+='<h3>평소의 절반 이하로 줄어든 회원<small>'+half.length+'명'+trX(trH)+'</small></h3>'+half.map(r=>vfRowHtml(r,ym)).join("");
+  if(M.tot&&!M.n.stop&&!M.n.half)h+='<div class="empty">'+vfMo(ym)+'에는 모두 평소대로 왔어요.</div>';
   h+='</div></div>';
   /* ② 달마다 */
   const A=yms.map(y=>vfMonth(y)), mx=Math.max(1,...A.map(x=>x.tot)), prev=A.length>1?A[A.length-2]:null, cur=A[yms.indexOf(ym)], pi=yms.indexOf(ym)-1, pv=pi>=0?A[pi]:null;
@@ -5118,7 +5129,7 @@ function vfHtml(){
         ["ok","half","stop"].map(k=>x.n[k]?'<div style="flex:'+x.n[k]+';background:'+VF_COL[k]+'" title="'+VF_LAB[k]+' '+x.n[k]+'명">'+x.n[k]+'</div>':'').join("")+'</div>'+
         '<div class="tx">평소대로 <b>'+Math.round(100*x.n.ok/x.tot)+'%</b> · 줄어듦 <b>'+x.n.half+'명</b> · 안 옴 <b class="rd">'+x.n.stop+'명</b></div></div>').join("")+'</div></div>';
   }
-  return h+'<div class="note">대상: 석 달 넘게 다녔고, 그 달 15일까지 수강권이 살아 있고, 그 전 석 달 동안 한 달 평균 2일 이상 온 회원. ‘평소’는 그 전 석 달의 한 달 평균 방문일이에요. 지난 달들에는 지금 휴지통에 있는 회원도 그때 다니던 회원으로 셉니다.</div>';
+  return h+'<div class="note">대상: 석 달 넘게 다녔고, 그 달 15일까지 수강권이 살아 있고, 그 전 석 달 동안 한 달 평균 2일 이상 온 회원. ‘평소’는 그 전 석 달의 한 달 평균 방문일이에요. 지난 달들에는 지금 휴지통에 있는 회원도 그때 다니던 회원으로 셉니다. 명단에서는 휴지통 회원을 뺐어요.</div>';
 }
 /* 회원 상세 · 방문 달력 */
 function vfCalHtml(m){
@@ -6408,7 +6419,7 @@ $("pop").addEventListener("click",e=>{ if(e.target.id==="pop")closePop(); });
 const DOC_KINDS=["검사결과지","체험상담지"];
 const DOC_MAX_EDGE=2400, DOC_Q=0.85;
 const DOCS={db:null,list:[],dir:null,ready:false,failed:false};
-const DV={mid:null,id:null,page:0,add:false,full:false};           /* 지금 보고 있는 자료 */
+const DV={mid:null,id:null,page:0,add:false,full:false,open:false};   /* open: 썸네일을 눌러 연 자료가 있나 (v136) */           /* 지금 보고 있는 자료 */
 const DP={pages:[],kind:DOC_KINDS[0],date:null};                    /* 넣기 전 대기 */
 const DURL=new Map();                                               /* 사진 미리보기 주소 */
 
@@ -6618,7 +6629,7 @@ async function docSave(m){
     docListPut(rec);
     if(folderOk){ try{ where=" · 폴더 "+(await docWriteFolder(m,rec)); }catch(e){ where=" · 폴더 사본 실패"; } }
   }
-  DP.pages.forEach(p=>URL.revokeObjectURL(p.url)); DP.pages=[]; DV.add=false; DV.pane=true;
+  DP.pages.forEach(p=>URL.revokeObjectURL(p.url)); DP.pages=[]; DV.add=false; DV.pane=true; DV.open=true;
   DV.id=recs[0].id; DV.page=0;
   recs.forEach(rec=>logAct("자료 추가",m.name+" · "+rec.date+" · "+rec.kind+" · "+(rec.pdf?"PDF":rec.pages.length+"쪽")+where));
   save(); render();
@@ -6631,7 +6642,7 @@ async function docDelete(id){
   try{ await docStoreDel(id); }catch(e){ toast("지우지 못했어요."); return; }
   DOCS.list=DOCS.list.filter(x=>x.id!==id);
   for(let p=0;p<d.pages.length;p++){ const k=id+":"+p; if(DURL.has(k)){ URL.revokeObjectURL(DURL.get(k)); DURL.delete(k); } }
-  if(DV.id===id){ DV.id=null; DV.page=0; }
+  if(DV.id===id){ DV.id=null; DV.page=0; DV.open=true; }
   logAct("자료 지움",d.member+" · "+d.date+" · "+d.kind); save(); render(); toast("지웠어요. 보관 폴더 사본은 그대로예요.");
 }
 
@@ -6646,7 +6657,7 @@ function docCurrent(m){
 function paintDocs(){
   const pane=$("docpane"); if(!pane)return;
   const m=S.openId?byId(S.members,S.openId):null;
-  if(m&&DV.mid!==m.id){ DV.mid=m.id; DV.id=null; DV.page=0; DV.add=false; DV.pane=false; }
+  if(m&&DV.mid!==m.id){ DV.mid=m.id; DV.id=null; DV.page=0; DV.add=false; DV.pane=false; DV.open=true; }
   /* 자료가 없는 회원은 자료 칸을 띄우지 않는다. 추가 중일 때만 연다 */
   /* 좁은 화면(폰)에서는 상세를 덮으므로 '자료 보기'나 '자료 추가'를 눌렀을 때만 연다 */
   const show=!!m&&(DV.add||(DOCS.ready&&!DOCS.failed&&docCount(m)>0&&(!docNarrow()||DV.pane)));
@@ -6676,6 +6687,10 @@ function paintDocs(){
     h+='<div class="dpempty">'+(S.ro?'자료가 없어요.':'아직 자료가 없어요.<br>검사결과지나 체험상담지 사진을 넣어두면 여기 바로 보입니다.')+'</div>';
     pane.innerHTML=h; return;
   }
+  /* v136: 위에 썸네일(1건이어도), 누른 자료만 아래에 연다 */
+  h+='<div class="dpthumbs">'+list.map((x,i)=>'<button class="dpth'+(DV.open&&x.id===d.id?' on':'')+'" data-a="docsel" data-v="'+x.id+'"'+(S.ro||list.length<2?'':' draggable="true" data-i="'+i+'"')+' title="'+(list.length>1&&!S.ro?'누르면 열기 · 끌어서 순서 바꾸기':'누르면 열기')+'">'+(i===0&&list.length>1?'<em class="dp1">첫 번째</em>':'')+
+    (x.pdf?'<b class="dpthpdf">PDF</b>':'<img src="'+docURL(x,0)+'" alt="">')+'<span>'+esc(x.date.slice(2).replace(/-/g,"."))+'<br>'+esc(x.kind)+(x.pages.length>1?' · '+x.pages.length+'쪽':'')+'</span></button>').join("")+'</div>';
+  if(!DV.open){ pane.innerHTML=h+'<div class="dphint">자료를 누르면 열려요</div>'; return; }
   h+='<div class="dpbar">'+(S.ro?'<b>'+esc(d.date)+'</b><span class="tag n">'+esc(d.kind)+'</span>'
     :'<label class="dped" title="날짜 고치기"><b>'+esc(d.date)+'</b> ✎'+
       '<input type="date" class="dhide" data-a="docredate" data-v="'+d.id+'" value="'+esc(d.date)+'" max="'+esc(TODAY())+'"></label>'+
@@ -6686,13 +6701,9 @@ function paintDocs(){
     '<span class="sp"></span>'+(!S.ro&&list.length>1&&list[0].id!==d.id?'<button class="btn sm gh" data-a="docfirst" data-v="'+d.id+'" title="상세를 열면 이 자료가 먼저 뜨게">맨 앞으로</button>':'')+
     (d.pdf?'':'<button class="btn sm gh" data-a="docprint" title="인쇄 창에서 ‘PDF로 저장’을 고르면 PDF가 돼요">인쇄·PDF</button>')+
     '<button class="btn sm gh" data-a="docbig">크게</button>'+
-    (S.ro?'':'<button class="btn sm gh" data-a="docdel" data-v="'+d.id+'" style="color:var(--red)">지우기</button>')+'</div>'+
+    (S.ro?'':'<button class="btn sm gh" data-a="docdel" data-v="'+d.id+'" style="color:var(--red)">지우기</button>')+'<button class="btn sm gh" data-a="docclose" title="접기">✕</button></div>'+
     (d.pdf?'<div class="dpview pdf"><iframe src="'+docURL(d,0)+'#view=FitH" title="PDF"></iframe></div>'
       :'<div class="dpview"><img src="'+docURL(d,DV.page)+'" data-a="docbig" alt="'+esc(d.kind)+'"></div>');
-  if(list.length>1){
-    h+='<div class="dpthumbs">'+list.map((x,i)=>'<button class="dpth'+(x.id===d.id?' on':'')+'" data-a="docsel" data-v="'+x.id+'"'+(S.ro?'':' draggable="true" data-i="'+i+'"')+' title="끌어서 순서 바꾸기">'+(i===0?'<em class="dp1">첫 번째</em>':'')+
-      (x.pdf?'<b class="dpthpdf">PDF</b>':'<img src="'+docURL(x,0)+'" alt="">')+'<span>'+esc(x.date.slice(2).replace(/-/g,"."))+'<br>'+esc(x.kind)+(x.pages.length>1?' · '+x.pages.length+'쪽':'')+'</span></button>').join("")+'</div>';
-  }
   pane.innerHTML=h;
 }
 /* 크게 보기 — 화면 전체 */
@@ -6732,7 +6743,8 @@ function docAction(a,v,t){
   if(a==="docdir"){ if(HOSTED)return true; docPickDir(); return true; }
   if(a==="docrestore"){ docRestoreFromDir(); return true; }
   if(!m)return false;
-  if(a==="docsel"){ DV.id=v; DV.page=0; paintDocs(); return true; }
+  if(a==="docsel"){ if(DV.open&&DV.id===v){ DV.open=false; } else { DV.id=v; DV.page=0; DV.open=true; } paintDocs(); return true; }
+  if(a==="docclose"){ DV.open=false; paintDocs(); return true; }
   if(a==="docpg"){ docMove(+v); return true; }
   if(a==="docbig"){ DV.full=true; paintDocFull(); return true; }
   if(a==="docopen"){ DV.pane=true; paintDocs(); return true; }
