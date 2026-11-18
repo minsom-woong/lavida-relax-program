@@ -946,7 +946,7 @@
 <div class="page">
 <header>
   <div class="hbar">
-    <div class="brand"><b>릴렉싱 데스크</b><span>v137 · 11/13 만듦</span></div>
+    <div class="brand"><b>릴렉싱 데스크</b><span>v140 · 11/19 만듦</span></div>
     <div class="seg" id="who"></div>
     <div class="hright">
       <div class="srch"><i></i><input id="q" placeholder="회원 이름 검색" autocomplete="off"></div>
@@ -1030,7 +1030,7 @@ const S={
   slotW:null, slotH:null, memoDay:null, folded:{},
   lostDays:1,
   trials:[], sharedAt:null, autoShare:false, openId:null, undo:null, log:null, editMemo:null, acts2:[], dataQ:"", workDays:null,
-  lessons:{}, lesRules:{}, lesPrice:null, lesYm:null, lesFrom:null, lesTo:null, lesDays:{}, lesPriceHist:{}, payCfg:null, payLocal:{}
+  lessons:{}, lesRules:{}, lesPrice:null, lesYm:null, lesFrom:null, lesTo:null, lesDays:{}, lesPriceHist:{}, payCfg:null, payLocal:{}, pay:{}
 };
 /* ── 저장 접기 ──
    수업 기록이 저장 용량의 3/4을 차지한다.
@@ -1081,7 +1081,7 @@ function save(){
       me:S.me,limitRelax:S.limitRelax,limitRebuild:S.limitRebuild,goneDays:S.goneDays,lastImport:S.lastImport,
       lostDays:S.lostDays, box:S.box,
       sharedAt:S.sharedAt,autoShare:S.autoShare,acts2:S.acts2,workDays:S.workDays,
-      lessons:S.lessons,lesRules:S.lesRules,lesPrice:S.lesPrice,lesDays:S.lesDays,lesPriceHist:S.lesPriceHist,payCfg:S.payCfg,payLocal:S.payLocal}));
+      lessons:S.lessons,lesRules:S.lesRules,lesPrice:S.lesPrice,lesDays:S.lesDays,lesPriceHist:S.lesPriceHist,payCfg:S.payCfg,payLocal:S.payLocal,pay:S.pay}));
   }catch(e){ toast("저장 공간이 가득 찼어요."); }
 }
 function load(){
@@ -1101,7 +1101,7 @@ function load(){
     S.sharedAt=d.sharedAt||null;
     S.acts2=Array.isArray(d.acts2)?d.acts2:[];
     S.workDays=d.workDays||null;
-    S.lessons=d.lessons&&typeof d.lessons==="object"?d.lessons:{}; S.lesRules=d.lesRules||{}; S.lesPrice=d.lesPrice||null; S.lesDays=d.lesDays||{}; S.lesPriceHist=d.lesPriceHist||{}; S.payCfg=d.payCfg||null; S.payLocal=d.payLocal||{};
+    S.lessons=d.lessons&&typeof d.lessons==="object"?d.lessons:{}; S.lesRules=d.lesRules||{}; S.lesPrice=d.lesPrice||null; S.lesDays=d.lesDays||{}; S.lesPriceHist=d.lesPriceHist||{}; S.payCfg=d.payCfg||null; S.payLocal=d.payLocal||{}; S.pay=d.pay&&typeof d.pay==="object"?d.pay:{}; if(typeof payMigrate==="function")payMigrate();
     return true;
   }catch(e){ return false; }
 }
@@ -4105,7 +4105,7 @@ function CRITERIA_(){
     {t:"자료 순서",d:"자료가 있는 회원은 상세를 열면 옆에 자료 썸네일이 뜨고(1건이어도), 첫 번째 자료는 그 아래에 바로 열려 있고, 다른 썸네일을 누르면 그 자료로 바뀝니다(v137). 같은 썸네일을 다시 누르거나 ✕를 누르면 접힙니다. 더 크게 보려면 ‘크게’. 썸네일을 끌거나 ‘맨 앞으로’로 순서를 바꿉니다. 순서를 정해둔 회원은 새 자료가 첫 번째 바로 뒤에 들어갑니다"},
     {t:"체험 기록",d:"엑셀에 없는 체험자를 체험 탭에 적습니다. 적는 대로 저장되고(저장 버튼 없음), 서버 버전이면 다른 기기에 1~2초 뒤 보입니다. 아무것도 안 적고 닫으면 남기지 않습니다. 예전 양식의 운동·수면·식사는 옛 기록에서만 보입니다"},
     {t:"신체 그림·순위",d:"여성/남성 앞·뒤 근육 칸 그림(v124). 불편한 곳을 누르면 누른 자리 그대로 점이 찍히고(다시 누르면 지움), 그 자리 칸의 쉬운 부위 이름(약 120개, 오른쪽·왼쪽 자동)이 예상으로 붙습니다. 선 위나 테두리 바로 밖을 눌러도 점은 그 자리, 이름은 가장 가까운 칸. 부위 이름은 컴퓨터 입력 화면에서 고칠 수 있고(순위 칸의 이름 · 점 이름 누르기, 비우면 예상 이름으로), 서명 화면에서는 못 고칩니다. 번호를 다른 자리로 옮기면 새 자리 이름으로 다시 붙습니다. 성별을 바꾸면 점이 몸 폭 비율로 옮겨가고 고친 이름은 그대로입니다. v124 전에 점을 찍은 기록은 예전 그림으로 보입니다. 1~5번 버튼을 그림에 끌어다 놓으면 그 번호가 해결하고 싶은 순위가 되고, 그림 밖으로 끌어내면 빠집니다. 순위별 설명은 컴퓨터에서 적습니다. 앞모습은 그림 왼쪽이 회원의 오른쪽입니다"},
-    {t:"수업 집계 (v130)",d:"센터 프로그램의 예약 내역 엑셀(수업일·강사·회원명·수강권명·예약상태)을 끌어다 놓으면 ① 강사별 수업 수·수업료 ② 이번 달 누적 ③ 수업 메모 명단을 한 번에 채웁니다(수업목록은 따로 안 올려도 됨). 한 줄 = 수업 1개: 25분 수강권(릴렉싱·릴리즈·스페셜케어·리셋 25분)은 25·30분 한 줄이 25분 1개(50분 수업이면 두 줄), 50분 수강권(리빌딩·리셋 패키지 50분)은 50·60분 한 줄이 50분 1개. 줄 길이(45분 이상이면 50분 줄)와 수강권이 안 맞으면 ‘고칠 줄’로 따로 보여 주고, 센터 프로그램에서 고쳐 다시 올리기 전까지 금액에서 뺍니다(‘고치면 +○원’). 단가 구간은 수강권 이름의 횟수: 29회 이하 1회 단가(35,000원), 30~49회 30회 단가(25,000원), 50회 이상 50회 단가(23,000원), 리빌딩 50,000원. 스페셜케어·리셋 패키지 25분은 30회 단가, 리셋 패키지(50분)는 리빌딩. 같은 구간이어도 수강권별로 따로 보여 줍니다. 노쇼·결석·당일취소도 수업으로 셉니다. 어제까지는 ‘한 수업’, 오늘·앞날은 ‘예약’. 이번 달: 어제까지 한 수업 · 마지막 수업일 하루 · 예약 포함(최소) · 지금 속도면(지금까지 수업료 ÷ 지난 수업일 × 이번 달 수업일, 평일 자동·직접 바꿈) · 지난달 같은 수업일 수까지 비교. 범위: 파일 이름의 날짜부터 바꾸고, 앞날 예약이 든 파일은 그 달 말일까지 바꿉니다(취소된 예약이 남지 않게). 강사 1명만 든 파일은 그 강사 줄만 바꿉니다. 각 샘 수업 메모 맨 위에는 자기 숫자만 보입니다. 수업료 기준이며 급여가 아닙니다. 전화번호는 끝 4자리만 저장합니다."},{t:"급여 (v131)",d:"계약서 제3·4조대로 계산합니다. 월 임금(세전) = 기본급(트레이너 70만·파트장 100만) + 인센티브 + 기타 수당. 인센티브 = 실매출 × 등급 요율(원 미만 올림). 실매출 = 수업 집계의 수업료에서 부가세(÷1.1)와 카드수수료(%)를 뺀 값. 등급은 가매출 = (그 샘이 판 수강권 결제 합계 − 환불)에서 같은 공제를 한 값으로 정합니다: 500만 미만 F 30%/32%, 500만~ E 32/34, 800만~ D 34/36, 1,100만~ C 36/38, 1,300만~ B 38/40, 1,500만~ A 40/42 (트레이너/파트장). 등급이 오르면 실매출 전체에 새 요율. 결제 합계·환불·기타 수당·조정·명세서 인센티브는 파트장이 넣고, 서버 pay 표에 저장돼 관리자는 전부·각 샘은 자기 것만 읽을 수 있습니다(변경 기록에도 안 남김). 직급·기본급·요율표·공제율은 모두에게 같은 규칙이라 설정에 둡니다. 관리자 표는 '급여 표 열기'를 눌러야 보이고 10분 뒤 저절로 닫힙니다. '샘들에게 보이기'를 켜면 각 샘 수업 메모 맨 위에 자기 예상 급여만 보입니다(로그인한 본인 화면에서만). 지난달을 고르면 '명세서 인센티브'를 넣어 계산과의 차이(%)를 볼 수 있습니다. 단가는 고른 달부터 적용되고 그 전 달 숫자는 바뀌지 않습니다. 최저임금 보전수당은 계산하지 않습니다."},{t:"방문 흐름 · 방문 달력 (v132)",d:"오는 시간 탭의 ‘방문 흐름’은 출석 기록만으로 누가 평소보다 덜 오는지를 달 단위로 보여 줍니다. 대상은 석 달 넘게 다녔고, 그 달 15일까지 수강권이 살아 있고, 그 전 석 달 동안 한 달 평균 2일 이상 온 회원입니다. 그 달에 한 번도 안 오면 ‘안 옴’, 평소(그 전 석 달의 한 달 평균 방문일)의 절반 이하면 ‘줄어듦’, 그 밖은 ‘평소대로’. 줄어든 회원 목록 · 달마다 막대 · 강사별 막대가 모두 이 한 가지 기준을 씁니다. 달 막대를 누르면 그 달의 명단으로 바뀝니다. 지난 달들에는 지금 휴지통에 있는 회원도 그때 다니던 회원으로 셉니다(숫자·막대·강사별). 줄어든 회원 명단에서는 휴지통 회원을 뺍니다(v135). 강사 화면에서는 자기 책임 회원만 봅니다. 회원 상세 맨 아래 ‘방문 달력’은 최근 6개월(1년까지)을 달력으로 보여 줍니다: 온 날에 색(1회차 연하게, 2회차 이상 진하게), 잡힌 예약은 테두리, 수강권 시작한 날은 검은 테두리. 백업 파일에는 이 프로그램의 자료만 담고(로그인 정보·다른 프로그램 자료 제외), 백업 되돌리기는 출석 기록과 강사까지 그대로 되돌립니다."},
+    {t:"수업 집계 (v130)",d:"센터 프로그램의 예약 내역 엑셀(수업일·강사·회원명·수강권명·예약상태)을 끌어다 놓으면 ① 강사별 수업 수·수업료 ② 이번 달 누적 ③ 수업 메모 명단을 한 번에 채웁니다(수업목록은 따로 안 올려도 됨). 한 줄 = 수업 1개: 25분 수강권(릴렉싱·릴리즈·스페셜케어·리셋 25분)은 25·30분 한 줄이 25분 1개(50분 수업이면 두 줄), 50분 수강권(리빌딩·리셋 패키지 50분)은 50·60분 한 줄이 50분 1개. 줄 길이(45분 이상이면 50분 줄)와 수강권이 안 맞으면 ‘고칠 줄’로 따로 보여 주고, 센터 프로그램에서 고쳐 다시 올리기 전까지 금액에서 뺍니다(‘고치면 +○원’). 단가 구간은 수강권 이름의 횟수: 29회 이하 1회 단가(35,000원), 30~49회 30회 단가(25,000원), 50회 이상 50회 단가(23,000원), 리빌딩 50,000원. 스페셜케어·리셋 패키지 25분은 30회 단가, 리셋 패키지(50분)는 리빌딩. 같은 구간이어도 수강권별로 따로 보여 줍니다. 노쇼·결석·당일취소도 수업으로 셉니다. 어제까지는 ‘한 수업’, 앞날은 ‘예약’. 오늘 줄은 예약상태가 ‘예약·예약 확정’이면 예약, 출석·결석 등으로 바뀌었으면 기간별 정산에서 한 수업으로 셉니다(v138). 위 ‘이번 달’ 표와 속도 계산은 그대로 어제까지 기준. 이번 달: 어제까지 한 수업 · 마지막 수업일 하루 · 예약 포함(최소) · 지금 속도면(지금까지 수업료 ÷ 지난 수업일 × 이번 달 수업일, 평일 자동·직접 바꿈) · 지난달 같은 수업일 수까지 비교. 범위: 파일 이름의 날짜부터 바꾸고, 앞날 예약이 든 파일은 그 달 말일까지 바꿉니다(취소된 예약이 남지 않게). 강사 1명만 든 파일은 그 강사 줄만 바꿉니다. 각 샘 수업 메모 맨 위에는 자기 숫자만 보입니다. 수업료 기준이며 급여가 아닙니다. 전화번호는 끝 4자리만 저장합니다."},{t:"수업 인센티브 (v131·v139·v140)",d:"계약서 제3·4조의 인센티브만 계산합니다(기본급·기타 수당은 넣지 않음). 인센티브 = 실매출 × 등급 요율(원 미만 올림). 실매출 = 수업 집계의 수업료에서 부가세(÷1.1)와 카드수수료(%)를 뺀 값. 등급은 가매출 = (그 샘이 판 수강권 결제 합계 − 환불)에서 같은 공제를 한 값으로 정합니다: 500만 미만 F 30%/32%, 500만~ E 32/34, 800만~ D 34/36, 1,100만~ C 36/38, 1,300만~ B 38/40, 1,500만~ A 40/42 (트레이너/파트장). 등급이 오르면 실매출 전체에 새 요율. 결제 합계·환불·직급은 파트장이 달마다 넣고, 서버 설정(pay:YYYY-MM)에 저장돼 어느 기기에서나 같습니다. 강사끼리 서로 알아도 되는 값으로 정해 따로 권한 표는 쓰지 않습니다(v140). 2026년 10월까지는 급여 체계가 달라 11월부터만 계산합니다. 샘들에게 보이기를 켜면 각자 수업 메모 맨 위와 수업 집계에 자기 것만 보입니다."},{t:"방문 흐름 · 방문 달력 (v132)",d:"오는 시간 탭의 ‘방문 흐름’은 출석 기록만으로 누가 평소보다 덜 오는지를 달 단위로 보여 줍니다. 대상은 석 달 넘게 다녔고, 그 달 15일까지 수강권이 살아 있고, 그 전 석 달 동안 한 달 평균 2일 이상 온 회원입니다. 그 달에 한 번도 안 오면 ‘안 옴’, 평소(그 전 석 달의 한 달 평균 방문일)의 절반 이하면 ‘줄어듦’, 그 밖은 ‘평소대로’. 줄어든 회원 목록 · 달마다 막대 · 강사별 막대가 모두 이 한 가지 기준을 씁니다. 달 막대를 누르면 그 달의 명단으로 바뀝니다. 지난 달들에는 지금 휴지통에 있는 회원도 그때 다니던 회원으로 셉니다(숫자·막대·강사별). 줄어든 회원 명단에서는 휴지통 회원을 뺍니다(v135). 강사 화면에서는 자기 책임 회원만 봅니다. 회원 상세 맨 아래 ‘방문 달력’은 최근 6개월(1년까지)을 달력으로 보여 줍니다: 온 날에 색(1회차 연하게, 2회차 이상 진하게), 잡힌 예약은 테두리, 수강권 시작한 날은 검은 테두리. 백업 파일에는 이 프로그램의 자료만 담고(로그인 정보·다른 프로그램 자료 제외), 백업 되돌리기는 출석 기록과 강사까지 그대로 되돌립니다."},
     {t:"체험 상담 확인서 (v128)",d:"서명하면 A4 확인서가 만들어집니다: 머리(문서번호 T-날짜-순번)·회원 정보·01 불편한 곳과 순위(그림 + 순위별 설명 + 그 밖에 불편한 곳)·02 상담 메모·03 확인 및 동의·서명. 메모가 넘치면 다음 쪽으로 이어지고, 동의와 서명은 함께 마지막 쪽(서명은 쪽 아래)에 둡니다. 문서번호는 서명하는 순간 그날 순서대로 붙고 회원 상세 체험 상담 칸·상담 화면에 보입니다. 저장은 이미지(쪽마다 한 장)이고, PDF가 필요하면 자료 보기의 ‘인쇄·PDF’ → 인쇄 창에서 ‘PDF로 저장’. 이전에 서명한 동의서는 그대로입니다."},
     {t:"체험 기록 이름 (v127)",d:"등록된 회원(‘회원’ 표시)은 이름을 누르면 회원 상세가 열립니다 — 상세의 ‘체험 상담’ 칸에 그림·순위·상담 메모·추가 메모가 있고, ‘상담 열기’로 상담 입력 화면으로 갑니다. 상담 입력 화면 위 ‘회원 상세’로 반대로도 갑니다. 미등록 체험(연결 후보 포함)은 이름을 누르면 상담 입력 화면. 몸 그림은 앞·뒤 모두 그림 위 양쪽에 왼쪽/오른쪽이 적혀 있습니다(앞은 그림 왼쪽이 회원 오른쪽)."},
     {t:"상담 화면 (#상담, 태블릿)",d:"v125. 태블릿은 인터넷 주소 끝에 #상담 을 붙여 엽니다(홈 화면 아이콘 권장). 로그인 뒤 ‘오늘 상담’ — 오늘 만든 체험 중 서명 안 한 이름과 만든 시각만 나오고, 이름을 누르면 회원용 화면: ① 불편한 곳(그림·1~5 순위) ② 해결하고 싶은 것 ③ 상담 메모 ④ 서명(동의 체크 2개·문구·서명 칸)만 보입니다. 메뉴·체험 기록·전화번호·강사 이름·지우기 버튼은 안 보이고, 전체 프로그램으로 나갈 수 없습니다(‘목록’은 오늘 상담 목록으로만). 화면 크기에 비례해 맞춰지고(글자 = 화면 짧은 변의 약 2.3%), 세로는 한 줄, 가로는 왼쪽 그림·오른쪽 나머지 두 칸입니다. 서명하면 ‘고맙습니다’가 뜨고 6초 뒤 목록으로 돌아갑니다. 순위 설명·상담 메모·부위 이름은 컴퓨터에서만 고칩니다"},
@@ -4637,6 +4637,14 @@ function lesRange(){
   if(!ym)return null;
   return {ym,from:ym+"-01",to:lesMonthEnd(ym),label:ymLabel(ym)};
 }
+/* v138: 한 수업인가 — 지난 날은 전부, 오늘은 예약상태가 '예약…'이 아닌 줄(출석·결석·노쇼·당일취소).
+   예약상태 칸이 없는 옛 파일은 오늘 끝난 시각이 지난 줄. */
+function lesIsDone(x,today){
+  today=today||TODAY(); if(x.d<today)return true; if(x.d>today)return false;
+  const st=String(x.st||"").replace(/\s/g,"");
+  if(st)return st.indexOf("예약")!==0;
+  return !!x.e&&toMin(x.e)<=nowMin();
+}
 function lesRows(rg){
   if(!rg)return [];
   const out=[]; Object.keys(S.lessons||{}).sort().forEach(ym=>{ if(lesMonthEnd(ym)<rg.from||ym+"-01">rg.to)return; lesRowsOf(ym).forEach(x=>{ if(x.d>=rg.from&&x.d<=rg.to)out.push(x); }); });
@@ -4777,13 +4785,13 @@ function viewLessons(){
   h+=lesNowHtml()+'</div></div>';
   h+=payCardHtml();   /* 급여 (v131) */
   /* 기간별 정산 */
-  h+='<div class="card"><div class="chead"><b>기간별 정산</b><span>달을 고르거나 기간을 직접 넣으세요 · 오늘 이후 예약은 빼고 셉니다</span></div><div class="lesbody">';
+  h+='<div class="card"><div class="chead"><b>기간별 정산</b><span>달을 고르거나 기간을 직접 넣으세요 · 오늘 이미 한 수업(출석·결석 등)까지 세고, 아직 예약인 줄은 뺍니다</span></div><div class="lesbody">';
   h+='<div class="lesbar">'+yms.map(y=>'<button class="btn sm'+(rg&&!rg.custom&&rg.ym===y?' navy':' gh')+'" data-a="lesym" data-v="'+y+'">'+esc(ymLabel(y))+'</button>').join("")+
     '<span class="sp"></span><span class="lesrg">직접 기간 <input type="date" data-a="lesfrom" value="'+esc(S.lesFrom||"")+'"> ~ <input type="date" data-a="lesto" value="'+esc(S.lesTo||"")+'">'+
     (rg&&rg.custom?' <button class="btn sm gh" data-a="lesclr">달로 보기</button>':'')+'</span></div>';
-  const rAll=lesRows(rg), rows=rAll.filter(x=>x.d<today), fut=rAll.length-rows.length, A=lesAgg(rows);
+  const rAll=lesRows(rg), rows=rAll.filter(x=>lesIsDone(x,today)), fut=rAll.length-rows.length, A=lesAgg(rows);
   const spans=[]; yms.forEach(y=>{ if(rg&&(lesMonthEnd(y)<rg.from||y+"-01">rg.to))return; ((S.lessons[y]||{}).spans||[]).forEach(s=>spans.push(s)); });
-  h+='<div class="lesmeta">'+esc(rg?rg.label:"")+' · '+rows.length+'줄'+(fut?' (오늘 이후 예약 '+fut+'줄은 뺌)':'')+(spans.length?' · 올린 범위 '+spans.map(s=>esc(fmtMD(s.from))+'~'+esc(fmtMD(s.to))+(s.only?' '+esc(s.only)+'만':'')+(s.by?' ('+esc(s.by)+')':'')).join(", "):'')+
+  h+='<div class="lesmeta">'+esc(rg?rg.label:"")+' · '+rows.length+'줄'+(fut?' (아직 안 한 예약 '+fut+'줄은 뺌)':'')+(spans.length?' · 올린 범위 '+spans.map(s=>esc(fmtMD(s.from))+'~'+esc(fmtMD(s.to))+(s.only?' '+esc(s.only)+'만':'')+(s.by?' ('+esc(s.by)+')':'')).join(", "):'')+
     (rows.length?' · 예약상태 '+Object.keys(A.st).map(k=>esc(k)+' '+A.st[k]).join(" · "):'')+'</div>';
   const bc=A.tot.bad>0;
   h+='<div class="tw"><table class="lestab"><thead><tr><th>강사</th>'+LES_TIERS.map(t=>'<th>'+t.label+'<i>'+lesWon(lesPrice(t.k,rg&&rg.to))+'</i></th>').join("")+'<th>합계</th><th>금액</th>'+(bc?'<th>고칠 줄<i>고치면</i></th>':'')+'</tr></thead><tbody>'+
@@ -4812,7 +4820,7 @@ function viewLessons(){
 }
 function lesExport(){
   const rg=lesRange(); if(!rg)return;
-  const today=TODAY(), rows=lesRows(rg).filter(x=>x.d<today), A=lesAgg(rows);
+  const today=TODAY(), rows=lesRows(rg).filter(x=>lesIsDone(x,today)), A=lesAgg(rows);
   const s1=[["강사"].concat(LES_TIERS.map(t=>t.label+" ("+lesPrice(t.k,rg.to)+"원)"),["합계(회)","금액(원)","고칠 줄","고치면(원)"])];
   A.list.forEach(o=>s1.push([o.name].concat(LES_TIERS.map(t=>o.tiers[t.k]||0),[o.n,Math.round(o.amt),o.bad,Math.round(o.badAmt)])));
   s1.push(["합계"].concat(LES_TIERS.map(t=>A.tot.tiers[t.k]||0),[A.tot.n,Math.round(A.tot.amt),A.tot.bad,Math.round(A.tot.badAmt)]));
@@ -4848,72 +4856,57 @@ function lesChange(el){
     if(v>0&&v<=31)S.lesDays[el.dataset.k]=v; else delete S.lesDays[el.dataset.k]; save(); render(); return true; }
   return false;
 }
-/* ===================== 급여 (v131) =====================
-   계약서 제3·4조:
-   · 월 임금(세전) = 기본급 + 인센티브 + 기타 수당. 1일~말일 정산, 다음 달 10일 지급.
-   · 기본급: 트레이너 70만 / 파트장 100만 (직급마다 같음)
+/* ===================== 수업 인센티브 (v131 → v140) =====================
+   계약서 제3·4조의 인센티브만 본다(기본급·기타 수당은 넣지 않는다, v139).
    · 인센티브 = 개인 월 '실매출' × 등급 요율 (원 미만 올림)
-       실매출 = 실제 한 수업 × 회당 금액 − 부가세 − 카드수수료 − 환불   ← 수업 집계 금액에서 공제
-       등급  = 개인 월 '가매출'(본인이 판 수강권 결제액 − 부가세 − 카드수수료 − 환불)로 정한다
-       등급이 오르면 실매출 '전체'에 새 요율을 곱한다(넘은 부분만이 아님)
-   · 규칙(직급·기본급·요율표·공제)은 모두에게 같으므로 settings(payCfg)에 둔다.
-   · 사람마다 다른 칸(결제 합계·환불·기타 수당·조정·명세서 인센티브)은 서버 'pay' 표에 둔다
-     — 관리자는 전부, 강사는 자기 줄만 읽는다(05_급여표.sql). 이 칸은 이 컴퓨터에 저장하지 않는다.
-   · 서버 없이 쓰는 파일 모드에서는 S.payLocal에 둔다(한 컴퓨터 전용). */
-const PAY_DEF={base:{tr:700000,pt:1000000},
-  tiers:[{min:0,g:"F",tr:30,pt:32},{min:5000000,g:"E",tr:32,pt:34},{min:8000000,g:"D",tr:34,pt:36},
+       실매출 = 수업 집계의 수업료 − 부가세 − 카드수수료
+       등급  = 개인 월 '가매출'(본인이 판 수강권 결제 합계 − 환불, 같은 공제)로 정한다
+       등급이 오르면 실매출 '전체'에 새 요율을 곱한다
+   · 규칙(요율표·공제·보이기)은 settings 'payCfg'.
+   · 사람마다 다른 칸(결제 합계·환불·직급)은 settings 'pay:YYYY-MM'에 달마다 한 줄 (v140).
+     강사끼리 서로 알아도 된다고 정함 → 따로 권한 표(05_급여표.sql)는 쓰지 않는다. 입력은 관리자만.
+   · 2026년 10월까지는 급여 체계가 달라서 11월부터만 계산한다. */
+const PAY_START="2026-11";
+const PAY_DEF={tiers:[{min:0,g:"F",tr:30,pt:32},{min:5000000,g:"E",tr:32,pt:34},{min:8000000,g:"D",tr:34,pt:36},
          {min:11000000,g:"C",tr:36,pt:38},{min:13000000,g:"B",tr:38,pt:40},{min:15000000,g:"A",tr:40,pt:42}]};
 const PAY_RANK={tr:"트레이너",pt:"파트장"};
 function payCfg(){ const c=S.payCfg||{};
-  return {base:Object.assign({},PAY_DEF.base,c.base||{}),tiers:(Array.isArray(c.tiers)&&c.tiers.length?c.tiers:PAY_DEF.tiers).slice().sort((a,b)=>a.min-b.min),
+  return {tiers:(Array.isArray(c.tiers)&&c.tiers.length?c.tiers:PAY_DEF.tiers).slice().sort((a,b)=>a.min-b.min),
     vat:c.vat!==false,card:Math.max(0,+c.card||0),show:!!c.show,rank:c.rank||{}}; }
-const PAY={rows:{},at:0,loading:false,missing:false,err:"",openAt:0,ym:null};
-const payKey=(ym,sid)=>ym+"|"+sid;
+const PAY={ym:null};
 const payServer=()=>!!(typeof SYNC!=="undefined"&&SYNC.on&&SYNC.sb);
 const payMeId=()=>payServer()?((SYNC.me||{}).id||null):S.me;
 const payAdmin=()=>payServer()?!!SYNC.admin:!S.ro;
-const payOpen=()=>payAdmin()&&Date.now()-PAY.openAt<10*60*1000;   /* 전체 표는 연 뒤 10분이면 저절로 닫힌다 */
-function payGet(ym,sid){ const k=payKey(ym,sid); return payServer()?((PAY.rows[k]||{}).value||null):((S.payLocal||{})[k]||null); }
-async function payLoad(force){
-  if(!payServer()||PAY.loading)return;
-  if(!force&&Date.now()-PAY.at<60000)return;
-  PAY.loading=true;
-  try{
-    const {data,error}=await SYNC.sb.from("pay").select("id,staff_id,ym,value,updated_at");
-    if(error){ const m=(error.message||"")+" "+(error.code||""); PAY.missing=/does not exist|schema cache|42P01|PGRST20/i.test(m); PAY.err=error.message||String(error); }
-    else{ PAY.rows={}; (data||[]).forEach(r=>PAY.rows[r.id]=r); PAY.missing=false; PAY.err=""; }
-  }catch(e){ PAY.err=e.message||String(e); }
-  PAY.at=Date.now(); PAY.loading=false; render();
-}
-async function paySave(ym,sid,patch){
+function payGet(ym,sid){ return ((S.pay||{})[ym]||{})[sid]||null; }
+function paySave(ym,sid,patch){
   if(!payAdmin())return;
   const cur=Object.assign({},payGet(ym,sid)||{});
   Object.keys(patch).forEach(k=>{ const v=patch[k]; if(v===null||v===""||(typeof v==="number"&&isNaN(v)))delete cur[k]; else cur[k]=v; });
-  const k=payKey(ym,sid);
-  if(payServer()){
-    PAY.rows[k]={id:k,staff_id:sid,ym,value:cur}; render();
-    const {error}=await SYNC.sb.from("pay").upsert({id:k,staff_id:sid,ym,value:cur},{onConflict:"id"});
-    if(error){ toast("급여 칸을 서버에 저장하지 못했어요 — "+(error.message||error)); payLoad(true); }
-  }else{ S.payLocal=Object.assign({},S.payLocal||{}); S.payLocal[k]=cur; save(); render(); }
+  const P=Object.assign({},S.pay||{}), M=Object.assign({},P[ym]||{});
+  if(Object.keys(cur).length)M[sid]=cur; else delete M[sid];
+  P[ym]=M; S.pay=P; save(); render();
 }
 /* 공제: 부가세(÷1.1) → 카드수수료(%) */
 function payNet(v){ const c=payCfg(); let x=+v||0; if(c.vat)x/=1.1; return x*(1-c.card/100); }
 function payTier(sales){ const t=payCfg().tiers; let r=t[0]; t.forEach(z=>{ if(sales>=z.min)r=z; }); return r; }
 const payNext=sales=>payCfg().tiers.find(z=>z.min>sales)||null;
-const payRank=sid=>payCfg().rank[sid]==="pt"?"pt":"tr";
+/* 직급 — 그 달에 정한 값, 없으면 그 전 달 중 가장 가까운 값, 없으면 예전 규칙 칸 값 */
+function payRank(sid,ym){
+  ym=ym||TODAY().slice(0,7);
+  const ks=Object.keys(S.pay||{}).filter(k=>k<=ym).sort().reverse();
+  for(const k of ks){ const r=((S.pay[k]||{})[sid]||{}).rank; if(r==="pt"||r==="tr")return r; }
+  return payCfg().rank[sid]==="pt"?"pt":"tr";
+}
 /* 강사 한 명·한 달 — gross: 어제까지 수업료, grossE: 월말 예상 수업료 */
 function payCalc(ym,sid,gross,grossE){
-  const c=payCfg(), v=payGet(ym,sid)||{}, rk=payRank(sid);
+  const v=payGet(ym,sid)||{}, rk=payRank(sid,ym);
   const has=v.paid!=null&&v.paid!=="";
   const paid=+v.paid||0, refund=+v.refund||0, sales=payNet(paid-refund);
   const tier=payTier(sales), rate=(+tier[rk]||0)/100, nx=payNext(sales);
   const real=payNet(gross), inc=Math.ceil(real*rate-1e-9);
   const realE=payNet(grossE), incE=Math.ceil(realE*rate-1e-9);
-  const base=+c.base[rk]||0, extra=+v.extra||0, adj=+v.adj||0;
   let up=null; if(nx){ const r2=(+nx[rk]||0)/100; up={need:nx.min-sales,g:nx.g,pct:+nx[rk]||0,gain:Math.ceil(realE*r2-1e-9)-incE}; }
-  const stmt=v.stmt!=null&&v.stmt!==""?+v.stmt:null;
-  return {rk,has,paid,refund,sales,tier,pct:+tier[rk]||0,rate,real,inc,realE,incE,base,extra,adj,
-    total:base+inc+extra+adj,totalE:base+incE+extra+adj,up,stmt,gap:stmt?(inc-stmt)/stmt*100:null,memo:v.memo||""};
+  return {rk,has,paid,refund,sales,tier,pct:+tier[rk]||0,rate,real,inc,realE,incE,total:inc,totalE:incE,up};
 }
 /* 한 달 강사별 수업료: 이번 달 = 어제까지 + 지금 속도면, 지난달 = 한 달 전체 */
 function payGross(ym){
@@ -4923,29 +4916,24 @@ function payGross(ym){
   return {out,cur:false,M:null};
 }
 const payDue=ym=>{ let y=+ym.slice(0,4), m=+ym.slice(5,7)+1; if(m>12){ m=1; y++; } return m+"/10"; };
-/* 수업 메모 맨 위 한 줄에 붙는 급여 — 로그인한 본인 화면에서만 */
+/* 수업 메모 맨 위 한 줄에 붙는 인센티브 — 로그인한 본인 화면에서만 */
 function payMineHtml(ym,me,b,M){
-  if(!me||me.id!==payMeId())return "";
-  if(payServer())payLoad();
-  const c=payCfg(); if(!(payServer()?(!!SYNC.admin||c.show):c.show))return "";   /* 파일 모드(로그인 없음)는 보이기를 켠 때만 */
+  if(!me||me.id!==payMeId()||ym<PAY_START)return "";
+  const c=payCfg(); if(!(payAdmin()||c.show))return "";
   if(!payGet(ym,me.id))return "";
   const p=payCalc(ym,me.id,b.amt,M&&M.elapsed?b.est:b.floor);
-  return '<span class="paymine">예상 급여(세전) <b>'+lesWon(p.total)+'</b>'+(M&&M.elapsed?' · 지금 속도면 약 '+lesWon(lesR10k(p.totalE)):'')+
+  return '<span class="paymine">수업 인센티브(세전) <b>'+lesWon(p.total)+'</b>'+(M&&M.elapsed?' · 지금 속도면 약 '+lesWon(lesR10k(p.totalE)):'')+
     ' · '+esc(p.tier.g)+'등급 '+p.pct+'%'+(p.up?' · 다음 등급까지 가매출 '+lesWon(Math.max(0,p.up.need)):'')+'</span>';
 }
 function payCardHtml(){
   if(!(S.lessons&&Object.keys(S.lessons).length))return "";
-  if(payServer())payLoad();
   const c=payCfg(), admin=payAdmin(), cur=TODAY().slice(0,7);
-  const yms=[...new Set(Object.keys(S.lessons).concat([cur]))].sort().reverse().slice(0,6);
-  const ym=PAY.ym&&yms.indexOf(PAY.ym)>=0?PAY.ym:cur;
+  const yms=[...new Set(Object.keys(S.lessons).concat(Object.keys(S.pay||{}),[cur]))].filter(y=>y>=PAY_START&&y<=cur).sort().reverse().slice(0,6);
+  if(!yms.length)return "";
+  const ym=PAY.ym&&yms.indexOf(PAY.ym)>=0?PAY.ym:yms[0];
   const G=payGross(ym);
-  let h='<div class="card paycard"><div class="chead"><b>급여 (세전 · 예상)</b><span>기본급 + 실매출 × 등급 요율 + 기타 수당 · '+esc(payDue(ym))+' 지급분</span><span class="sp"></span>'+
+  let h='<div class="card paycard"><div class="chead"><b>수업 인센티브 (세전 · 예상)</b><span>실매출 × 등급 요율 · 기본급 빼고 수업으로 생긴 인센티브만 · '+esc(payDue(ym))+' 지급분</span><span class="sp"></span>'+
     yms.map(y=>'<button class="btn sm'+(y===ym?' navy':' gh')+'" data-a="payym" data-v="'+y+'">'+esc(ymLabel(y))+'</button>').join("")+'</div><div class="lesbody">';
-  if(payServer()&&PAY.missing){
-    return h+(admin?'<div class="leswarn">서버에 급여 칸이 아직 없어요. Supabase → SQL Editor에서 <b>05_급여표.sql</b>을 한 번 실행한 뒤 새로고침하세요.</div>':'')+'</div></div>';
-  }
-  if(payServer()&&PAY.err&&!Object.keys(PAY.rows).length&&!PAY.missing)h+='<div class="leswarn">급여 칸을 불러오지 못했어요 — '+esc(PAY.err)+'</div>';
   /* 강사 본인 */
   if(!admin){
     const me=byId(S.staff,payMeId());
@@ -4954,74 +4942,66 @@ function payCardHtml(){
     return h+payOneHtml(p,G.cur,me.name)+'</div></div>';
   }
   /* 관리자 */
-  if(!payOpen()){
-    return h+'<div class="payclosed"><span>강사별 결제 합계·급여가 보이는 표예요. 다른 사람이 화면을 볼 수 있는 곳이면 열지 마세요.</span><button class="btn sm navy" data-a="payopen">급여 표 열기</button></div>'+
-      '<div class="paynote">샘들에게 보이기: <b>'+(c.show?'켜짐 — 각자 수업 메모 맨 위에 자기 예상 급여가 보여요':'꺼짐 — 지금은 관리자만 봐요')+'</b></div></div></div>';
-  }
   const names=new Set(Object.keys(G.out));
   const staff=(S.staff||[]).filter(s=>names.has(normName(s.name))||payGet(ym,s.id));
-  const ro=payServer()&&PAY.missing;
-  const inp=(sid,k,v,ph)=>'<input type="number" step="1000" data-a="payin" data-s="'+esc(sid)+'" data-k="'+k+'" value="'+(v==null||v===""?"":esc(String(v)))+'" placeholder="'+(ph||"")+'"'+(ro?' disabled':'')+'>';
-  const tot={real:0,inc:0,total:0,totalE:0};
+  const inp=(sid,k,v,ph)=>'<input type="number" step="1000" data-a="payin" data-s="'+esc(sid)+'" data-k="'+k+'" value="'+(v==null||v===""?"":esc(String(v)))+'" placeholder="'+(ph||"")+'">';
+  const tot={real:0,inc:0,totalE:0};
   h+='<div class="tw"><table class="lestab paytab"><thead><tr><th>강사</th><th>직급</th><th>결제 합계<i>부가세 포함</i></th><th>환불</th><th>가매출<i>등급 · 요율</i></th>'+
-    '<th>실매출<i>'+(G.cur?'어제까지':'한 달')+'</i></th><th>인센티브</th><th>기본급</th><th>기타 수당<i>교육수당 등</i></th><th>조정<i>±</i></th><th>예상 급여<i>'+(G.cur?'어제까지':'세전')+'</i></th>'+
-    (G.cur?'<th>지금 속도면<i>월말</i></th><th>다음 등급</th>':'<th>명세서 인센티브<i>맞춰 보기</i></th>')+'</tr></thead><tbody>'+
-    staff.map(s=>{ const g=G.out[normName(s.name)]||{amt:0,est:0}, p=payCalc(ym,s.id,g.amt,g.est), v=p;
-      tot.real+=p.real; tot.inc+=p.inc; tot.total+=p.total; tot.totalE+=p.totalE;
+    '<th>실매출<i>'+(G.cur?'어제까지':'한 달')+'</i></th><th>인센티브<i>'+(G.cur?'어제까지':'세전')+'</i></th>'+
+    (G.cur?'<th>지금 속도면<i>월말 인센티브</i></th><th>다음 등급</th>':'')+'</tr></thead><tbody>'+
+    staff.map(s=>{ const g=G.out[normName(s.name)]||{amt:0,est:0}, p=payCalc(ym,s.id,g.amt,g.est);
+      tot.real+=p.real; tot.inc+=p.inc; tot.totalE+=p.totalE;
       const raw=payGet(ym,s.id)||{};
       return '<tr><td><b>'+esc(s.name)+'</b></td><td><select data-a="payrank" data-s="'+esc(s.id)+'">'+Object.keys(PAY_RANK).map(k=>'<option value="'+k+'"'+(p.rk===k?' selected':'')+'>'+PAY_RANK[k]+'</option>').join("")+'</select></td>'+
         '<td>'+inp(s.id,"paid",raw.paid,"입력")+'</td><td>'+inp(s.id,"refund",raw.refund,"0")+'</td>'+
         '<td>'+(p.has?'<b>'+lesWon(p.sales)+'</b><i>'+esc(p.tier.g)+'등급 · '+p.pct+'%</i>':'<em>결제 합계 필요</em>')+'</td>'+
-        '<td><b>'+lesWon(p.real)+'</b><i>수업료 '+lesWon(g.amt)+'</i></td><td>'+(p.has?'<b>'+lesWon(p.inc)+'</b>':'<em>F 가정 '+lesWon(p.inc)+'</em>')+'</td><td>'+lesWon(p.base)+'</td>'+
-        '<td>'+inp(s.id,"extra",raw.extra,"0")+'</td><td>'+inp(s.id,"adj",raw.adj,"0")+'</td>'+
-        '<td>'+(p.has?'<b>'+lesWon(p.total)+'</b>':'<em>F 가정 '+lesWon(p.total)+'</em>')+'</td>'+
-        (G.cur?'<td><b>약 '+lesWon(lesR10k(p.totalE))+'</b></td><td>'+(p.up?esc(p.up.g)+'까지 가매출 '+lesWon(Math.max(0,p.up.need))+'<i>오르면 약 +'+lesWon(lesR10k(p.up.gain))+'</i>':'<em>최고 등급</em>')+'</td>'
-          :'<td>'+inp(s.id,"stmt",raw.stmt,"명세서 값")+(p.gap!=null?'<i class="'+(Math.abs(p.gap)<=1?'up':'dn')+'">계산 '+(p.gap>=0?'+':'')+p.gap.toFixed(1)+'%</i>':'')+'</td>')+'</tr>'; }).join("")+
-    '</tbody><tfoot><tr><td>합계</td><td></td><td></td><td></td><td></td><td>'+lesWon(tot.real)+'</td><td>'+lesWon(tot.inc)+'</td><td></td><td></td><td></td><td>'+lesWon(tot.total)+'</td>'+
-    (G.cur?'<td>약 '+lesWon(lesR10k(tot.totalE))+'</td><td></td>':'<td></td>')+'</tr></tfoot></table></div>';
+        '<td><b>'+lesWon(p.real)+'</b><i>수업료 '+lesWon(g.amt)+'</i></td><td>'+(p.has?'<b>'+lesWon(p.inc)+'</b>':'<em>F 가정 '+lesWon(p.inc)+'</em>')+'</td>'+
+        (G.cur?'<td><b>약 '+lesWon(lesR10k(p.totalE))+'</b></td><td>'+(p.up?esc(p.up.g)+'까지 가매출 '+lesWon(Math.max(0,p.up.need))+'<i>오르면 약 +'+lesWon(lesR10k(p.up.gain))+'</i>':'<em>최고 등급</em>')+'</td>':'')+'</tr>'; }).join("")+
+    '</tbody><tfoot><tr><td>합계</td><td></td><td></td><td></td><td></td><td>'+lesWon(tot.real)+'</td><td>'+lesWon(tot.inc)+'</td>'+
+    (G.cur?'<td>약 '+lesWon(lesR10k(tot.totalE))+'</td><td></td>':'')+'</tr></tfoot></table></div>';
   h+='<div class="paynote">가매출 = (결제 합계 − 환불)'+(c.vat?' ÷ 1.1':'')+(c.card?' × (1 − 카드수수료 '+c.card+'%)':'')+' · 실매출 = 수업료'+(c.vat?' ÷ 1.1':'')+(c.card?' × (1 − '+c.card+'%)':'')+
     ' · 인센티브 = 실매출 × 요율 (원 미만 올림) · 결제 합계는 센터 프로그램 매출에서 그 샘이 판 수강권 합계를 넣으세요. '+
-    '<b>명세서와 1% 안으로 맞춘 뒤에</b> 샘들에게 보이기를 켜는 걸 권해요.</div>';
+    '입력한 값은 서버에 저장돼 어느 기기에서나 같고, 변경 기록에 남아요. 10월까지는 급여 체계가 달라 11월부터만 계산합니다.</div>';
   /* 규칙 */
   h+='<div class="paycfg"><b>규칙</b> '+
-    '<label>기본급 트레이너 <input type="number" step="10000" data-a="paycfg" data-k="base.tr" value="'+c.base.tr+'">원</label>'+
-    '<label>파트장 <input type="number" step="10000" data-a="paycfg" data-k="base.pt" value="'+c.base.pt+'">원</label>'+
     '<label><input type="checkbox" data-a="paycfg" data-k="vat"'+(c.vat?' checked':'')+'> 부가세 빼기(÷1.1)</label>'+
     '<label>카드수수료 <input type="number" step="0.1" min="0" max="10" data-a="paycfg" data-k="card" value="'+c.card+'">%</label>'+
     '<label class="payshow"><input type="checkbox" data-a="paycfg" data-k="show"'+(c.show?' checked':'')+'> 샘들에게 보이기 (각자 자기 것만)</label>'+
-    '<div class="paytiers">'+c.tiers.map((t,i)=>'<span><b>'+esc(t.g)+'</b> 가매출 <input class="m" type="number" step="100000" data-a="paytier" data-i="'+i+'" data-k="min" value="'+t.min+'">원 이상 · 트레이너 <input type="number" step="1" data-a="paytier" data-i="'+i+'" data-k="tr" value="'+t.tr+'">% · 파트장 <input type="number" step="1" data-a="paytier" data-i="'+i+'" data-k="pt" value="'+t.pt+'">%</span>').join("")+'</div>'+
-    '<button class="btn sm gh" data-a="payclose">표 닫기</button></div>';
+    '<div class="paytiers">'+c.tiers.map((t,i)=>'<span><b>'+esc(t.g)+'</b> 가매출 <input class="m" type="number" step="100000" data-a="paytier" data-i="'+i+'" data-k="min" value="'+t.min+'">원 이상 · 트레이너 <input type="number" step="1" data-a="paytier" data-i="'+i+'" data-k="tr" value="'+t.tr+'">% · 파트장 <input type="number" step="1" data-a="paytier" data-i="'+i+'" data-k="pt" value="'+t.pt+'">%</span>').join("")+'</div></div>';
   return h+'</div></div>';
 }
 /* 강사 본인 화면 — 자기 것만 */
 function payOneHtml(p,cur,name){
-  return '<div class="payone"><div class="payrow"><span>기본급 ('+PAY_RANK[p.rk]+')</span><b>'+lesWon(p.base)+'</b></div>'+
-    '<div class="payrow"><span>인센티브 = 실매출 '+lesWon(p.real)+' × '+p.pct+'% ('+esc(p.tier.g)+'등급)</span><b>'+lesWon(p.inc)+'</b></div>'+
-    (p.extra?'<div class="payrow"><span>기타 수당</span><b>'+lesWon(p.extra)+'</b></div>':'')+(p.adj?'<div class="payrow"><span>조정</span><b>'+lesWon(p.adj)+'</b></div>':'')+
-    '<div class="payrow tot"><span>예상 급여 (세전'+(cur?' · 어제까지':'')+')</span><b>'+lesWon(p.total)+'</b></div>'+
-    (cur?'<div class="payrow"><span>지금 속도면 월말</span><b>약 '+lesWon(lesR10k(p.totalE))+'</b></div>':'')+
+  return '<div class="payone"><div class="payrow"><span>실매출 '+lesWon(p.real)+' × '+p.pct+'% ('+esc(p.tier.g)+'등급 · '+PAY_RANK[p.rk]+')</span><b></b></div>'+
+    '<div class="payrow tot"><span>수업 인센티브 (세전'+(cur?' · 어제까지':'')+')</span><b>'+lesWon(p.inc)+'</b></div>'+
+    (cur?'<div class="payrow"><span>지금 속도면 월말 인센티브</span><b>약 '+lesWon(lesR10k(p.totalE))+'</b></div>':'')+
     (p.up?'<div class="paynote">다음 등급('+esc(p.up.g)+' · '+p.up.pct+'%)까지 가매출 '+lesWon(Math.max(0,p.up.need))+' — 오르면 약 +'+lesWon(lesR10k(p.up.gain))+'</div>':'')+
-    '<div class="paynote">가매출은 파트장이 넣은 값 기준이에요. 실제 급여는 명세서가 기준입니다.</div></div>';
+    '<div class="paynote">기본급은 빼고 수업으로 생긴 인센티브만 보여요. 가매출은 파트장이 넣은 값 기준이고, 실제 금액은 명세서가 기준입니다.</div></div>';
 }
 function payAction(a,v,el){
   if(a==="payym"){ PAY.ym=v; render(); return true; }
-  if(a==="payopen"){ PAY.openAt=Date.now(); if(payServer())payLoad(true); render(); return true; }
-  if(a==="payclose"){ PAY.openAt=0; render(); return true; }
   return false;
 }
 function payChange(el){
   const a=el.dataset.a; if(!payAdmin())return true;
   const ym=PAY.ym||TODAY().slice(0,7);
   if(a==="payin"){ const raw=String(el.value).trim(); paySave(ym,el.dataset.s,{[el.dataset.k]:raw===""?null:Math.round(+raw)}); return true; }
-  if(a==="payrank"){ const c=Object.assign({},S.payCfg||{}); c.rank=Object.assign({},c.rank||{}); c.rank[el.dataset.s]=el.value; S.payCfg=c; save(); render(); return true; }
+  if(a==="payrank"){ paySave(ym,el.dataset.s,{rank:el.value==="pt"?"pt":"tr"}); return true; }
   if(a==="paycfg"){ const c=Object.assign({},S.payCfg||{}), k=el.dataset.k;
     if(k==="vat"||k==="show")c[k]=!!el.checked;
     else if(k==="card")c.card=Math.max(0,Math.min(10,+el.value||0));
-    else if(k.indexOf("base.")===0){ c.base=Object.assign({},PAY_DEF.base,c.base||{}); c.base[k.slice(5)]=Math.max(0,Math.round(+el.value||0)); }
     S.payCfg=c; save(); render(); return true; }
   if(a==="paytier"){ const c=Object.assign({},S.payCfg||{}); const t=payCfg().tiers.map(z=>Object.assign({},z)); const i=+el.dataset.i;
     if(t[i]){ t[i][el.dataset.k]=Math.max(0,+el.value||0); c.tiers=t; S.payCfg=c; save(); render(); } return true; }
   return false;
+}
+/* 예전 파일 모드 값(S.payLocal "ym|id") → S.pay로 옮긴다 */
+function payMigrate(){
+  const L=S.payLocal||{}, ks=Object.keys(L); if(!ks.length)return;
+  const P=Object.assign({},S.pay||{});
+  ks.forEach(k=>{ const [ym,sid]=k.split("|"); if(!ym||!sid||ym<PAY_START)return; const v=Object.assign({},L[k]||{}); ["stmt","extra","adj","memo"].forEach(x=>delete v[x]);
+    if(!Object.keys(v).length)return; P[ym]=Object.assign({},P[ym]||{}); if(!P[ym][sid])P[ym][sid]=v; });
+  S.pay=P; S.payLocal={};
 }
 
 /* ===================== 방문 흐름 · 방문 달력 (v132) =====================
@@ -5424,8 +5404,9 @@ function restoreDump(dump){
     try{ localStorage.setItem("rd_before_restore",keep||""); }catch(e){}
     S.staff=dump.staff||[]; S.members=dump.members||[]; S.regs=dump.regs||[];
     if(dump.me!==undefined)S.me=dump.me;
-    ["limitRelax","limitRebuild","goneDays","lostDays","workDays","lastImport","acts2","sharedAt","autoShare","box","trials","lessons","lesRules","lesPrice","lesDays","lesPriceHist","payCfg","payLocal"]
+    ["limitRelax","limitRebuild","goneDays","lostDays","workDays","lastImport","acts2","sharedAt","autoShare","box","trials","lessons","lesRules","lesPrice","lesDays","lesPriceHist","payCfg","payLocal","pay"]
       .forEach(k=>{ if(dump[k]!==undefined)S[k]=dump[k]; });
+    if(typeof payMigrate==="function")payMigrate();
     if(typeof clearCache==="function")clearCache();
     save();
     return;
@@ -5763,7 +5744,7 @@ function backup(){
     me:S.me, limitRelax:S.limitRelax, limitRebuild:S.limitRebuild, goneDays:S.goneDays,
     lostDays:S.lostDays, lastImport:S.lastImport,
     sharedAt:S.sharedAt, autoShare:S.autoShare, acts2:S.acts2, workDays:S.workDays,
-    lessons:S.lessons, lesRules:S.lesRules, lesPrice:S.lesPrice, lesDays:S.lesDays, lesPriceHist:S.lesPriceHist, payCfg:S.payCfg, payLocal:S.payLocal,
+    lessons:S.lessons, lesRules:S.lesRules, lesPrice:S.lesPrice, lesDays:S.lesDays, lesPriceHist:S.lesPriceHist, payCfg:S.payCfg, payLocal:S.payLocal, pay:S.pay,
     /* 저장소 원본 통째 — 복구는 이걸로 한다 */
     _localStorage:store,
     /* 대조용 숫자 — 복원 후 이 값과 맞는지 확인 */
@@ -8092,6 +8073,7 @@ const SYC={
   settings:{key:r=>r.key, cols:["key","value"],
     rows(){ const out=SY_SETTINGS.filter(k=>S[k]!==undefined&&S[k]!==null).map(k=>({key:k,value:S[k]}));
       Object.keys(S.lessons||{}).forEach(ym=>{ if(S.lessons[ym])out.push({key:"les:"+ym,value:S.lessons[ym]}); });   /* 수업 집계 — 달마다 한 줄 */
+      Object.keys(S.pay||{}).forEach(ym=>{ if(S.pay[ym])out.push({key:"pay:"+ym,value:S.pay[ym]}); });   /* 인센티브 입력 칸 — 달마다 한 줄 (v140) */
       return out; }}
 };
 /* 서버에서 온 줄을 비교용 모양으로 다듬기 */
@@ -8225,9 +8207,10 @@ function syRebuild(){
   });
   S.regs=R("regs").map(r=>Object.assign({},syClone(r.extra)||{},{id:r.id})).sort((a,b)=>String(b.date||"").localeCompare(String(a.date||""))||String(b.id).localeCompare(String(a.id)));
   S.trials=R("trials").map(r=>{ const t=Object.assign({},syClone(r.data)||{},{id:r.id}); if(r.sign)t.sign=syClone(r.sign); return t; });
-  S.lessons={};
+  S.lessons={}; S.pay={};
   R("settings").forEach(r=>{ if(SY_SETTINGS.indexOf(r.key)>=0&&r.value!=null)S[r.key]=syClone(r.value);
-    else if(/^les:\d{4}-\d\d$/.test(r.key)&&r.value)S.lessons[r.key.slice(4)]=syClone(r.value); });
+    else if(/^les:\d{4}-\d\d$/.test(r.key)&&r.value)S.lessons[r.key.slice(4)]=syClone(r.value);
+    else if(/^pay:\d{4}-\d\d$/.test(r.key)&&r.value)S.pay[r.key.slice(4)]=syClone(r.value); });
   SY_TABLES.forEach(t=>{ SYNC.BASE[t]=Object.assign({},SYNC.RC[t]||{}); });
   clearCache();
 }
